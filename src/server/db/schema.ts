@@ -18,11 +18,14 @@ import {
  */
 export const createTable = pgTableCreator((name) => `bt-mechlab_${name}`);
 
-export const posts = createTable(
-  "post",
+export const weapons = createTable(
+  "weapon",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     name: varchar("name", { length: 256 }),
+    heat: integer("heat"),
+    damage: integer("damage"),
+    range: varchar("range", { length: 256 }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
