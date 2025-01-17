@@ -18,4 +18,8 @@ export async function getUserRole() {
   return sessionClaims?.metadata.role;
 }
 
+export async function isUserAdmin() {
+  const role = await getUserRole();
 
+  return role === "admin";
+}
