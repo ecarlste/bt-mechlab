@@ -22,10 +22,10 @@ export const weapons = createTable(
   "weapon",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar("name", { length: 256 }),
-    heat: integer("heat"),
-    damage: integer("damage"),
-    range: varchar("range", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
+    heat: integer("heat").notNull(),
+    damage: integer("damage").notNull(),
+    range: varchar("range", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
