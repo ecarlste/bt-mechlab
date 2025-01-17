@@ -1,15 +1,10 @@
-import { asc } from "drizzle-orm";
-
 import { isUserAdmin } from "~/data/auth";
-import { db } from "~/server/db";
-import { weapons } from "~/server/db/schema";
+import { getAllWeapons } from "~/data/weapon-dto";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const weaponList = await db.query.weapons.findMany({
-    orderBy: [asc(weapons.name)],
-  });
+  const weaponList = await getAllWeapons();
 
   const isAdmin = await isUserAdmin();
 
