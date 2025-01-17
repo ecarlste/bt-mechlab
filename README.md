@@ -36,6 +36,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Create auth access in NextJS data layer
 - [x] Create weapon DTO in NextJS data layer
 - [x] Error management (w/ Sentry)
+- [ ] Use shadui to display list of weapons
 - [ ] Add weapon list page
 - [ ] Add creation form for new weapon
 - [ ] Routing/weapon details page
