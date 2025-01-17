@@ -34,10 +34,10 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Attach database to UI
 - [x] Add authentication (w/ clerk)
 - [x] Create auth access in NextJS data layer
-- [ ] Create weapon DTO in NextJS data layer
+- [x] Create weapon DTO in NextJS data layer
+- [x] Error management (w/ Sentry)
 - [ ] Add weapon list page
 - [ ] Add creation form for new weapon
-- [ ] Error management (w/ Sentry)
 - [ ] Routing/weapon details page
 - [ ] Add delete weapon button to weapon list (w/ Server Actions)
 - [ ] Analytics (posthog)
