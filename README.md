@@ -33,6 +33,8 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Actually set up a database (vercel postgres)
 - [x] Attach database to UI
 - [x] Add authentication (w/ clerk)
+- [x] Create auth access in NextJS data layer
+- [ ] Create weapon DTO in NextJS data layer
 - [ ] Add weapon list page
 - [ ] Add creation form for new weapon
 - [ ] Error management (w/ Sentry)
