@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable}`}>
-        <body className="dark">
+        <body className="dark flex h-screen flex-col">
           <TopNav />
           {children}
         </body>
