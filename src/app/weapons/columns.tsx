@@ -23,6 +23,7 @@ export type Weapon = {
 export const columns: ColumnDef<Weapon>[] = [
   {
     accessorKey: "name",
+    enableHiding: false,
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -67,6 +68,7 @@ export const columns: ColumnDef<Weapon>[] = [
   },
   {
     id: "actions",
+    enableHiding: false,
     cell: ({ row }) => {
       const weapon = row.original;
 
