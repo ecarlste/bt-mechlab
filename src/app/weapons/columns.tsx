@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export type Weapon = {
   id: number;
@@ -26,42 +27,23 @@ export const columns: ColumnDef<Weapon>[] = [
   {
     accessorKey: "name",
     enableHiding: false,
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Name2" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
   },
   {
     accessorKey: "heat",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Heat2" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Heat" />,
   },
   {
     accessorKey: "damage",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Damage2" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Damage" />,
   },
   {
     accessorKey: "range",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Range2" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Range" />,
   },
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const weapon = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => console.log("Edit", weapon.name)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log("Delete", weapon.name)}>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
