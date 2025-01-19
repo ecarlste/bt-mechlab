@@ -40,7 +40,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Use shadui to display list of weapons
 - [x] Add pagination to weapons table
 - [x] Add sorting buttons to weapons table columns
-- [ ] Add filtering to weapons table
+- [x] Add filtering to weapons table
 - [ ] Add creation form for new weapon
 - [ ] Routing/weapon details page (modal?)
 - [ ] Add delete weapon button to weapon list (w/ Server Actions)
