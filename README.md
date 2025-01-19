@@ -43,7 +43,9 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Add filtering to weapons table
 - [x] Add column visibility toggling to weapons table
 - [x] Extract out components from the DataTable base component
-- [ ] generate zod schemas for weapons using drizzle-zod
+- [x] generate zod schemas for weapons using drizzle-zod
+- [ ] fix weapon table row height
+- [ ] only show weapon table row actions for admin
 - [ ] Add creation form for new weapon
 - [ ] Routing/weapon details page (modal?)
 - [ ] Add delete weapon button to weapon list (w/ Server Actions)
