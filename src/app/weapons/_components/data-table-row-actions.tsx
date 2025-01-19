@@ -10,13 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { weaponDeleteSchema, weaponInsertSchema, weaponSelectSchema } from "~/server/db/schema";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const weapon = row.original;
+  const weapon = weaponSelectSchema.parse(row.original);
 
   return (
     <DropdownMenu>
@@ -29,8 +30,8 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log("Edit")}>Edit</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => console.log("Delete")}>Delete</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => console.log("Edit", weapon.name)}>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => console.log("Delete", weapon.name)}>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

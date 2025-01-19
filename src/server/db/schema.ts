@@ -9,6 +9,8 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
+import { z } from "zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -37,3 +39,11 @@ export const weapons = createTable(
     nameIndex: index("name_idx").on(example.name),
   })
 );
+
+export const weaponSelectSchema = createSelectSchema(weapons);
+export const weaponInsertSchema = createInsertSchema(weapons).omit({id: true});
+export const weaponUpdateSchema = createUpdateSchema(weapons);
+export const weaponDeleteSchema = createUpdateSchema(weapons).pick({id: true});
+
+export const Weapon = weaponUpdateSchema;
+export type Weapon = z.infer<typeof Weapon>;
