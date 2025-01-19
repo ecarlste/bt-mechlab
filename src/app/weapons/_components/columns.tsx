@@ -17,7 +17,7 @@ export const columns: ColumnDef<Weapon>[] = [
   {
     accessorKey: "name",
     enableHiding: false,
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Name2" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
   },
   {
     accessorKey: "heat",
