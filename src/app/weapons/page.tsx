@@ -1,7 +1,7 @@
 // import { isUserAdmin } from "~/data/auth";
 import { getAllWeapons } from "~/data/weapon-dto";
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { DataTable } from "./_components/data-table";
+import { columns } from "./_components/columns";
 
 export const dynamic = "force-dynamic";
 
