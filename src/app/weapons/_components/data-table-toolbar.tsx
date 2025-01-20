@@ -4,6 +4,8 @@ import { Table } from "@tanstack/react-table";
 
 import { Input } from "~/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
+import { SquarePlus } from "lucide-react";
+import { Button } from "~/components/ui/button";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -18,7 +20,13 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
         className="h-8 w-[150px] lg:w-[250px]"
       />
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center space-x-2">
+        <Button variant="outline" size="sm" className="ml-auto flex h-8" onClick={() => console.log("Add new weapon")}>
+          <SquarePlus />
+          New
+        </Button>
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   );
 }
