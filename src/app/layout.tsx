@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "~/styles/globals.css";
-import { TopNav } from "./_components/topnav";
+import { SiteHeader } from "./_components/site-header";
 
 export const metadata: Metadata = {
   title: "BattleTech Mech Lab",
@@ -11,15 +11,17 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable}`}>
-        <body className="dark flex h-screen flex-col">
-          <TopNav />
-          {children}
+        <body className="dark min-h-svh bg-background font-sans">
+          <div className="flex min-h-svh flex-col bg-background">
+            <div className="border-grid flex flex-1 flex-col">
+              <SiteHeader />
+              <main className="flex flex-1 flex-col">{children}</main>
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>
