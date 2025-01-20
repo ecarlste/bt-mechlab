@@ -33,7 +33,7 @@ export const columns: ColumnDef<Weapon>[] = [
   },
   {
     id: "actions",
-    enableHiding: false,
+    // enableHiding: false,
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

@@ -46,7 +46,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] generate zod schemas for weapons using drizzle-zod
 - [x] fix weapon table row height
 - [x] create site header component that will contain TopNav and mobile menu
-- [ ] only show weapon table row actions for admin
+- [x] only show weapon table row actions for admin
 - [ ] Add creation form for new weapon
 - [ ] Routing/weapon details page (modal?)
 - [ ] Add delete weapon button to weapon list (w/ Server Actions)
