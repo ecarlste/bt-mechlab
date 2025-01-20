@@ -52,3 +52,4 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [ ] Add delete weapon button to weapon list (w/ Server Actions)
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)
+- [ ] Finish mobile menu
