@@ -47,9 +47,10 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] fix weapon table row height
 - [x] create site header component that will contain TopNav and mobile menu
 - [x] only show weapon table row actions for admin
+- [x] Add delete/copy weapon buttons to weapon list (w/ Server Actions)
 - [ ] Add creation form for new weapon
 - [ ] Routing/weapon details page (modal?)
-- [ ] Add delete weapon button to weapon list (w/ Server Actions)
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)
+- [ ] Add tooltips to DataTable UI buttons (especially row actions section)
 - [ ] Finish mobile menu

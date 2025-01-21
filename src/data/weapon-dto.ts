@@ -1,12 +1,20 @@
-import 'server-only';
+import "server-only";
 
-import { asc } from 'drizzle-orm';
+import { asc, eq } from "drizzle-orm";
 
-import { db } from '~/server/db';
-import { weapons } from '~/server/db/schema';
+import { db } from "~/server/db";
+import { WeaponInsert, weapons } from "~/server/db/schema";
+
+export async function createWeapon(weapon: WeaponInsert) {
+  return db.insert(weapons).values(weapon).returning();
+}
 
 export async function getAllWeapons() {
-    return db.query.weapons.findMany({
-        orderBy: [asc(weapons.name)],
-    });
+  return db.query.weapons.findMany({
+    orderBy: [asc(weapons.name)],
+  });
+}
+
+export async function deleteWeaponById(id: number) {
+  return db.delete(weapons).where(eq(weapons.id, id));
 }

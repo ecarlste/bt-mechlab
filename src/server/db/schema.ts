@@ -2,13 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from "drizzle-orm";
-import {
-  index,
-  integer,
-  pgTableCreator,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { index, integer, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -31,19 +25,17 @@ export const weapons = createTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
-    ),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
 
 export const weaponSelectSchema = createSelectSchema(weapons);
-export const weaponInsertSchema = createInsertSchema(weapons).omit({id: true});
+export const weaponInsertSchema = createInsertSchema(weapons).omit({ id: true, createdAt: true, updatedAt: true });
 export const weaponUpdateSchema = createUpdateSchema(weapons);
-export const weaponDeleteSchema = createUpdateSchema(weapons).pick({id: true});
+export const weaponDeleteSchema = createUpdateSchema(weapons).pick({ id: true });
 
-export const Weapon = weaponUpdateSchema;
-export type Weapon = z.infer<typeof Weapon>;
+export type Weapon = z.infer<typeof weaponSelectSchema>;
+export type WeaponInsert = z.infer<typeof weaponInsertSchema>;
