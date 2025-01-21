@@ -6,6 +6,9 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const coreConfig = {
+  experimental: {
+    turbo: {}
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

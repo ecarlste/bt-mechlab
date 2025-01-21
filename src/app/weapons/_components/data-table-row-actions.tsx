@@ -1,15 +1,9 @@
+"use client";
+
 import { Row } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Copy, Edit, SquareX } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
 import { weaponSelectSchema } from "~/server/db/schema";
 
 interface DataTableRowActionsProps<TData> {
@@ -21,21 +15,15 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
 
   return (
     <div className="flex justify-end">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex h-8 w-8 p-0">
-            <MoreHorizontal />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => console.log("Save a Copy of", weapon.name)}>Save a Copy</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log("Edit", weapon.name)}>Edit</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log("Delete", weapon.name)}>Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button size="sm" variant="ghost" className="h-8 px-2" onClick={() => console.log("Copy", weapon.name)}>
+        <Copy />
+      </Button>
+      <Button size="sm" variant="ghost" className="h-8 px-2" onClick={() => console.log("Edit", weapon.name)}>
+        <Edit />
+      </Button>
+      <Button size="sm" variant="ghost" className="h-8 px-2" onClick={() => console.log("Copy", weapon.name)}>
+        <SquareX />
+      </Button>
     </div>
   );
 }
