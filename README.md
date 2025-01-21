@@ -48,7 +48,9 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] create site header component that will contain TopNav and mobile menu
 - [x] only show weapon table row actions for admin
 - [x] Add delete/copy weapon buttons to weapon list (w/ Server Actions)
-- [ ] Add creation form for new weapon
+- [x] Add creation form for new weapon
+- [ ] Fix weapon form field validation for number fields
+- [ ] Get weapon form to actually create a new item in the DB
 - [ ] Routing/weapon details page (modal?)
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)
