@@ -54,9 +54,13 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Require admin for new weapon form and weapon table new button
 - [x] Add tooltips to DataTable UI buttons (especially row actions section)
 - [x] Style alert dialog for deleting weapon
+- [x] Create initial mech equipment inventory list for mech builder page
+- [ ] Create component to display mech equipment by location (i.e. right arm, right torso, etc.)
+- [ ] Add all locations for mech with proper armor/structure amounts
+- [ ] Enable Equipment list loading from the db for weapons
+- [ ] Finish mobile menu
 - [ ] Implement edit weapon form (same as create weapon form)
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
-- [ ] Finish mobile menu
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)

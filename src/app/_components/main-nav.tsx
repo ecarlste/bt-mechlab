@@ -16,6 +16,7 @@ export function MainNav() {
         <span className="hidden font-bold lg:inline-block">Mech Lab</span>
       </Link>
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
+        <MainNavLink name="mechbay" pathname={pathname} />
         <MainNavLink name="mechs" pathname={pathname} />
         <MainNavLink name="weapons" pathname={pathname} />
         <MainNavLink name="equipment" pathname={pathname} />
