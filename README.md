@@ -58,6 +58,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Create component to display mech equipment by location (i.e. right arm, right torso, etc.)
 - [x] Add all locations for mech in mech builder component
 - [ ] Add drag and drop functionality for mech equipment into builder location
+- [ ] Fix button child of button hydration error on /weapons page
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Finish mobile menu

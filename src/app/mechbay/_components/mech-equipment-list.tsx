@@ -1,6 +1,6 @@
-import { Button } from "~/components/ui/button";
+import MechEquipmentListItem from "./mech-equipment-list-item";
 
-type MechEquipmentType = {
+export type MechEquipmentType = {
   name: string;
   weight: number;
   criticalSlots: number;
@@ -16,9 +16,7 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
       <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Equipment</h2>
       <div className="flex flex-col space-y-1">
         {equipment.map((item) => (
-          <Button key={item.name} className="w-full justify-start" variant="secondary">
-            {item.name}
-          </Button>
+          <MechEquipmentListItem key={item.name} item={item} />
         ))}
       </div>
     </div>
