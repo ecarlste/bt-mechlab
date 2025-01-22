@@ -52,7 +52,10 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Fix weapon form field validation for number fields
 - [x] Get weapon form to actually create a new item in the DB
 - [x] Require admin for new weapon form and weapon table new button
-- [ ] Add tooltips to DataTable UI buttons (especially row actions section)
+- [x] Add tooltips to DataTable UI buttons (especially row actions section)
+- [ ] Style alert dialog for deleting weapon
+- [ ] Implement edit weapon form (same as create weapon form)
+- [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
 - [ ] Finish mobile menu
 - [ ] Analytics (posthog)

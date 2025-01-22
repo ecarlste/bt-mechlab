@@ -1,13 +1,14 @@
 "use client";
 
 import { Table } from "@tanstack/react-table";
+import { SquarePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Input } from "~/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
-import { SquarePlus } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { useRouter } from "next/navigation";
 import { cn } from "~/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -26,15 +27,22 @@ export function DataTableToolbar<TData>({ table, enableAdmin = false }: DataTabl
         className="h-8 w-[150px] lg:w-[250px]"
       />
       <div className="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          className={cn("ml-auto h-8", enableAdmin ? "flex" : "hidden")}
-          onClick={() => router.push("/weapons/new")}
-        >
-          <SquarePlus />
-          New
-        </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn("ml-auto h-8", enableAdmin ? "flex" : "hidden")}
+              onClick={() => router.push("/weapons/new")}
+            >
+              <SquarePlus />
+              New
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Create New Weapon</p>
+          </TooltipContent>
+        </Tooltip>
         <DataTableViewOptions table={table} />
       </div>
     </div>
