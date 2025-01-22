@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({ columns, data, enableAdmin }: DataTab
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} enableAdmin={enableAdmin} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
