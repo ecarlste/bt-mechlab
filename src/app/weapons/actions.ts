@@ -1,7 +1,7 @@
 "use server";
 
 import { createWeapon, deleteWeaponById } from "~/data/weapon-dto";
-import { Weapon, weaponInsertSchema } from "~/server/db/schema";
+import { Weapon, WeaponInsert, weaponInsertSchema } from "~/server/db/schema";
 
 export async function handleDeleteWeapon(id: number) {
   try {
@@ -23,5 +23,17 @@ export async function handleSaveCopyOfWeapon(weapon: Weapon) {
   } catch (error) {
     console.error("Error copying weapon:", error);
     return { success: false, message: "Failed to copy weapon" };
+  }
+}
+
+export async function handleWeaponFormSubmit(weapon: WeaponInsert) {
+  try {
+    const newWeapon = weaponInsertSchema.parse(weapon);
+
+    await createWeapon(newWeapon);
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating weapon:", error);
+    return { success: false, message: "Failed to create weapon" };
   }
 }
