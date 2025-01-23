@@ -1,10 +1,9 @@
 "use client";
 
 import { useDraggable } from "@dnd-kit/core";
+import { CSSProperties } from "react";
 
 import { MechEquipmentType } from "./mech-equipment-list";
-import { CSSProperties } from "react";
-import { cn } from "~/lib/utils";
 
 interface MechEquipmentListItemProps {
   item: MechEquipmentType;
@@ -13,6 +12,7 @@ interface MechEquipmentListItemProps {
 export default function MechEquipmentListItem({ item }: MechEquipmentListItemProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: item.name,
+    data: item,
   });
 
   const style: CSSProperties | undefined = isDragging
