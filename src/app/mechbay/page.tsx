@@ -2,14 +2,15 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import MechBuildLocation from "./_components/mech-build-location";
 import { MechEquipmentList, MechEquipmentType } from "./_components/mech-equipment-list";
 
 const equipment = [
-  { name: "L Laser", weight: 5, criticalSlots: 2 },
-  { name: "M Laser", weight: 2, criticalSlots: 1 },
-  { name: "S Laser", weight: 1, criticalSlots: 1 },
+  { id: uuidv4(), name: "L Laser", weight: 5, criticalSlots: 2 },
+  { id: uuidv4(), name: "M Laser", weight: 2, criticalSlots: 1 },
+  { id: uuidv4(), name: "S Laser", weight: 1, criticalSlots: 1 },
 ];
 
 enum Location {
@@ -107,22 +108,58 @@ export default function MechBayPage() {
               name="Right Arm"
               criticalSlots={criticalSlots.rightArm}
               installedEquipment={rightArmEquipment}
+              setInstalledEquipment={setRightArmEquipment}
             />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation name="Right Torso" criticalSlots={12} installedEquipment={rightTorsoEquipment} />
-            <MechBuildLocation name="Right Leg" criticalSlots={2} installedEquipment={rightLegEquipment} />
+            <MechBuildLocation
+              name="Right Torso"
+              criticalSlots={12}
+              installedEquipment={rightTorsoEquipment}
+              setInstalledEquipment={setRightTorsoEquipment}
+            />
+            <MechBuildLocation
+              name="Right Leg"
+              criticalSlots={2}
+              installedEquipment={rightLegEquipment}
+              setInstalledEquipment={setRightLegEquipment}
+            />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation name="Head" criticalSlots={1} installedEquipment={headEquipment} />
-            <MechBuildLocation name="Center Torso" criticalSlots={2} installedEquipment={centerTorsoEquipment} />
+            <MechBuildLocation
+              name="Head"
+              criticalSlots={1}
+              installedEquipment={headEquipment}
+              setInstalledEquipment={setHeadEquipment}
+            />
+            <MechBuildLocation
+              name="Center Torso"
+              criticalSlots={2}
+              installedEquipment={centerTorsoEquipment}
+              setInstalledEquipment={setCenterTorsoEquipment}
+            />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation name="Left Torso" criticalSlots={12} installedEquipment={leftTorsoEquipment} />
-            <MechBuildLocation name="Left Leg" criticalSlots={2} installedEquipment={leftLegEquipment} />
+            <MechBuildLocation
+              name="Left Torso"
+              criticalSlots={12}
+              installedEquipment={leftTorsoEquipment}
+              setInstalledEquipment={setLeftTorsoEquipment}
+            />
+            <MechBuildLocation
+              name="Left Leg"
+              criticalSlots={2}
+              installedEquipment={leftLegEquipment}
+              setInstalledEquipment={setLeftLegEquipment}
+            />
           </div>
           <div className="w-full">
-            <MechBuildLocation name="Left Arm" criticalSlots={8} installedEquipment={leftArmEquipment} />
+            <MechBuildLocation
+              name="Left Arm"
+              criticalSlots={8}
+              installedEquipment={leftArmEquipment}
+              setInstalledEquipment={setLeftArmEquipment}
+            />
           </div>
         </div>
       </div>

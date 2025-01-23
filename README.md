@@ -61,11 +61,12 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Get dropped equipment item to display in the correct equipment location
 - [x] Get equipped items to display as correct style (color, fit single slot)
 - [x] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
-- [ ] Add ability to remove equipment item by right clicking when equipped
+- [x] Add ability to remove equipment item ~~by right clicking when equipped~~ using remove button
 - [ ] Create a toaster UI element that displays an error to user when equipping item doesn't work
 - [ ] Highlight the mech location that the dragged item would go to if dropped
 - [ ] Fix button child of button hydration error on /weapons page
 - [ ] Add armor/structure to mech locations in mech builder
+- [ ] Update weapons PG table to use UUID for primary key
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Finish mobile menu
