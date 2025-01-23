@@ -59,8 +59,8 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Add all locations for mech in mech builder component
 - [x] Add basic drag and drop functionality for mech equipment into builder location
 - [x] Get dropped equipment item to display in the correct equipment location
-- [ ] Get equipped items to display as correct style (color, fit single slot)
-- [ ] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
+- [x] Get equipped items to display as correct style (color, fit single slot)
+- [x] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
 - [ ] Create a toaster UI element that displays an error to user when equipping item doesn't work
 - [ ] Highlight the mech location that the dragged item would go to if dropped
 - [ ] Fix button child of button hydration error on /weapons page

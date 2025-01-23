@@ -24,7 +24,7 @@ export default function MechEquipmentListItem({ item }: MechEquipmentListItemPro
     : { cursor: "pointer" };
 
   const className =
-    "mb-1 h-9 whitespace-nowrap rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground w-60";
+    "mb-1 h-9 whitespace-nowrap bg-blue-800 px-4 py-2 text-sm font-medium text-secondary-foreground w-60";
 
   return (
     <>

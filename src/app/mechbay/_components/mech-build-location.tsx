@@ -9,7 +9,7 @@ interface MechBuildLocationProps {
 
 export default function MechBuildLocation({ name, criticalSlots, installedEquipment }: MechBuildLocationProps) {
   return (
-    <div className="w-full rounded-md border-2 text-center">
+    <div className="w-full rounded-t-md border-2 border-b text-center">
       <h2 className="py-2 text-lg font-semibold tracking-tight">{name}</h2>
       <EquipmentInLocation criticalSlots={criticalSlots} locationName={name} installedEquipment={installedEquipment} />
     </div>
