@@ -4,32 +4,25 @@ import { useDroppable } from "@dnd-kit/core";
 import { SquareX } from "lucide-react";
 import { MouseEvent } from "react";
 
-import { MechEquipmentType } from "./mech-equipment-list";
 import { Button } from "~/components/ui/button";
+import { Location, MechEquipmentLocation } from "../location";
+import { useEquipmentStore } from "../store";
 
 interface EquipmentInLocationProps {
   criticalSlots: number;
-  locationName: string;
-  installedEquipment: MechEquipmentType[];
-  setInstalledEquipment: React.Dispatch<React.SetStateAction<MechEquipmentType[]>>;
+  location: Location;
 }
 
-export default function EquipmentInLocation({
-  criticalSlots,
-  locationName,
-  installedEquipment,
-  setInstalledEquipment,
-}: EquipmentInLocationProps) {
-  const { setNodeRef } = useDroppable({
-    id: locationNameToCamelCase(locationName),
-  });
+export default function EquipmentInLocation({ criticalSlots, location }: EquipmentInLocationProps) {
+  const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
 
-  const filledSlots = installedEquipment.reduce((acc, item) => acc + item.criticalSlots, 0);
-  const freeSlots = criticalSlots - filledSlots;
+  const { setNodeRef } = useDroppable({
+    id: locationNameToCamelCase(location),
+  });
 
   return (
     <div ref={setNodeRef} className="border-t-2">
-      {currentEquipmentInLocation(installedEquipment, setInstalledEquipment, filledSlots, freeSlots)}
+      {renderEquipmentInLocation(mechEquipmentLocations[location])}
     </div>
   );
 }
@@ -38,18 +31,15 @@ function locationNameToCamelCase(locationName: string) {
   return locationName.toLocaleLowerCase().replace(/ ([a-z])/g, (_, group1) => group1.toUpperCase());
 }
 
-function currentEquipmentInLocation(
-  installedEquipment: MechEquipmentType[],
-  setInstalledEquipment: React.Dispatch<React.SetStateAction<MechEquipmentType[]>>,
-  filledSlots: number,
-  freeSlots: number,
-) {
+function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
+  const removeEquipment = useEquipmentStore((state) => state.removeEquipment);
+
   function handleRemoveItem(e: MouseEvent) {
     const idToRemove = (e.target as HTMLElement).id;
-    setInstalledEquipment((prev) => prev.filter((item) => item.id !== idToRemove));
+    removeEquipment(equipmentLocation.id, idToRemove);
   }
 
-  const equipped = installedEquipment.map((item, index) => {
+  const equipped = equipmentLocation.installedEquipment.map((item, index) => {
     const height = `${item.criticalSlots * 36}px`;
 
     return (
@@ -64,8 +54,10 @@ function currentEquipmentInLocation(
     );
   });
 
+  const { criticalSlots: slots, criticalSlotsUsed: slotsUsed } = equipmentLocation;
+  const freeSlots = slots - slotsUsed;
   for (let i = 0; i < freeSlots; i++) {
-    equipped.push(<div className="flex h-9 w-full border-b" key={i + filledSlots}></div>);
+    equipped.push(<div className="flex h-9 w-full border-b" key={i + slotsUsed}></div>);
   }
 
   return equipped;

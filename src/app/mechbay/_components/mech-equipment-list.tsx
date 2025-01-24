@@ -1,11 +1,5 @@
 import MechEquipmentListItem from "./mech-equipment-list-item";
-
-export type MechEquipmentType = {
-  id?: string;
-  name: string;
-  weight: number;
-  criticalSlots: number;
-};
+import { MechEquipmentType } from "./mech-equipment-type";
 
 interface MechEquipmentListProps {
   equipment: MechEquipmentType[];
