@@ -2,15 +2,14 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import MechBuildLocation from "./_components/mech-build-location";
 import { MechEquipmentList, MechEquipmentType } from "./_components/mech-equipment-list";
 
 const equipment = [
-  { id: uuidv4(), name: "L Laser", weight: 5, criticalSlots: 2 },
-  { id: uuidv4(), name: "M Laser", weight: 2, criticalSlots: 1 },
-  { id: uuidv4(), name: "S Laser", weight: 1, criticalSlots: 1 },
+  { name: "L Laser", weight: 5, criticalSlots: 2 },
+  { name: "M Laser", weight: 2, criticalSlots: 1 },
+  { name: "S Laser", weight: 1, criticalSlots: 1 },
 ];
 
 enum Location {
