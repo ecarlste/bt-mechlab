@@ -64,8 +64,6 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
     set((state) => {
       const mechEquipmentLocation = state.equipmentLocations[location];
       if (!mechEquipmentLocation) {
-        console.log(state.equipmentLocations);
-        console.log(location);
         throw new Error(`Location ${location} does not exist in the store`);
       }
 

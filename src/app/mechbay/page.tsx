@@ -21,7 +21,6 @@ export default function MechBayPage() {
     const itemToEquip = event.active.data.current as MechEquipmentType;
 
     if (event.over) {
-      console.log(event.over);
       const location = event.over.id as Location;
       addEquipment(location, itemToEquip);
     }
