@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 import { MechEquipmentType } from "./_components/mech-equipment-type";
 import { criticalSlots, Location, MechEquipmentLocation } from "./location";
+import { toast } from "sonner";
 
 interface EquipmentState {
   equipmentLocations: Record<Location, MechEquipmentLocation>;
@@ -82,7 +83,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
           },
         };
       } else {
-        console.warn("Not enough free slots to equip", equipment.name);
+        toast.error(`Not enough free slots to equip ${equipment.name}`, { duration: 10000 });
         return state;
       }
     }),
@@ -96,8 +97,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       const equipmentToRemove = mechEquipmentLocation.installedEquipment.find((item) => item.id === equipmentId);
 
       if (!equipmentToRemove) {
-        console.warn(`Equipment with id ${equipmentId} not found in location ${location}`);
-        return state;
+        throw new Error(`Equipment with id ${equipmentId} not found in location ${location}`);
       }
 
       const updatedEquipmentLocation = {

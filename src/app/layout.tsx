@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import "~/styles/globals.css";
 import { SiteHeader } from "./_components/site-header";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "BattleTech Mech Lab",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <main className="flex flex-1 flex-col">{children}</main>
             </div>
           </div>
+          <Toaster richColors />
         </body>
       </html>
     </ClerkProvider>
