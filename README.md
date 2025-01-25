@@ -62,6 +62,8 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Get equipped items to display as correct style (color, fit single slot)
 - [x] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
 - [x] Add ability to remove equipment item ~~by right clicking when equipped~~ using remove button
+- [x] Implement react app state using `zustand`
+- [x] Prevent resizing of mech equipment locations during drop event
 - [ ] Create a toaster UI element that displays an error to user when equipping item doesn't work
 - [ ] Highlight the mech location that the dragged item would go to if dropped
 - [ ] Fix button child of button hydration error on /weapons page

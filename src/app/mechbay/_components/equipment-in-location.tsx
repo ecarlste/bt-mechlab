@@ -9,15 +9,14 @@ import { Location, MechEquipmentLocation } from "../location";
 import { useEquipmentStore } from "../store";
 
 interface EquipmentInLocationProps {
-  criticalSlots: number;
   location: Location;
 }
 
-export default function EquipmentInLocation({ criticalSlots, location }: EquipmentInLocationProps) {
+export default function EquipmentInLocation({ location }: EquipmentInLocationProps) {
   const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
 
   const { setNodeRef } = useDroppable({
-    id: locationNameToCamelCase(location),
+    id: location,
   });
 
   return (
@@ -25,10 +24,6 @@ export default function EquipmentInLocation({ criticalSlots, location }: Equipme
       {renderEquipmentInLocation(mechEquipmentLocations[location])}
     </div>
   );
-}
-
-function locationNameToCamelCase(locationName: string) {
-  return locationName.toLocaleLowerCase().replace(/ ([a-z])/g, (_, group1) => group1.toUpperCase());
 }
 
 function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
@@ -44,7 +39,7 @@ function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
 
     return (
       <div className="flex w-full items-center border-b bg-blue-800" key={index} style={{ height }}>
-        <div className="flex h-9 w-60 items-center justify-between whitespace-nowrap p-2 pl-4 text-sm font-medium text-secondary-foreground">
+        <div className="flex h-9 w-full items-center justify-between whitespace-nowrap p-2 pl-4 text-sm font-medium text-secondary-foreground">
           {item.name}
           <Button variant="ghost" size="icon" className="h-4 w-4" onClick={handleRemoveItem} id={item.id}>
             <SquareX />
