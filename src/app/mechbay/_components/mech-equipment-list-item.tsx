@@ -2,9 +2,9 @@
 
 import { useDraggable } from "@dnd-kit/core";
 import { CSSProperties } from "react";
-
-import { MechEquipmentType } from "./mech-equipment-list";
 import { v4 as uuidv4 } from "uuid";
+
+import { MechEquipmentType } from "./mech-equipment-type";
 
 interface MechEquipmentListItemProps {
   item: MechEquipmentType;
