@@ -7,6 +7,7 @@ import { MouseEvent } from "react";
 import { Button } from "~/components/ui/button";
 import { Location, MechEquipmentLocation } from "../location";
 import { useEquipmentStore } from "../store";
+import { cn } from "~/lib/utils";
 
 interface EquipmentInLocationProps {
   location: Location;
@@ -52,7 +53,15 @@ function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
   const { criticalSlots: slots, criticalSlotsUsed: slotsUsed } = equipmentLocation;
   const freeSlots = slots - slotsUsed;
   for (let i = 0; i < freeSlots; i++) {
-    equipped.push(<div className="flex h-9 w-full border-b" key={i + slotsUsed}></div>);
+    equipped.push(
+      <div
+        className={cn(
+          "flex h-9 w-full border-b",
+          equipmentLocation.hasDraggableOver ? "bg-green-100 bg-opacity-5" : "",
+        )}
+        key={i + slotsUsed}
+      ></div>,
+    );
   }
 
   return equipped;

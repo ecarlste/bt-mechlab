@@ -66,7 +66,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Prevent resizing of mech equipment locations during drop event
 - [x] Fix incorrect display of mech equipment location name
 - [x] Create a toaster UI element that displays an error to user when equipping item doesn't work
-- [ ] Highlight the mech location that the dragged item would go to if dropped
+- [x] Highlight the mech location that the dragged item would go to if dropped
 - [ ] Fix button child of button hydration error on /weapons page
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Update weapons PG table to use UUID for primary key

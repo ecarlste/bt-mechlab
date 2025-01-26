@@ -27,4 +27,5 @@ export type MechEquipmentLocation = {
   criticalSlots: number;
   criticalSlotsUsed: number;
   installedEquipment: MechEquipmentType[];
+  hasDraggableOver: boolean;
 };

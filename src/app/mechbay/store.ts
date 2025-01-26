@@ -5,62 +5,79 @@ import { criticalSlots, Location, MechEquipmentLocation } from "./location";
 import { toast } from "sonner";
 
 interface EquipmentState {
+  draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
+  updateDraggableOver: (location: Location) => void;
   addEquipment: (location: Location, equipment: MechEquipmentType) => void;
   removeEquipment: (location: Location, equipmentId: string) => void;
+  enableDraggableOver: (location: Location) => void;
+  resetAllDraggableOver: () => void;
 }
 
 export const useEquipmentStore = create<EquipmentState>()((set) => ({
+  draggableOver: undefined,
   equipmentLocations: {
     [Location.RightArm]: {
       id: Location.RightArm,
       criticalSlots: criticalSlots.rightArm,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.RightTorso]: {
       id: Location.RightTorso,
       criticalSlots: criticalSlots.rightTorso,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.RightLeg]: {
       id: Location.RightLeg,
       criticalSlots: criticalSlots.rightLeg,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.Head]: {
       id: Location.Head,
       criticalSlots: criticalSlots.head,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.CenterTorso]: {
       id: Location.CenterTorso,
       criticalSlots: criticalSlots.centerTorso,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.LeftTorso]: {
       id: Location.LeftTorso,
       criticalSlots: criticalSlots.leftTorso,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.LeftLeg]: {
       id: Location.LeftLeg,
       criticalSlots: criticalSlots.leftLeg,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
     [Location.LeftArm]: {
       id: Location.LeftArm,
       criticalSlots: criticalSlots.leftArm,
       criticalSlotsUsed: 0,
       installedEquipment: [],
+      hasDraggableOver: false,
     },
   },
+  updateDraggableOver: (location) =>
+    set(() => ({
+      draggableOver: location,
+    })),
   addEquipment: (location, equipment) =>
     set((state) => {
       const mechEquipmentLocation = state.equipmentLocations[location];
@@ -111,6 +128,33 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
           ...state.equipmentLocations,
           [location]: updatedEquipmentLocation,
         },
+      };
+    }),
+  enableDraggableOver: (location) =>
+    set((state) => {
+      const mechEquipmentLocation = state.equipmentLocations[location];
+      if (!mechEquipmentLocation) {
+        throw new Error(`Location ${location} does not exist in the store`);
+      }
+
+      const updatedEquipmentLocations = { ...state.equipmentLocations };
+      Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
+        equipmentLocation.hasDraggableOver = equipmentLocation.id === location ? true : false;
+      });
+
+      return {
+        equipmentLocations: updatedEquipmentLocations,
+      };
+    }),
+  resetAllDraggableOver: () =>
+    set((state) => {
+      const updatedEquipmentLocations = { ...state.equipmentLocations };
+      Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
+        equipmentLocation.hasDraggableOver = false;
+      });
+
+      return {
+        equipmentLocations: updatedEquipmentLocations,
       };
     }),
 }));

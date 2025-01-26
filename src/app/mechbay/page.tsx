@@ -16,6 +16,7 @@ const equipment = [
 
 export default function MechBayPage() {
   const addEquipment = useEquipmentStore((state) => state.addEquipment);
+  const resetAllDraggableOver = useEquipmentStore((state) => state.resetAllDraggableOver);
 
   function handleDragEnd(event: DragEndEvent) {
     const itemToEquip = event.active.data.current as MechEquipmentType;
@@ -23,6 +24,7 @@ export default function MechBayPage() {
     if (event.over) {
       const location = event.over.id as Location;
       addEquipment(location, itemToEquip);
+      resetAllDraggableOver();
     }
   }
 
