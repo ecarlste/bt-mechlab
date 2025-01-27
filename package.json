@@ -29,7 +29,7 @@
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.7",
     "@sentry/nextjs": "^8.51.0",
-    "@t3-oss/env-nextjs": "^0.10.1",
+    "@t3-oss/env-nextjs": "^0.12.0",
     "@tanstack/react-table": "^8.20.6",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.1",
@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.56.10",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.10.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
