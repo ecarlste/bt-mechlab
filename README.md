@@ -77,3 +77,4 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [ ] Routing/weapon details page (modal?)
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)
+- [ ] Configure Lighthouse CI metrics

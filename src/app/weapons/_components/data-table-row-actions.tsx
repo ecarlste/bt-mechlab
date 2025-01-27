@@ -4,7 +4,6 @@ import { Row } from "@tanstack/react-table";
 import { Copy, Edit, SquareX } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "~/components/ui/button";
 import { weaponSelectSchema } from "~/server/db/schema";
 import { handleDeleteWeapon, handleSaveCopyOfWeapon } from "../actions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
@@ -19,6 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
+import { cn } from "~/lib/utils";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -48,9 +48,16 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
     <div className="flex justify-end">
       <Tooltip>
         <TooltipTrigger>
-          <Button size="sm" variant="ghost" className="h-8 px-2" onClick={handleSaveCopyOf}>
+          <div
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+              "hover:bg-accent hover:text-accent-foreground",
+              "h-8 rounded-md px-2 text-xs",
+            )}
+            onClick={handleSaveCopyOf}
+          >
             <Copy />
-          </Button>
+          </div>
         </TooltipTrigger>
         <TooltipContent>
           <p>Create Copy of {weapon.name}</p>
@@ -58,9 +65,16 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
       </Tooltip>
       <Tooltip>
         <TooltipTrigger>
-          <Button size="sm" variant="ghost" className="h-8 px-2" onClick={() => console.log("Edit", weapon.name)}>
+          <div
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+              "hover:bg-accent hover:text-accent-foreground",
+              "h-8 rounded-md px-2 text-xs",
+            )}
+            onClick={() => console.log("Edit", weapon.name)}
+          >
             <Edit />
-          </Button>
+          </div>
         </TooltipTrigger>
         <TooltipContent>
           <p>Edit {weapon.name}</p>
@@ -68,16 +82,15 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
       </Tooltip>
       <AlertDialog>
         <AlertDialogTrigger>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button size="sm" variant="ghost" className="h-8 px-2">
-                <SquareX />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Delete {weapon.name}</p>
-            </TooltipContent>
-          </Tooltip>
+          <div
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+              "hover:bg-accent hover:text-accent-foreground",
+              "h-8 rounded-md px-2 text-xs",
+            )}
+          >
+            <SquareX />
+          </div>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
