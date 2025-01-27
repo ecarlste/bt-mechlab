@@ -67,10 +67,12 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Fix incorrect display of mech equipment location name
 - [x] Create a toaster UI element that displays an error to user when equipping item doesn't work
 - [x] Highlight the mech location that the dragged item would go to if dropped
+- [ ] Add caching to get all weapons call for weapons page
+- [ ] Switch to using a dropdown menu for data table row actions
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
-- [ ] Fix button child of button hydration error on /weapons page
+- [x] Fix button child of button hydration error on /weapons page
 - [ ] Finish mobile menu
 - [ ] Implement edit weapon form (same as create weapon form)
 - [ ] Redesign weapon create/edit form (modal?)
