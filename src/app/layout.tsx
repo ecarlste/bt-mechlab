@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "~/styles/globals.css";
 import { SiteHeader } from "./_components/site-header";
@@ -14,18 +15,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body className="dark min-h-svh bg-background font-sans">
-          <div className="flex min-h-svh flex-col bg-background">
-            <div className="border-grid flex flex-1 flex-col">
-              <SiteHeader />
-              <main className="flex flex-1 flex-col">{children}</main>
+    <>
+      <ClerkProvider>
+        <html lang="en" className={`${GeistSans.variable}`}>
+          <body className="dark min-h-svh bg-background font-sans">
+            <div className="flex min-h-svh flex-col bg-background">
+              <div className="border-grid flex flex-1 flex-col">
+                <SiteHeader />
+                <main className="flex flex-1 flex-col">{children}</main>
+              </div>
             </div>
-          </div>
-          <Toaster richColors />
-        </body>
-      </html>
-    </ClerkProvider>
+            <Toaster richColors />
+            <SpeedInsights />
+          </body>
+        </html>
+      </ClerkProvider>
+    </>
   );
 }
