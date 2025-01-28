@@ -69,10 +69,12 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Highlight the mech location that the dragged item would go to if dropped
 - [x] Add caching to get all weapons call for weapons page
 - [x] Switch to using a dropdown menu for data table row actions
+- [x] Fix button child of button hydration error on /weapons page
+- [ ] Migrate project to use tailwind v4
+- [ ] Migrate project to use ESLint v9
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
-- [x] Fix button child of button hydration error on /weapons page
 - [ ] Finish mobile menu
 - [ ] Implement edit weapon form (same as create weapon form)
 - [ ] Redesign weapon create/edit form (modal?)
