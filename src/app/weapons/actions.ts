@@ -1,17 +1,8 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
 import { createWeapon, deleteWeaponById, getAllWeapons } from "~/data/weapon-dto";
 
 import { Weapon, WeaponInsert, weaponInsertSchema } from "~/server/db/schema";
-
-export const getWeapons = unstable_cache(
-  async () => {
-    return await getAllWeapons();
-  },
-  ["weapons"],
-  { revalidate: 300, tags: ["weapons"] },
-);
 
 export async function handleDeleteWeapon(id: number) {
   try {

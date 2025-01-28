@@ -72,7 +72,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Add caching to get all weapons call for weapons page
 - [x] Switch to using a dropdown menu for data table row actions
 - [x] Fix button child of button hydration error on /weapons page
-- [ ] Migrate project to use tailwind v4
+- [x] Migrate project to use tailwind v4
+- [x] Remove caching to fix invalid data type issue
+- [ ] Fix issue with data table row resize due to row actions dropdown
 - [ ] Migrate project to use ESLint v9
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
