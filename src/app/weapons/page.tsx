@@ -1,12 +1,10 @@
 import { isUserAdmin } from "~/data/auth";
-import { getAllWeapons } from "~/data/weapon-dto";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
-
-export const dynamic = "force-dynamic";
+import { getWeapons } from "./actions";
 
 export default async function WeaponsPage() {
-  const weaponList = await getAllWeapons();
+  const weaponList = await getWeapons();
   const isAdmin = await isUserAdmin();
 
   return (
