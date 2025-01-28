@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import "~/styles/globals.css";
 
+import { cn } from "~/lib/utils";
+
 import { Toaster } from "~/components/ui/sonner";
 
 import { SiteHeader } from "./_components/site-header";
@@ -19,8 +21,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <>
       <ClerkProvider>
-        <html lang="en" className={`${GeistSans.variable}`}>
-          <body className="dark min-h-svh bg-background font-sans">
+        <html lang="en" className={cn("dark", `${GeistSans.variable}`)}>
+          <body className="min-h-svh bg-background font-sans">
             <div className="flex min-h-svh flex-col bg-background">
               <div className="border-grid flex flex-1 flex-col">
                 <SiteHeader />
