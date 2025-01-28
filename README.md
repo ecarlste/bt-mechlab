@@ -1,16 +1,22 @@
-# BattleTech Mech Lab
+# BattleTech MechLab
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+The BattleTech MechLab is a T3 Stack app inspired by the MechLab in MW5: Mercenaries, intended to be used with the BattleTech table top miniatures game. You can build any BattleMech you like in a very similar way to how you build them in MW5 with drag and drop functionality.
 
-## What's next? How do I make an app with this?
+I've always preferred to build mechs this way rather than the step by step process that exists in the BattleTech Tech Manual.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Currently the app is only intended to allow the building of BattleMechs. Eventually, it would be my intent to be able to build any type of mech or vehicle for BattleTech Total Warfare.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## What technology did we use?
+
+Most, if not all, of the technologies used are the same technologies that are used by the [T3 Stack](https://create.t3.gg/). We are not necessarily using the same versions as what the T3 Stack uses, although most tech is the same. If you want to learn about any of the tech used, reference the links provided in the list below.
 
 - [Next.js](https://nextjs.org)
 - [Drizzle](https://orm.drizzle.team)
+- [Zod](https://zod.dev)
+- [Clerk](https://clerk.com)
+- [Sentry for NextJS](https://docs.sentry.io/platforms/javascript/guides/nextjs)
 - [Tailwind CSS](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com)
 
 ## Learn More
 
@@ -20,10 +26,6 @@ To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the fo
 - [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
 You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/vercel).
 
 ## TODO
 
