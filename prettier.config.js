@@ -1,6 +1,14 @@
 /** @type {import('prettier').Config & import('prettier-plugin-tailwindcss').PluginOptions} */
 export default {
-  "importOrder": ["^~/lib/(.*)$", "^~/app/(.*)$", "^~/server/(.*)$", "^~/styles/(.*)$", "^~/components/(.*)$", "^./_components/(.*)$", "^[./]"],
+  importOrder: [
+    "^~/lib/(.*)$",
+    "^~/app/(.*)$",
+    "^~/server/(.*)$",
+    "^~/styles/(.*)$",
+    "^~/components/(.*)$",
+    "^./_components/(.*)$",
+    "^[./]",
+  ],
   importOrderSeparation: true,
   importOrderSideEffects: false,
   printWidth: 119,
