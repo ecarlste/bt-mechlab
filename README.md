@@ -68,7 +68,7 @@ Follow our deployment guide for [Vercel](https://create.t3.gg/en/deployment/verc
 - [x] Create a toaster UI element that displays an error to user when equipping item doesn't work
 - [x] Highlight the mech location that the dragged item would go to if dropped
 - [x] Add caching to get all weapons call for weapons page
-- [ ] Switch to using a dropdown menu for data table row actions
+- [x] Switch to using a dropdown menu for data table row actions
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
