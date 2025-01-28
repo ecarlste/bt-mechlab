@@ -74,7 +74,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Fix button child of button hydration error on /weapons page
 - [x] Migrate project to use tailwind v4
 - [x] Remove caching to fix invalid data type issue
-- [ ] Fix issue with data table row resize due to row actions dropdown
+- [x] Fix issue with data table row resize due to row actions dropdown
 - [ ] Migrate project to use ESLint v9
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons

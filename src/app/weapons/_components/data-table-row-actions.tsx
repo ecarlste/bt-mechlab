@@ -58,7 +58,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
       <AlertDialog>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex h-8 w-8 p-0">
+            <Button variant="ghost" className="flex h-5 w-8 p-0">
               <MoreHorizontal />
               <span className="sr-only">Open menu</span>
             </Button>
