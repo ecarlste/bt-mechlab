@@ -4,8 +4,10 @@ import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { handleDeleteWeapon, handleSaveCopyOfWeapon } from "~/app/weapons/actions";
+
 import { weaponSelectSchema } from "~/server/db/schema";
-import { handleDeleteWeapon, handleSaveCopyOfWeapon } from "../actions";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +28,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Button } from "~/components/ui/button";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;

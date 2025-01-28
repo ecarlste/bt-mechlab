@@ -1,4 +1,5 @@
 import { isUserAdmin } from "~/data/auth";
+
 import { WeaponForm } from "./_components/weapon-form";
 
 export default async function WeaponsPage() {

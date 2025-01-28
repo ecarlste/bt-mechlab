@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import { cn } from "~/lib/utils";
 
 export function MainNavLink({ name, pathname }: { name: string; pathname: string }) {

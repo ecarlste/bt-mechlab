@@ -4,10 +4,12 @@ import { Table } from "@tanstack/react-table";
 import { SquarePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Input } from "~/components/ui/input";
-import { DataTableViewOptions } from "./data-table-view-options";
 import { cn } from "~/lib/utils";
+
+import { Input } from "~/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+
+import { DataTableViewOptions } from "./data-table-view-options";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

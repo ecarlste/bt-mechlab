@@ -1,6 +1,8 @@
 import { isUserAdmin } from "~/data/auth";
-import { DataTable } from "./_components/data-table";
+
 import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+
 import { getWeapons } from "./actions";
 
 export default async function WeaponsPage() {

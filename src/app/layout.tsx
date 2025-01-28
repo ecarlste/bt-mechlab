@@ -1,11 +1,13 @@
-import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GeistSans } from "geist/font/sans";
+import { type Metadata } from "next";
 
 import "~/styles/globals.css";
-import { SiteHeader } from "./_components/site-header";
+
 import { Toaster } from "~/components/ui/sonner";
+
+import { SiteHeader } from "./_components/site-header";
 
 export const metadata: Metadata = {
   title: "BattleTech Mech Lab",
