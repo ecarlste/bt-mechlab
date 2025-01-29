@@ -77,8 +77,8 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete "{weapon.name}" and remove it from the
-              database.
+              This action cannot be undone. This will permanently delete &quot;{weapon.name}&quot; and remove it from
+              the database.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

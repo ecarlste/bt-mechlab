@@ -11,7 +11,7 @@ interface MechEquipmentListItemProps {
 }
 
 export default function MechEquipmentListItem({ item }: MechEquipmentListItemProps) {
-  const { attributes, listeners, setNodeRef, transform, isDragging, over } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: item.name,
     data: { ...item, id: uuidv4() },
   });

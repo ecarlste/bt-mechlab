@@ -1,6 +1,6 @@
 "use server";
 
-import { createWeapon, deleteWeaponById, getAllWeapons } from "~/data/weapon-dto";
+import { createWeapon, deleteWeaponById } from "~/data/weapon-dto";
 
 import { Weapon, WeaponInsert, weaponInsertSchema } from "~/server/db/schema";
 
