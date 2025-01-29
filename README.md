@@ -75,14 +75,15 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Migrate project to use tailwind v4
 - [x] Remove caching to fix invalid data type issue
 - [x] Fix issue with data table row resize due to row actions dropdown
-- [ ] Migrate project to use ESLint v9
+- [x] Migrate project to use ESLint v9
+- [ ] Implement edit weapon form (same as create weapon form)
 - [ ] Add armor/structure to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
-- [ ] Finish mobile menu
-- [ ] Implement edit weapon form (same as create weapon form)
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
 - [ ] Analytics (posthog)
 - [ ] Ratelimiting (upstash)
 - [ ] Configure Lighthouse CI metrics
+- [ ] Finish mobile menu
+- [ ] Update site favicon
