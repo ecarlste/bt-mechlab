@@ -5,27 +5,32 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { weaponInsertSchema } from "~/server/db/schema";
+import { WeaponFormData, weaponFormSchema } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 
-import { handleWeaponFormSubmit } from "../../actions";
+import { handleWeaponFormSubmit } from "../actions";
 
-export function WeaponForm() {
+interface WeaponFormProps {
+  weapon?: WeaponFormData;
+}
+
+export function WeaponForm({ weapon }: WeaponFormProps) {
   const router = useRouter();
-  const form = useForm<z.infer<typeof weaponInsertSchema>>({
-    resolver: zodResolver(weaponInsertSchema),
+  const form = useForm<z.infer<typeof weaponFormSchema>>({
+    resolver: zodResolver(weaponFormSchema),
     defaultValues: {
-      name: "",
-      heat: 0,
-      damage: 0,
-      range: "0/0/0/0",
+      id: weapon?.id || undefined,
+      name: weapon?.name || "",
+      heat: weapon?.heat || 0,
+      damage: weapon?.damage || 0,
+      range: weapon?.range || "0/0/0/0",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof weaponInsertSchema>) {
+  async function onSubmit(values: z.infer<typeof weaponFormSchema>) {
     try {
       await handleWeaponFormSubmit(values);
       router.push("/weapons");

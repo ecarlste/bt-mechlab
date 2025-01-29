@@ -1,4 +1,4 @@
-import { WeaponForm } from "./_components/weapon-form";
+import { WeaponForm } from "~/app/weapons/_components/weapon-form";
 
 export default async function WeaponsPage() {
   return (

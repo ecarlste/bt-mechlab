@@ -45,6 +45,10 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
     }
   };
 
+  const handleEdit = () => {
+    router.push(`/weapons/${weapon.id}/edit`);
+  };
+
   const handleDelete = async () => {
     const response = await handleDeleteWeapon(weapon.id);
 
@@ -67,7 +71,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSaveCopyOf}>Save a Copy</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log("Edit", weapon.name)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
             <DropdownMenuItem>
               <AlertDialogTrigger>Delete</AlertDialogTrigger>
             </DropdownMenuItem>

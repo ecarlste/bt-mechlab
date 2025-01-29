@@ -1,6 +1,5 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { sql } from "drizzle-orm";
 import { index, integer, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
@@ -34,8 +33,13 @@ export const weapons = createTable(
 
 export const weaponSelectSchema = createSelectSchema(weapons);
 export const weaponInsertSchema = createInsertSchema(weapons).omit({ id: true, createdAt: true, updatedAt: true });
-export const weaponUpdateSchema = createUpdateSchema(weapons);
+export const weaponUpdateSchema = createUpdateSchema(weapons).omit({ id: true, createdAt: true, updatedAt: true });
 export const weaponDeleteSchema = createUpdateSchema(weapons).pick({ id: true });
+export const weaponFormSchema = createSelectSchema(weapons)
+  .partial({ id: true })
+  .omit({ createdAt: true, updatedAt: true });
 
 export type Weapon = z.infer<typeof weaponSelectSchema>;
 export type WeaponInsert = z.infer<typeof weaponInsertSchema>;
+export type WeaponUpdate = z.infer<typeof weaponUpdateSchema>;
+export type WeaponFormData = z.infer<typeof weaponFormSchema>;
