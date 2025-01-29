@@ -77,7 +77,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Fix issue with data table row resize due to row actions dropdown
 - [x] Migrate project to use ESLint v9
 - [x] Implement edit weapon form (same as create weapon form)
-- [ ] Add armor/structure to mech locations in mech builder
+- [x] Implement weight allowance for mech in mech builder
+- [ ] Add internal structure to mech locations in mech builder
+- [ ] Add armor to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)

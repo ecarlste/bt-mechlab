@@ -1,8 +1,10 @@
 import { useDndMonitor } from "@dnd-kit/core";
+
+import { Location } from "~/app/mechbay/location";
+import { useEquipmentStore } from "~/app/mechbay/store";
+
 import MechEquipmentListItem from "./mech-equipment-list-item";
 import { MechEquipmentType } from "./mech-equipment-type";
-import { useEquipmentStore } from "../store";
-import { Location } from "../location";
 
 interface MechEquipmentListProps {
   equipment: MechEquipmentType[];

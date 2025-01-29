@@ -3,8 +3,10 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
 import MechBuildLocation from "./_components/mech-build-location";
+import MechBuildSummary from "./_components/mech-build-summary";
 import { MechEquipmentList } from "./_components/mech-equipment-list";
 import { MechEquipmentType } from "./_components/mech-equipment-type";
+
 import { Location } from "./location";
 import { useEquipmentStore } from "./store";
 
@@ -32,7 +34,10 @@ export default function MechBayPage() {
     <DndContext onDragEnd={handleDragEnd}>
       <div className="container mx-auto flex py-10">
         <div className="flex w-full space-x-1">
-          <MechEquipmentList equipment={equipment} />
+          <div>
+            <MechBuildSummary name="Marauder" variant="MAD-3R" tonnage={75} currentTonnage={70} />
+            <MechEquipmentList equipment={equipment} />
+          </div>
           <div className="w-full">
             <MechBuildLocation location={Location.RightArm} />
           </div>

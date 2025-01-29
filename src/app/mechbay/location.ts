@@ -29,3 +29,23 @@ export type MechEquipmentLocation = {
   installedEquipment: MechEquipmentType[];
   hasDraggableOver: boolean;
 };
+
+export enum InternalStructureTechnologyBase {
+  Standard = "Standard",
+  EndoSteel = "EndoSteel",
+}
+
+export function getInternalStructureTonnage(mechTonnage: number, technologyBase: InternalStructureTechnologyBase) {
+  switch (technologyBase) {
+    case InternalStructureTechnologyBase.Standard:
+      return mechTonnage * 0.1;
+    case InternalStructureTechnologyBase.EndoSteel:
+      return Math.ceil(mechTonnage * 0.1) / 2;
+  }
+}
+
+type LightMechTonnage = 20 | 25 | 30 | 35;
+type MediumMechTonnage = 40 | 45 | 50 | 55;
+type HeavyMechTonnage = 60 | 65 | 70 | 75;
+type AssaultMechTonnage = 80 | 85 | 90 | 95 | 100;
+export type MechTonnage = LightMechTonnage | MediumMechTonnage | HeavyMechTonnage | AssaultMechTonnage;

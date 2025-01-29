@@ -1,10 +1,20 @@
+import { toast } from "sonner";
 import { create } from "zustand";
 
 import { MechEquipmentType } from "./_components/mech-equipment-type";
-import { criticalSlots, Location, MechEquipmentLocation } from "./location";
-import { toast } from "sonner";
+
+import {
+  criticalSlots,
+  getInternalStructureTonnage,
+  InternalStructureTechnologyBase,
+  Location,
+  MechEquipmentLocation,
+  MechTonnage,
+} from "./location";
 
 interface EquipmentState {
+  mechTonnage: MechTonnage;
+  mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
   updateDraggableOver: (location: Location) => void;
@@ -15,6 +25,8 @@ interface EquipmentState {
 }
 
 export const useEquipmentStore = create<EquipmentState>()((set) => ({
+  mechTonnage: 75,
+  mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   draggableOver: undefined,
   equipmentLocations: {
     [Location.RightArm]: {
