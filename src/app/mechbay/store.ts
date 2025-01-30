@@ -26,10 +26,17 @@ interface EquipmentState {
   resetAllDraggableOver: () => void;
 }
 
-function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage) {
+function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): MechEquipmentLocation {
+  const internalStructure = getInternalStructureAmount(tonnage, location);
+  const maxArmor = location === Location.Head ? 9 : internalStructure * 2;
   return {
     id: location,
-    internalStructure: getInternalStructureAmount(tonnage, location),
+    internalStructure: internalStructure,
+    armor: {
+      maxArmor: maxArmor,
+      frontArmor: 0,
+      rearArmor: 0,
+    },
     criticalSlots: criticalSlots[location],
     criticalSlotsUsed: 0,
     installedEquipment: [],
