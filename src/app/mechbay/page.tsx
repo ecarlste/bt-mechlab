@@ -17,6 +17,7 @@ const equipment = [
 ];
 
 export default function MechBayPage() {
+  const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
   const addEquipment = useEquipmentStore((state) => state.addEquipment);
   const resetAllDraggableOver = useEquipmentStore((state) => state.resetAllDraggableOver);
 
@@ -39,22 +40,22 @@ export default function MechBayPage() {
             <MechEquipmentList equipment={equipment} />
           </div>
           <div className="w-full">
-            <MechBuildLocation location={Location.RightArm} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.RightArm]} />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation location={Location.RightTorso} />
-            <MechBuildLocation location={Location.RightLeg} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.RightTorso]} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.RightLeg]} />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation location={Location.Head} />
-            <MechBuildLocation location={Location.CenterTorso} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.Head]} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.CenterTorso]} />
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <MechBuildLocation location={Location.LeftTorso} />
-            <MechBuildLocation location={Location.LeftLeg} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.LeftTorso]} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.LeftLeg]} />
           </div>
           <div className="w-full">
-            <MechBuildLocation location={Location.LeftArm} />
+            <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.LeftArm]} />
           </div>
         </div>
       </div>

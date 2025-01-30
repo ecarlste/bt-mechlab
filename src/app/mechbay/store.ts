@@ -5,6 +5,7 @@ import { MechEquipmentType } from "./_components/mech-equipment-type";
 
 import {
   criticalSlots,
+  getInternalStructureAmount,
   getInternalStructureTonnage,
   InternalStructureTechnologyBase,
   Location,
@@ -13,7 +14,8 @@ import {
 } from "./location";
 
 interface EquipmentState {
-  mechTonnage: MechTonnage;
+  maxMechTonnage: MechTonnage;
+  currentMechTonnage: number;
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
@@ -24,67 +26,31 @@ interface EquipmentState {
   resetAllDraggableOver: () => void;
 }
 
+function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage) {
+  return {
+    id: location,
+    internalStructure: getInternalStructureAmount(tonnage, location),
+    criticalSlots: criticalSlots[location],
+    criticalSlotsUsed: 0,
+    installedEquipment: [],
+    hasDraggableOver: false,
+  };
+}
+
 export const useEquipmentStore = create<EquipmentState>()((set) => ({
-  mechTonnage: 75,
+  maxMechTonnage: 75,
+  currentMechTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   draggableOver: undefined,
   equipmentLocations: {
-    [Location.RightArm]: {
-      id: Location.RightArm,
-      criticalSlots: criticalSlots.rightArm,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.RightTorso]: {
-      id: Location.RightTorso,
-      criticalSlots: criticalSlots.rightTorso,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.RightLeg]: {
-      id: Location.RightLeg,
-      criticalSlots: criticalSlots.rightLeg,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.Head]: {
-      id: Location.Head,
-      criticalSlots: criticalSlots.head,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.CenterTorso]: {
-      id: Location.CenterTorso,
-      criticalSlots: criticalSlots.centerTorso,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.LeftTorso]: {
-      id: Location.LeftTorso,
-      criticalSlots: criticalSlots.leftTorso,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.LeftLeg]: {
-      id: Location.LeftLeg,
-      criticalSlots: criticalSlots.leftLeg,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
-    [Location.LeftArm]: {
-      id: Location.LeftArm,
-      criticalSlots: criticalSlots.leftArm,
-      criticalSlotsUsed: 0,
-      installedEquipment: [],
-      hasDraggableOver: false,
-    },
+    [Location.RightArm]: getInitialEquipmentLocation(Location.RightArm, 75),
+    [Location.RightTorso]: getInitialEquipmentLocation(Location.RightTorso, 75),
+    [Location.RightLeg]: getInitialEquipmentLocation(Location.RightLeg, 75),
+    [Location.Head]: getInitialEquipmentLocation(Location.Head, 75),
+    [Location.CenterTorso]: getInitialEquipmentLocation(Location.CenterTorso, 75),
+    [Location.LeftTorso]: getInitialEquipmentLocation(Location.LeftTorso, 75),
+    [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
+    [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
   updateDraggableOver: (location) =>
     set(() => ({
@@ -106,6 +72,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         };
 
         return {
+          currentMechTonnage: state.currentMechTonnage + equipment.weight,
           equipmentLocations: {
             ...state.equipmentLocations,
             [location]: updatedEquipmentLocation,
@@ -136,6 +103,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       };
 
       return {
+        currentMechTonnage: state.currentMechTonnage - equipmentToRemove.weight,
         equipmentLocations: {
           ...state.equipmentLocations,
           [location]: updatedEquipmentLocation,

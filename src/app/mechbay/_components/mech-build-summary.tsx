@@ -10,8 +10,8 @@ type MechBuildSummaryProps = {
 };
 
 function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
-  const tonnage = useEquipmentStore((state) => state.mechTonnage);
-  const currentTonnage = useEquipmentStore((state) => state.mechInternalStructureTonnage);
+  const mexMechTonnage = useEquipmentStore((state) => state.maxMechTonnage);
+  const currentMechTonnage = useEquipmentStore((state) => state.currentMechTonnage);
 
   return (
     <div className="p-4 py-2 rounded-md border-2 flex justify-between">
@@ -19,7 +19,7 @@ function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
         {name} {variant}
       </span>
       <span className="text-lg font-semibold">
-        {currentTonnage}/{tonnage}
+        {currentMechTonnage}/{mexMechTonnage}
       </span>
     </div>
   );

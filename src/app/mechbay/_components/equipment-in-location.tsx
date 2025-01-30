@@ -8,24 +8,23 @@ import { cn } from "~/lib/utils";
 
 import { Button } from "~/components/ui/button";
 
-import { Location, MechEquipmentLocation } from "../location";
+import { MechEquipmentLocation } from "../location";
 import { useEquipmentStore } from "../store";
 
 interface EquipmentInLocationProps {
-  location: Location;
+  equipmentLocation: MechEquipmentLocation;
 }
 
-export default function EquipmentInLocation({ location }: EquipmentInLocationProps) {
-  const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
+export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLocationProps) {
   const removeEquipment = useEquipmentStore((state) => state.removeEquipment);
 
   const { setNodeRef } = useDroppable({
-    id: location,
+    id: equipmentLocation.id,
   });
 
   function handleRemoveItem(e: MouseEvent) {
     const idToRemove = (e.target as HTMLElement).id;
-    removeEquipment(location, idToRemove);
+    removeEquipment(equipmentLocation.id, idToRemove);
   }
 
   function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
@@ -63,7 +62,7 @@ export default function EquipmentInLocation({ location }: EquipmentInLocationPro
 
   return (
     <div ref={setNodeRef} className="border-t-2">
-      {renderEquipmentInLocation(mechEquipmentLocations[location])}
+      {renderEquipmentInLocation(equipmentLocation)}
     </div>
   );
 }
