@@ -158,3 +158,15 @@ export function getInternalStructureAmount(mechTonnage: MechTonnage, mechLocatio
       return legInternalStructure[mechTonnage];
   }
 }
+
+export function getCurrentTotalMechArmor(equipmentLocations: MechEquipmentLocation[]) {
+  return equipmentLocations.reduce((acc, location) => {
+    return acc + location.armor.frontArmor + location.armor.rearArmor;
+  }, 0);
+}
+
+export function getMechArmorTonnage(totalArmor: number) {
+  // 1 ton of armor = 16 points of armor
+  // round up to the nearest half ton
+  return Math.ceil((totalArmor / 16) * 2) / 2;
+}

@@ -4,9 +4,12 @@ import { create } from "zustand";
 import { MechEquipmentType } from "./_components/mech-equipment-type";
 
 import {
+  ArmorSide,
   criticalSlots,
+  getCurrentTotalMechArmor,
   getInternalStructureAmount,
   getInternalStructureTonnage,
+  getMechArmorTonnage,
   InternalStructureTechnologyBase,
   Location,
   MechEquipmentLocation,
@@ -19,6 +22,7 @@ interface EquipmentState {
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
+  changeMechArmorInLocationBy: (location: Location, armorSide: ArmorSide, amount: number) => void;
   updateDraggableOver: (location: Location) => void;
   addEquipment: (location: Location, equipment: MechEquipmentType) => void;
   removeEquipment: (location: Location, equipmentId: string) => void;
@@ -59,6 +63,50 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
+  changeMechArmorInLocationBy: (location, armorSide, amount) =>
+    set((state) => {
+      const mechEquipmentLocation = state.equipmentLocations[location];
+      if (!mechEquipmentLocation) {
+        throw new Error(`Location ${location} does not exist in the store`);
+      }
+
+      const currentSideArmor = mechEquipmentLocation.armor[armorSide];
+      const maxLocationArmor = mechEquipmentLocation.armor.maxArmor;
+      const newLocationArmor = mechEquipmentLocation.armor.frontArmor + mechEquipmentLocation.armor.rearArmor + amount;
+      const amountNeededForMaxLocationArmor = maxLocationArmor - newLocationArmor;
+
+      let newSideArmor = currentSideArmor + amount;
+      if (amountNeededForMaxLocationArmor < 0) {
+        newSideArmor = newSideArmor + amountNeededForMaxLocationArmor;
+      } else if (currentSideArmor + amount < 0) {
+        newSideArmor = 0;
+      }
+
+      let currentMechTonnage = state.currentMechTonnage;
+      if (newSideArmor !== currentSideArmor) {
+        const currentTotalMechArmor = getCurrentTotalMechArmor(Object.values(state.equipmentLocations));
+        const currentTotalMechAmrmorTonnage = getMechArmorTonnage(currentTotalMechArmor);
+
+        const newTotalMechArmor = currentTotalMechArmor - currentSideArmor + newSideArmor;
+        const newTotalMechArmorTonnage = getMechArmorTonnage(newTotalMechArmor);
+
+        currentMechTonnage = currentMechTonnage + newTotalMechArmorTonnage - currentTotalMechAmrmorTonnage;
+      }
+
+      return {
+        currentMechTonnage: currentMechTonnage,
+        equipmentLocations: {
+          ...state.equipmentLocations,
+          [location]: {
+            ...mechEquipmentLocation,
+            armor: {
+              ...mechEquipmentLocation.armor,
+              [armorSide]: newSideArmor,
+            },
+          },
+        },
+      };
+    }),
   updateDraggableOver: (location) =>
     set(() => ({
       draggableOver: location,
