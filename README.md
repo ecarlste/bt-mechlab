@@ -82,7 +82,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Add internal structure to mech locations in mech builder
 - [x] Syle internal structure rendering
 - [x] Add armor to mech locations in mech builder
-- [ ] Get add and remove armor buttons working in mech builder on mech locations
+- [x] Get add and remove armor buttons working in mech builder on mech locations
 - [ ] Ensure mech weight is updated when adding/removing armor
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder

@@ -35,7 +35,13 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
         <div className="flex w-full items-center border-b bg-blue-800" key={index} style={{ height }}>
           <div className="flex h-9 w-full items-center justify-between whitespace-nowrap p-2 pl-4 text-sm font-medium text-secondary-foreground">
             {item.name}
-            <Button variant="ghost" size="icon" className="h-4 w-4" onClick={handleRemoveItem} id={item.id}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-4 w-4 hover:bg-primary/25 cursor-pointer"
+              onClick={handleRemoveItem}
+              id={item.id}
+            >
               <SquareX />
             </Button>
           </div>
@@ -48,10 +54,7 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
     for (let i = 0; i < freeSlots; i++) {
       equipped.push(
         <div
-          className={cn(
-            "flex h-9 w-full border-b",
-            equipmentLocation.hasDraggableOver ? "bg-green-100 bg-opacity-5" : "",
-          )}
+          className={cn("flex h-9 w-full border-b", equipmentLocation.hasDraggableOver ? "bg-primary/25" : "")}
           key={i + slotsUsed}
         ></div>,
       );

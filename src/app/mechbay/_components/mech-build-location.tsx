@@ -1,14 +1,15 @@
-import { MechEquipmentLocation, Location } from "../location";
+import { MechEquipmentLocation, Location, ArmorSide } from "../location";
 import EquipmentInLocation from "./equipment-in-location";
+import MechBuildLocationArmorAdjuster from "./mech-build-location-armor-adjuster";
 
 interface MechBuildLocationProps {
   equipmentLocation: MechEquipmentLocation;
 }
 
+const locationsWithRearArmor = [Location.CenterTorso, Location.RightTorso, Location.LeftTorso];
+
 export default function MechBuildLocation({ equipmentLocation }: MechBuildLocationProps) {
   const locationName = equipmentLocation.id.replace(/([A-Z])/g, " $1").trim();
-
-  const locationsWithRearArmor = [Location.CenterTorso, Location.RightTorso, Location.LeftTorso];
   const enableRearArmor = locationsWithRearArmor.includes(equipmentLocation.id as Location);
 
   return (
@@ -24,15 +25,17 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
                 {equipmentLocation.armor.maxArmor}
               </span>
             </div>
-            <div className="flex justify-between">
-              <span>Front</span>
-              <span>{equipmentLocation.armor.frontArmor}</span>
-            </div>
+            <MechBuildLocationArmorAdjuster
+              armor={equipmentLocation.armor}
+              location={equipmentLocation.id as Location}
+              armorSide={ArmorSide.FrontArmor}
+            />
             {enableRearArmor && (
-              <div className="flex justify-between">
-                <span>Rear</span>
-                <span>{equipmentLocation.armor.rearArmor}</span>
-              </div>
+              <MechBuildLocationArmorAdjuster
+                armor={equipmentLocation.armor}
+                location={equipmentLocation.id as Location}
+                armorSide={ArmorSide.RearArmor}
+              />
             )}
           </div>
           <div className="px-2 py-0.5 text-sm flex justify-between bg-accent/50 rounded-sm">

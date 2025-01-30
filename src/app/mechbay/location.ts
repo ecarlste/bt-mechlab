@@ -22,12 +22,12 @@ export const criticalSlots = {
   leftArm: 8,
 };
 
-enum ArmorSide {
+export enum ArmorSide {
   FrontArmor = "frontArmor",
   RearArmor = "rearArmor",
 }
 
-type MechEquipmentLocationArmor = {
+export type MechEquipmentLocationArmor = {
   maxArmor: number;
   [ArmorSide.FrontArmor]: number;
   [ArmorSide.RearArmor]: number;
