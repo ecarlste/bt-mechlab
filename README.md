@@ -80,7 +80,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Implement weight allowance for mech in mech builder
 - [x] Weapons add/remove their weight to currentMechTonnage state variable
 - [x] Add internal structure to mech locations in mech builder
-- [ ] Syle internal structure rendering
+- [x] Syle internal structure rendering
 - [ ] Add armor to mech locations in mech builder
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder

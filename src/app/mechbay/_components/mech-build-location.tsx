@@ -10,10 +10,12 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
 
   return (
     <div className="w-full rounded-t-md border-2 border-b text-center">
-      <h2 className="py-2 text-lg font-semibold capitalize tracking-tight">{locationName}</h2>
-      <div className="flex justify-between">
-        <span>Structure</span>
-        <span>{equipmentLocation.internalStructure}</span>
+      <div className="pt-2 px-2 pb-1">
+        <h2 className="text-lg font-semibold capitalize tracking-tight">{locationName}</h2>
+        <div className="px-2 py-0.5 text-sm flex justify-between bg-accent/50 rounded-sm">
+          <span>Structure</span>
+          <span>{equipmentLocation.internalStructure}</span>
+        </div>
       </div>
       <EquipmentInLocation equipmentLocation={equipmentLocation} />
     </div>
