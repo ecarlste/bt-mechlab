@@ -25,7 +25,9 @@ export default function MechBuildLocationArmorAdjuster({
     .trim()
     .split(" ")[0];
 
-  const armorAdjustButtonCn = cn("h-3.5 w-3.5 hover:bg-primary/25 rounded-xs cursor-pointer");
+  const armorAdjustButtonSharedCn = "h-3.5 w-3.5";
+  const armorAdjustButtonCn = cn(armorAdjustButtonSharedCn, "hover:bg-primary/25 rounded-xs cursor-pointer");
+  const armorAdjustButtonDisabledCn = cn(armorAdjustButtonSharedCn, "cursor-not-allowed opacity-20");
 
   function handleRemoveArmor(e: React.MouseEvent<SVGSVGElement>) {
     e.preventDefault();
@@ -43,13 +45,25 @@ export default function MechBuildLocationArmorAdjuster({
     e.preventDefault();
   }
 
+  function hasMaxArmor() {
+    return armor[ArmorSide.FrontArmor] + armor[ArmorSide.RearArmor] >= armor.maxArmor;
+  }
+
   return (
     <div className="px-2 flex justify-between">
       <span className="capitalize">{armorName}</span>
       <div className="flex space-x-1.5 items-center">
-        <SquareMinus className={armorAdjustButtonCn} onMouseDown={preventTextSelection} onClick={handleRemoveArmor} />
+        <SquareMinus
+          className={armor[armorSide] === 0 ? armorAdjustButtonDisabledCn : armorAdjustButtonCn}
+          onMouseDown={preventTextSelection}
+          onClick={armor[armorSide] === 0 ? preventTextSelection : handleRemoveArmor}
+        />
         <span className="w-6">{armor[armorSide]}</span>
-        <SquarePlus className={armorAdjustButtonCn} onMouseDown={preventTextSelection} onClick={handleAddArmor} />
+        <SquarePlus
+          className={hasMaxArmor() ? armorAdjustButtonDisabledCn : armorAdjustButtonCn}
+          onMouseDown={preventTextSelection}
+          onClick={hasMaxArmor() ? preventTextSelection : handleAddArmor}
+        />
       </div>
     </div>
   );
