@@ -42,7 +42,7 @@ export default function MechBayPage() {
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={handleDragEnd} id="mech-bay-dnd-context">
       <div className="container mx-auto flex py-10">
         <div className="flex w-full space-x-1">
           <div>
