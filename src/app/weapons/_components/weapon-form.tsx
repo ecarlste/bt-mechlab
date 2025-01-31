@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { WeaponFormData, weaponFormSchema, WeaponTypeEnum } from "~/server/db/schema";
+import { TechnologyRatingEnum, WeaponFormData, weaponFormSchema, WeaponTypeEnum } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
@@ -133,6 +133,31 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
                 </SelectContent>
               </Select>
               <FormDescription>The type of the weapon.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="techRating"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Technology Rating</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a technology rating" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(TechnologyRatingEnum).map(([key, value]) => (
+                    <SelectItem key={key} value={value}>
+                      {value} - {key}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>The technology rating of the weapon.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
