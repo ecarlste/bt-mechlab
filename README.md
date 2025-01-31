@@ -86,8 +86,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Ensure mech weight is updated when adding/removing armor
 - [x] Disable increase/decrease armor buttons when they would not do anything
 - [x] Add max armor, strip equipment, ~~strip armor~~, ~~and strip mech~~ buttons
-- [ ] Add tech rating to weapons via db schema (add to weapon form and weapon table)
-- [ ] Add weapon category/subcategory via db schema (add to weapon form and weapon table)
+- [x] Add tech rating to weapons via db schema (add to weapon form and weapon table)
+- [x] Add weapon type ~~category/subcategory~~ via db schema (add to weapon form and weapon table)
+- [ ] Enable weapon table filtering based on WeaponType/TechRating
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)
