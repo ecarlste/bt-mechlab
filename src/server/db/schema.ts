@@ -13,16 +13,24 @@ import { z } from "zod";
  */
 export const createTable = pgTableCreator((name) => `bt-mechlab_${name}`);
 
-export enum WeaponEnum {
+export enum WeaponTypeEnum {
   Ballistic = "ballistic",
   Energy = "energy",
   Missile = "missile",
 }
-
-const weaponEnumValues = Object.values(WeaponEnum) as [string, ...string[]];
-
+const weaponEnumValues = Object.values(WeaponTypeEnum) as [string, ...string[]];
 export const weaponTypeEnum = pgEnum("weapon_type", weaponEnumValues);
-export const technologyRatingEnum = pgEnum("technology_rating", ["A", "B", "C", "D", "E", "F"]);
+
+export enum TechnologyRatingEnum {
+  Primitive = "A",
+  LowTech = "B",
+  CommonTech = "C",
+  HighTech = "D",
+  Advanced = "E",
+  HyperAdvanced = "F",
+}
+const technologyRatingEnumValues = Object.values(TechnologyRatingEnum) as [string, ...string[]];
+export const technologyRatingEnum = pgEnum("technology_rating", technologyRatingEnumValues);
 
 export const weapons = createTable("weapon", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
