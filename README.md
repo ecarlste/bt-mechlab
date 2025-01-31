@@ -85,6 +85,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Get add and remove armor buttons working in mech builder on mech locations
 - [x] Ensure mech weight is updated when adding/removing armor
 - [ ] Disable increase/decrease armor buttons when they would not do anything
+- [ ] Add max armor, strip armor, and strip mech buttons
 - [ ] Enable Equipment list loading from the db for weapons
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)

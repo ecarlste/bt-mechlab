@@ -14,13 +14,17 @@ function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
   const currentMechTonnage = useEquipmentStore((state) => state.currentMechTonnage);
 
   return (
-    <div className="p-4 py-2 rounded-md border-2 flex justify-between">
-      <span className="text-lg font-semibold">
-        {name} {variant}
-      </span>
-      <span className="text-lg font-semibold">
-        {currentMechTonnage}/{mexMechTonnage}
-      </span>
+    <div className="p-2 rounded-md border-2 flex flex-col">
+      <div className="flex justify-between text-lg font-semibold border-b-2 pb-1 px-1">
+        <span>{name}</span>
+        <span>{variant}</span>
+      </div>
+      <div className="flex justify-between pt-1 px-2">
+        <span>Weight:</span>
+        <span>
+          {currentMechTonnage}/{mexMechTonnage}
+        </span>
+      </div>
     </div>
   );
 }
