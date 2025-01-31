@@ -50,6 +50,9 @@ export const columns: ColumnDef<Weapon>[] = [
 
       return <span className="capitalize">{weaponTypeValue}</span>;
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "techRating",
@@ -59,6 +62,9 @@ export const columns: ColumnDef<Weapon>[] = [
       const techRatingKey = getTechnologyRatingKeyByValue(techRatingValue);
 
       return <span>{techRatingKey}</span>;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {

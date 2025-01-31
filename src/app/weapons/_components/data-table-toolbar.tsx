@@ -1,15 +1,22 @@
 "use client";
 
 import { Table } from "@tanstack/react-table";
-import { SquarePlus } from "lucide-react";
+import { SquarePlus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { cn } from "~/lib/utils";
 
+import { TechnologyRatingEnum, WeaponTypeEnum } from "~/server/db/schema";
+
+import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
+
+const weaponTypes = Object.entries(WeaponTypeEnum).map(([key, value]) => ({ value, label: key }));
+const techRatings = Object.entries(TechnologyRatingEnum).map(([key, value]) => ({ value, label: key }));
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -19,14 +26,30 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table, enableAdmin = false }: DataTableToolbarProps<TData>) {
   const router = useRouter();
 
+  const isFiltered = table.getState().columnFilters.length > 0;
+
   return (
     <div className="flex items-center justify-between">
-      <Input
-        placeholder="Filter weapons..."
-        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-        onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
-        className="h-8 w-[150px] lg:w-[250px]"
-      />
+      <div className="flex flex-1 items-center space-x-2">
+        <Input
+          placeholder="Filter weapons..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+          className="h-8 w-[150px] lg:w-[250px]"
+        />
+        {table.getColumn("weaponType") && (
+          <DataTableFacetedFilter column={table.getColumn("weaponType")} title="Type" options={weaponTypes} />
+        )}
+        {table.getColumn("techRating") && (
+          <DataTableFacetedFilter column={table.getColumn("techRating")} title="Tech Rating" options={techRatings} />
+        )}
+        {isFiltered && (
+          <Button variant="ghost" onClick={() => table.resetColumnFilters()} className="h-8 px-2 lg:px-3">
+            Reset
+            <X />
+          </Button>
+        )}
+      </div>
       <div className="flex items-center space-x-2">
         <Tooltip>
           <TooltipTrigger>
