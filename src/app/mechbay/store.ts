@@ -23,9 +23,11 @@ interface EquipmentState {
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
   changeMechArmorInLocationBy: (location: Location, armorSide: ArmorSide, amount: number) => void;
+  maxAllArmor: () => void;
   updateDraggableOver: (location: Location) => void;
   addEquipment: (location: Location, equipment: MechEquipmentType) => void;
   removeEquipment: (location: Location, equipmentId: string) => void;
+  removeAllEquipment: () => void;
   enableDraggableOver: (location: Location) => void;
   resetAllDraggableOver: () => void;
 }
@@ -63,6 +65,35 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
+  maxAllArmor: () =>
+    set((state) => {
+      const updatedEquipmentLocations = { ...state.equipmentLocations };
+      let totalArmor = 0;
+      Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
+        if ([Location.LeftTorso, Location.RightTorso].includes(equipmentLocation.id)) {
+          const oneFourthMaxArmor = Math.floor(equipmentLocation.armor.maxArmor / 4);
+          const remainder = equipmentLocation.armor.maxArmor % 4;
+
+          equipmentLocation.armor.frontArmor = oneFourthMaxArmor * 3 + remainder;
+          equipmentLocation.armor.rearArmor = oneFourthMaxArmor;
+        } else if (equipmentLocation.id === Location.CenterTorso) {
+          const oneFifthMaxArmor = Math.floor(equipmentLocation.armor.maxArmor / 5);
+          const remainder = equipmentLocation.armor.maxArmor % 5;
+
+          equipmentLocation.armor.frontArmor = oneFifthMaxArmor * 4 + remainder;
+          equipmentLocation.armor.rearArmor = oneFifthMaxArmor;
+        } else {
+          equipmentLocation.armor.frontArmor = equipmentLocation.armor.maxArmor;
+        }
+
+        totalArmor += equipmentLocation.armor.frontArmor + equipmentLocation.armor.rearArmor;
+      });
+
+      return {
+        currentMechTonnage: state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor),
+        equipmentLocations: updatedEquipmentLocations,
+      };
+    }),
   changeMechArmorInLocationBy: (location, armorSide, amount) =>
     set((state) => {
       const mechEquipmentLocation = state.equipmentLocations[location];
@@ -163,6 +194,21 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
           ...state.equipmentLocations,
           [location]: updatedEquipmentLocation,
         },
+      };
+    }),
+  removeAllEquipment: () =>
+    set((state) => {
+      const updatedEquipmentLocations = { ...state.equipmentLocations };
+      Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
+        equipmentLocation.installedEquipment = [];
+        equipmentLocation.criticalSlotsUsed = 0;
+      });
+
+      const totalArmor = getCurrentTotalMechArmor(Object.values(updatedEquipmentLocations));
+
+      return {
+        currentMechTonnage: state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor),
+        equipmentLocations: updatedEquipmentLocations,
       };
     }),
   enableDraggableOver: (location) =>

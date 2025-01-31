@@ -2,6 +2,8 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
+import { Button } from "~/components/ui/button";
+
 import MechBuildLocation from "./_components/mech-build-location";
 import MechBuildSummary from "./_components/mech-build-summary";
 import { MechEquipmentList } from "./_components/mech-equipment-list";
@@ -31,12 +33,24 @@ export default function MechBayPage() {
     }
   }
 
+  function handleMaxArmor(): void {
+    useEquipmentStore.getState().maxAllArmor();
+  }
+
+  function handleStripEquipment(): void {
+    useEquipmentStore.getState().removeAllEquipment();
+  }
+
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div className="container mx-auto flex py-10">
         <div className="flex w-full space-x-1">
           <div>
             <MechBuildSummary name="Marauder" variant="MAD-3R" tonnage={75} currentTonnage={70} />
+            <div className="flex flex-col space-y-1.5 p-2 pt-3">
+              <Button onClick={handleStripEquipment}>Strip Equipment</Button>
+              <Button onClick={handleMaxArmor}>Max Armor</Button>
+            </div>
             <MechEquipmentList equipment={equipment} />
           </div>
           <div className="w-full">
