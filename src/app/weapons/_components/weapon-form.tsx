@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { WeaponFormData, weaponFormSchema } from "~/server/db/schema";
+import { WeaponFormData, weaponFormSchema, WeaponTypeEnum } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 
 import { handleWeaponFormSubmit } from "../actions";
 
@@ -22,11 +23,13 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
   const form = useForm<z.infer<typeof weaponFormSchema>>({
     resolver: zodResolver(weaponFormSchema),
     defaultValues: {
-      id: weapon?.id || undefined,
+      id: weapon?.id,
       name: weapon?.name || "",
       heat: weapon?.heat || 0,
       damage: weapon?.damage || 0,
       range: weapon?.range || "0/0/0/0",
+      weaponType: weapon?.weaponType,
+      techRating: weapon?.techRating,
     },
   });
 
@@ -42,6 +45,7 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* <form onSubmit={() => console.log("I hit submit")} className="space-y-8"> */}
         <FormField
           control={form.control}
           name="name"
@@ -104,6 +108,31 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
                 <Input placeholder="" {...field} />
               </FormControl>
               <FormDescription>The range of the weapon.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="weaponType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Weapon Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a weapon type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.values(WeaponTypeEnum).map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>The type of the weapon.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
