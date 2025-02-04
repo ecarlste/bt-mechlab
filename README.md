@@ -91,7 +91,18 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Enable weapon table filtering based on WeaponType/TechRating
 - [x] Enable Equipment list loading from the db for weapons
 - [x] Add filters to the equipment list on the mech builder
+- [ ] Implement colors for different weapon types in mech builder
+- [ ] Get filters on mech builder working
 - [ ] Equipment list should be in a scrollable area
+- [ ] Implement hand actuators in mech builder
+- [ ] Implement lower arm actuators in mech builder
+- [ ] Implement engines in mech builder
+- [ ] Implement jump jets in mech builder
+- [ ] Implement gyroscope in mech builder
+- [ ] Implement basic cockpit in mech builder
+- [ ] Implement location mounted additiona heat sinks in mech builder
+- [ ] Implement weapon ammunition in mech builder
+- [ ] Implement integrated engine heat sinks
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
