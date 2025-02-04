@@ -1,6 +1,3 @@
-export type MechEquipmentType = {
-  id: number;
-  name: string;
-  weight: number;
-  criticalSlots: number;
-};
+import { Weapon } from "~/server/db/schema";
+
+export type MechEquipmentType = Weapon;
