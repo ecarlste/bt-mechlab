@@ -28,15 +28,20 @@ export default function MechEquipmentListItem({ item }: MechEquipmentListItemPro
     : { cursor: "pointer" };
 
   const bgColor = weaponTypeColors[item.weaponType as WeaponTypeEnum] || "";
+  const draggableWidth = isDragging ? "w-60" : "";
 
-  const className = cn(
-    bgColor,
-    "mb-1 h-9 whitespace-nowrap px-4 py-2 text-sm font-medium text-secondary-foreground w-60",
-  );
+  const className = cn(bgColor, "mb-1 h-9 whitespace-nowrap px-4 py-2 text-sm font-medium text-secondary-foreground");
 
   return (
     <>
-      <div ref={setNodeRef} style={style} key={item.name} className={className} {...listeners} {...attributes}>
+      <div
+        ref={setNodeRef}
+        style={style}
+        key={item.name}
+        className={cn(draggableWidth, className)}
+        {...listeners}
+        {...attributes}
+      >
         {item.name}
       </div>
       {isDragging && (

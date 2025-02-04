@@ -41,7 +41,7 @@ function MechBuilder({ equipment: weapons }: MechBuilderProps) {
   return (
     <DndContext onDragEnd={handleDragEnd} id="mech-bay-dnd-context">
       <div className="flex w-full space-x-1">
-        <div>
+        <div className="w-full">
           <MechBuildSummary name="Marauder" variant="MAD-3R" tonnage={75} currentTonnage={70} />
           <div className="flex flex-col space-y-1.5 p-2 pt-3">
             <Button onClick={handleStripEquipment}>Strip Equipment</Button>

@@ -8,9 +8,13 @@ import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 import { Location } from "~/app/mechbay/location";
 import { useEquipmentStore } from "~/app/mechbay/store";
 
+import { Button } from "~/components/ui/button";
+
 import MechEquipmentListFilterButton from "./mech-equipment-list-filter-button";
 import MechEquipmentListItem from "./mech-equipment-list-item";
 import { MechEquipmentType } from "./mech-equipment-type";
+
+const equipmentListPageSize = 10;
 
 enum WeaponAndEquipmentFilter {
   All = "All",
@@ -32,6 +36,13 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
 
   const [filter, setFilter] = useState(WeaponAndEquipmentFilter.All);
   const [filteredEquipment, setFilteredEquipment] = useState(equipment);
+  const [equipmentListPageItems, setEquipmentListPageItems] = useState(
+    getPageItems(equipment, equipmentListPageSize, 1),
+  );
+  const [equipmentListPage, setEquipmentListPage] = useState(1);
+  const [lastEquipmentListPage, setLastEquipmentListPage] = useState(
+    Math.ceil(equipment.length / equipmentListPageSize),
+  );
 
   useDndMonitor({
     onDragMove: (event) => {
@@ -51,15 +62,33 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
   function handleSetFilter(filter: WeaponAndEquipmentFilter) {
     setFilter(filter);
 
+    let newFilteredEquipment: MechEquipmentType[] = [];
     if (filter === WeaponAndEquipmentFilter.All) {
-      setFilteredEquipment(equipment);
+      newFilteredEquipment = equipment;
     } else if (filter === WeaponAndEquipmentFilter.BallisticWeapons) {
-      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Ballistic));
+      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Ballistic);
     } else if (filter === WeaponAndEquipmentFilter.EnergyWeapons) {
-      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Energy));
+      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Energy);
     } else if (filter === WeaponAndEquipmentFilter.MissileWeapons) {
-      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Missile));
+      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Missile);
     }
+
+    setFilteredEquipment(newFilteredEquipment);
+    setEquipmentListPage(1);
+    setLastEquipmentListPage(Math.ceil(newFilteredEquipment.length / equipmentListPageSize));
+    setEquipmentListPageItems(getPageItems(newFilteredEquipment, equipmentListPageSize, 1));
+  }
+
+  function handlePreviousPage() {
+    const newPage = equipmentListPage - 1;
+    setEquipmentListPage(newPage);
+    setEquipmentListPageItems(getPageItems(filteredEquipment, equipmentListPageSize, newPage));
+  }
+
+  function handleNextPage() {
+    const newPage = equipmentListPage + 1;
+    setEquipmentListPage(newPage);
+    setEquipmentListPageItems(getPageItems(filteredEquipment, equipmentListPageSize, newPage));
   }
 
   return (
@@ -93,10 +122,29 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
         /> */}
       </div>
       <div>
-        {filteredEquipment.map((item) => (
+        {equipmentListPageItems.map((item) => (
           <MechEquipmentListItem key={item.name} item={item} />
         ))}
       </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={equipmentListPage <= 1}>
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleNextPage}
+          disabled={equipmentListPage >= lastEquipmentListPage}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
+}
+
+function getPageItems(list: MechEquipmentType[], pageSize: number, page: number) {
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  return list.slice(startIndex, endIndex);
 }
