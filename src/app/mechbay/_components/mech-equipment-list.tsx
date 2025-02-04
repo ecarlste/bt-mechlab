@@ -3,6 +3,8 @@
 import { useDndMonitor } from "@dnd-kit/core";
 import { useState } from "react";
 
+import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
+
 import { Location } from "~/app/mechbay/location";
 import { useEquipmentStore } from "~/app/mechbay/store";
 
@@ -29,6 +31,7 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
   const resetAllDraggableOver = useEquipmentStore((state) => state.resetAllDraggableOver);
 
   const [filter, setFilter] = useState(WeaponAndEquipmentFilter.All);
+  const [filteredEquipment, setFilteredEquipment] = useState(equipment);
 
   useDndMonitor({
     onDragMove: (event) => {
@@ -47,6 +50,16 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
 
   function handleSetFilter(filter: WeaponAndEquipmentFilter) {
     setFilter(filter);
+
+    if (filter === WeaponAndEquipmentFilter.All) {
+      setFilteredEquipment(equipment);
+    } else if (filter === WeaponAndEquipmentFilter.BallisticWeapons) {
+      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Ballistic));
+    } else if (filter === WeaponAndEquipmentFilter.EnergyWeapons) {
+      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Energy));
+    } else if (filter === WeaponAndEquipmentFilter.MissileWeapons) {
+      setFilteredEquipment(equipment.filter((item) => item.weaponType === WeaponTypeEnum.Missile));
+    }
   }
 
   return (
@@ -73,14 +86,14 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
           text={WeaponAndEquipmentFilter.MissileWeapons}
           setFilter={() => handleSetFilter(WeaponAndEquipmentFilter.MissileWeapons)}
         />
-        <MechEquipmentListFilterButton
+        {/* <MechEquipmentListFilterButton
           filter={filter}
           text={WeaponAndEquipmentFilter.Equipment}
           setFilter={() => handleSetFilter(WeaponAndEquipmentFilter.Equipment)}
-        />
+        /> */}
       </div>
       <div>
-        {equipment.map((item) => (
+        {filteredEquipment.map((item) => (
           <MechEquipmentListItem key={item.name} item={item} />
         ))}
       </div>

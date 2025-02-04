@@ -93,7 +93,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Add filters to the equipment list on the mech builder
 - [x] Implement colors for different weapon types in mech builder
 - [x] Mech weapon colors persist when placed in locations
-- [ ] Get filters on mech builder working
+- [x] Get filters on mech builder working
 - [ ] Equipment list should be in a scrollable area
 - [ ] Fix weapon form not submitting due to missing default values
 - [ ] Implement hand actuators in mech builder
