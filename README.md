@@ -29,6 +29,27 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
+- [ ] Fix weapon form not submitting due to missing default values
+- [ ] Implement hand actuators in mech builder
+- [ ] Implement lower arm actuators in mech builder
+- [ ] Implement engines in mech builder
+- [ ] Implement jump jets in mech builder
+- [ ] Implement gyroscope in mech builder
+- [ ] Implement basic cockpit in mech builder
+- [ ] Implement location mounted additiona heat sinks in mech builder
+- [ ] Implement weapon ammunition in mech builder
+- [ ] Implement integrated engine heat sinks
+- [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
+- [ ] Redesign weapon create/edit form (modal?)
+- [ ] Routing/weapon details page (modal?)
+- [ ] Analytics (posthog)
+- [ ] Ratelimiting (upstash)
+- [ ] Configure Lighthouse CI metrics
+- [ ] Finish mobile menu
+- [ ] Update site favicon
+
+## DONE
+
 - [x] Make it deploy (vercel)
 - [x] Scaffold basic ui with mock data
 - [x] Tidy up build process
@@ -95,21 +116,3 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Mech weapon colors persist when placed in locations
 - [x] Get filters on mech builder working
 - [x] Set up pagination for mech builder equipment list
-- [ ] Fix weapon form not submitting due to missing default values
-- [ ] Implement hand actuators in mech builder
-- [ ] Implement lower arm actuators in mech builder
-- [ ] Implement engines in mech builder
-- [ ] Implement jump jets in mech builder
-- [ ] Implement gyroscope in mech builder
-- [ ] Implement basic cockpit in mech builder
-- [ ] Implement location mounted additiona heat sinks in mech builder
-- [ ] Implement weapon ammunition in mech builder
-- [ ] Implement integrated engine heat sinks
-- [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
-- [ ] Redesign weapon create/edit form (modal?)
-- [ ] Routing/weapon details page (modal?)
-- [ ] Analytics (posthog)
-- [ ] Ratelimiting (upstash)
-- [ ] Configure Lighthouse CI metrics
-- [ ] Finish mobile menu
-- [ ] Update site favicon
