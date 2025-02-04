@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { TechnologyRatingEnum, WeaponTypeEnum } from "~/server/db/schema";
+import { TechnologyRatingEnum, Weapon, WeaponTypeEnum } from "~/server/db/schema";
 
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
@@ -13,16 +13,6 @@ function getTechnologyRatingKeyByValue(value: string): string | undefined {
     (key) => TechnologyRatingEnum[key as keyof typeof TechnologyRatingEnum] === value,
   );
 }
-
-export type Weapon = {
-  id: number;
-  name: string;
-  heat: number;
-  damage: number;
-  range: string;
-  weaponType: WeaponTypeEnum;
-  techRating: TechnologyRatingEnum;
-};
 
 export const columns: ColumnDef<Weapon>[] = [
   {

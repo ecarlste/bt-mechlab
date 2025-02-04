@@ -89,7 +89,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [x] Add tech rating to weapons via db schema (add to weapon form and weapon table)
 - [x] Add weapon type ~~category/subcategory~~ via db schema (add to weapon form and weapon table)
 - [x] Enable weapon table filtering based on WeaponType/TechRating
-- [ ] Enable Equipment list loading from the db for weapons
+- [x] Enable Equipment list loading from the db for weapons
+- [x] Add filters to the equipment list on the mech builder
+- [ ] Equipment list should be in a scrollable area
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)

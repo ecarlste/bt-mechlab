@@ -1,5 +1,5 @@
 export type MechEquipmentType = {
-  id?: string;
+  id: number;
   name: string;
   weight: number;
   criticalSlots: number;

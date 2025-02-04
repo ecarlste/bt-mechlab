@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 import { relations, sql } from "drizzle-orm";
-import { integer, pgEnum, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTableCreator, real, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -38,6 +38,9 @@ export const weapons = createTable("weapon", {
   heat: integer("heat").notNull(),
   damage: integer("damage").notNull(),
   range: varchar("range", { length: 256 }).notNull(),
+  ammoPerTon: integer("ammo_per_ton"),
+  weight: real("weight"),
+  criticalSlots: integer("critical_slots"),
   weaponType: weaponTypeEnum("weapon_type").notNull(),
   techRating: technologyRatingEnum("tech_rating").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
