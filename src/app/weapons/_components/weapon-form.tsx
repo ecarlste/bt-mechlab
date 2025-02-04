@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { TechnologyRatingEnum, WeaponFormData, weaponFormSchema, WeaponTypeEnum } from "~/server/db/schema";
+import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
+
+import { TechnologyRatingEnum, WeaponFormData, weaponFormSchema } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";

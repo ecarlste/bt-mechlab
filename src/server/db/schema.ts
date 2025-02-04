@@ -5,6 +5,8 @@ import { integer, pgEnum, pgTableCreator, real, timestamp, varchar } from "drizz
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
+import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
+
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
@@ -13,11 +15,6 @@ import { z } from "zod";
  */
 export const createTable = pgTableCreator((name) => `bt-mechlab_${name}`);
 
-export enum WeaponTypeEnum {
-  Ballistic = "ballistic",
-  Energy = "energy",
-  Missile = "missile",
-}
 const weaponEnumValues = Object.values(WeaponTypeEnum) as [string, ...string[]];
 export const weaponTypeEnum = pgEnum("weapon_type", weaponEnumValues);
 
@@ -39,8 +36,8 @@ export const weapons = createTable("weapon", {
   damage: integer("damage").notNull(),
   range: varchar("range", { length: 256 }).notNull(),
   ammoPerTon: integer("ammo_per_ton"),
-  weight: real("weight"),
-  criticalSlots: integer("critical_slots"),
+  weight: real("weight").notNull(),
+  criticalSlots: integer("critical_slots").notNull(),
   weaponType: weaponTypeEnum("weapon_type").notNull(),
   techRating: technologyRatingEnum("tech_rating").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })

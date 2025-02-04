@@ -5,6 +5,7 @@ import { SquareX } from "lucide-react";
 import { MouseEvent } from "react";
 
 import { cn } from "~/lib/utils";
+import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
 import { Button } from "~/components/ui/button";
 
@@ -30,9 +31,10 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
   function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
     const equipped = equipmentLocation.installedEquipment.map((item, index) => {
       const height = `${item.criticalSlots * 36}px`;
+      const bgColor = weaponTypeColors[item.weaponType as WeaponTypeEnum] || "";
 
       return (
-        <div className="flex w-full items-center border-b bg-blue-800" key={index} style={{ height }}>
+        <div className={cn("flex w-full items-center border-b", bgColor)} key={index} style={{ height }}>
           <div className="flex h-9 w-full items-center justify-between whitespace-nowrap p-2 pl-4 text-sm font-medium text-secondary-foreground">
             {item.name}
             <Button
@@ -40,7 +42,7 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
               size="icon"
               className="h-4 w-4 hover:bg-primary/25 cursor-pointer"
               onClick={handleRemoveItem}
-              id={item.id}
+              id={`${item.id}`}
             >
               <SquareX />
             </Button>

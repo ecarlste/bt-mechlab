@@ -5,16 +5,9 @@ import { CSSProperties } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { cn } from "~/lib/utils";
-
-import { WeaponTypeEnum } from "~/server/db/schema";
+import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
 import { MechEquipmentType } from "./mech-equipment-type";
-
-const weaponTypeColors = {
-  [WeaponTypeEnum.Ballistic]: "bg-purple-800",
-  [WeaponTypeEnum.Energy]: "bg-blue-800",
-  [WeaponTypeEnum.Missile]: "bg-green-800",
-};
 
 interface MechEquipmentListItemProps {
   item: MechEquipmentType;

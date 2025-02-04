@@ -5,8 +5,9 @@ import { SquarePlus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { cn } from "~/lib/utils";
+import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
-import { TechnologyRatingEnum, WeaponTypeEnum } from "~/server/db/schema";
+import { TechnologyRatingEnum } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
