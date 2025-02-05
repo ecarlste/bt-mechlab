@@ -2,7 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { TechnologyRatingEnum, Weapon, WeaponTypeEnum } from "~/server/db/schema";
+import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
+
+import { TechnologyRatingEnum, Weapon } from "~/server/db/schema";
 
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";

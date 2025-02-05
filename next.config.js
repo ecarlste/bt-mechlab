@@ -4,6 +4,8 @@
  */
 import "./src/env.js";
 
+import { withSentryConfig } from "@sentry/nextjs";
+
 /** @type {import("next").NextConfig} */
 const coreConfig = {
   // experimental: {
@@ -16,8 +18,6 @@ const coreConfig = {
     ignoreDuringBuilds: true,
   },
 };
-
-import { withSentryConfig } from "@sentry/nextjs";
 
 const config = withSentryConfig(coreConfig, {
   // For all available options, see:
@@ -52,6 +52,8 @@ const config = withSentryConfig(coreConfig, {
   // https://docs.sentry.io/product/crons/
   // https://vercel.com/docs/cron-jobs
   automaticVercelMonitors: true,
+
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
 });
 
 export default config;

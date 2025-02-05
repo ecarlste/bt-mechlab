@@ -24,15 +24,7 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
   const router = useRouter();
   const form = useForm<z.infer<typeof weaponFormSchema>>({
     resolver: zodResolver(weaponFormSchema),
-    defaultValues: {
-      id: weapon?.id,
-      name: weapon?.name || "",
-      heat: weapon?.heat || 0,
-      damage: weapon?.damage || 0,
-      range: weapon?.range || "0/0/0/0",
-      weaponType: weapon?.weaponType,
-      techRating: weapon?.techRating,
-    },
+    defaultValues: weapon ?? getDefaultWeaponFormValues(),
   });
 
   async function onSubmit(values: z.infer<typeof weaponFormSchema>) {
@@ -47,7 +39,6 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* <form onSubmit={() => console.log("I hit submit")} className="space-y-8"> */}
         <FormField
           control={form.control}
           name="name"
@@ -168,4 +159,19 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
       </form>
     </Form>
   );
+}
+
+function getDefaultWeaponFormValues() {
+  return {
+    id: undefined,
+    name: "",
+    heat: 0,
+    damage: 0,
+    range: "0/0/0/0",
+    ammoPerTon: null,
+    weight: 1,
+    criticalSlots: 1,
+    weaponType: WeaponTypeEnum.Energy,
+    techRating: TechnologyRatingEnum.CommonTech,
+  } as const satisfies WeaponFormData;
 }

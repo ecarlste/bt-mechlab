@@ -1,4 +1,4 @@
-import { getAllWeapons } from "~/data/weapon-dto";
+import { getAllWeapons } from "~/server/dto/weapon-dto";
 
 import MechBuilder from "./_components/mech-builder";
 import { MechEquipmentType } from "./_components/mech-equipment-type";

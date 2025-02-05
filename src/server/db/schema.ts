@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 import { relations, sql } from "drizzle-orm";
-import { integer, pgEnum, pgTableCreator, real, timestamp, varchar } from "drizzle-orm/pg-core";
+import { check, integer, pgEnum, pgTableCreator, real, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -29,22 +29,26 @@ export enum TechnologyRatingEnum {
 const technologyRatingEnumValues = Object.values(TechnologyRatingEnum) as [string, ...string[]];
 export const technologyRatingEnum = pgEnum("technology_rating", technologyRatingEnumValues);
 
-export const weapons = createTable("weapon", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  name: varchar("name", { length: 256 }).unique().notNull(),
-  heat: integer("heat").notNull(),
-  damage: integer("damage").notNull(),
-  range: varchar("range", { length: 256 }).notNull(),
-  ammoPerTon: integer("ammo_per_ton"),
-  weight: real("weight").notNull(),
-  criticalSlots: integer("critical_slots").notNull(),
-  weaponType: weaponTypeEnum("weapon_type").notNull(),
-  techRating: technologyRatingEnum("tech_rating").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-});
+export const weapons = createTable(
+  "weapon",
+  {
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    name: varchar("name", { length: 256 }).unique().notNull(),
+    heat: integer("heat").notNull(),
+    damage: integer("damage").notNull(),
+    range: varchar("range", { length: 256 }).notNull(),
+    ammoPerTon: integer("ammo_per_ton"),
+    weight: real("weight").notNull(),
+    criticalSlots: integer("critical_slots").notNull(),
+    weaponType: weaponTypeEnum("weapon_type").notNull(),
+    techRating: technologyRatingEnum("tech_rating").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (table) => [check("name not empty", sql`${table.name} != ''`)],
+);
 
 export const weaponsRelations = relations(weapons, ({ one }) => ({
   technologyRating: one(technologyRatings, {
@@ -69,7 +73,13 @@ export const weaponUpdateSchema = createUpdateSchema(weapons).omit({ id: true, c
 export const weaponDeleteSchema = createUpdateSchema(weapons).pick({ id: true });
 export const weaponFormSchema = createSelectSchema(weapons)
   .partial({ id: true })
-  .omit({ createdAt: true, updatedAt: true });
+  .omit({ createdAt: true, updatedAt: true })
+  .extend({
+    name: z
+      .string()
+      .min(1, { message: "Name cannot be empty" })
+      .refine((val) => val.trim().length > 0, { message: "Name cannot contain only spaces" }),
+  });
 
 export type Weapon = z.infer<typeof weaponSelectSchema>;
 export type WeaponInsert = z.infer<typeof weaponInsertSchema>;

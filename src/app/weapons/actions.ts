@@ -1,8 +1,7 @@
 "use server";
 
-import { createWeapon, deleteWeaponById, updateWeaponById } from "~/data/weapon-dto";
-
 import { Weapon, WeaponFormData, weaponInsertSchema, weaponUpdateSchema } from "~/server/db/schema";
+import { createWeapon, deleteWeaponById, updateWeaponById } from "~/server/dto/weapon-dto";
 
 export async function handleDeleteWeapon(id: number) {
   try {

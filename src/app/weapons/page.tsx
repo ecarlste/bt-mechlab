@@ -1,5 +1,5 @@
-import { isUserAdmin } from "~/data/auth";
-import { getAllWeapons } from "~/data/weapon-dto";
+import { isUserAdmin } from "~/server/auth/auth";
+import { getAllWeapons } from "~/server/dto/weapon-dto";
 
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";

@@ -29,7 +29,6 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Fix weapon form not submitting due to missing default values
 - [ ] Implement hand actuators in mech builder
 - [ ] Implement lower arm actuators in mech builder
 - [ ] Implement engines in mech builder
@@ -50,69 +49,70 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
-- [x] Make it deploy (vercel)
-- [x] Scaffold basic ui with mock data
-- [x] Tidy up build process
-- [x] Actually set up a database (vercel postgres)
-- [x] Attach database to UI
-- [x] Add authentication (w/ clerk)
-- [x] Create auth access in NextJS data layer
-- [x] Create weapon DTO in NextJS data layer
-- [x] Error management (w/ Sentry)
-- [x] Add weapon list page
-- [x] Use shadui to display list of weapons
-- [x] Add pagination to weapons table
-- [x] Add sorting buttons to weapons table columns
-- [x] Add filtering to weapons table
-- [x] Add column visibility toggling to weapons table
-- [x] Extract out components from the DataTable base component
-- [x] generate zod schemas for weapons using drizzle-zod
-- [x] fix weapon table row height
-- [x] create site header component that will contain TopNav and mobile menu
-- [x] only show weapon table row actions for admin
-- [x] Add delete/copy weapon buttons to weapon list (w/ Server Actions)
-- [x] Add creation form for new weapon
-- [x] Fix weapon form field validation for number fields
-- [x] Get weapon form to actually create a new item in the DB
-- [x] Require admin for new weapon form and weapon table new button
-- [x] Add tooltips to DataTable UI buttons (especially row actions section)
-- [x] Style alert dialog for deleting weapon
-- [x] Create initial mech equipment inventory list for mech builder page
-- [x] Create component to display mech equipment by location (i.e. right arm, right torso, etc.)
-- [x] Add all locations for mech in mech builder component
-- [x] Add basic drag and drop functionality for mech equipment into builder location
-- [x] Get dropped equipment item to display in the correct equipment location
-- [x] Get equipped items to display as correct style (color, fit single slot)
-- [x] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
-- [x] Add ability to remove equipment item ~~by right clicking when equipped~~ using remove button
-- [x] Implement react app state using `zustand`
-- [x] Prevent resizing of mech equipment locations during drop event
-- [x] Fix incorrect display of mech equipment location name
-- [x] Create a toaster UI element that displays an error to user when equipping item doesn't work
-- [x] Highlight the mech location that the dragged item would go to if dropped
-- [x] Add caching to get all weapons call for weapons page
-- [x] Switch to using a dropdown menu for data table row actions
-- [x] Fix button child of button hydration error on /weapons page
-- [x] Migrate project to use tailwind v4
-- [x] Remove caching to fix invalid data type issue
-- [x] Fix issue with data table row resize due to row actions dropdown
-- [x] Migrate project to use ESLint v9
-- [x] Implement edit weapon form (same as create weapon form)
-- [x] Implement weight allowance for mech in mech builder
-- [x] Weapons add/remove their weight to currentMechTonnage state variable
-- [x] Add internal structure to mech locations in mech builder
-- [x] Syle internal structure rendering
-- [x] Add armor to mech locations in mech builder
-- [x] Get add and remove armor buttons working in mech builder on mech locations
-- [x] Ensure mech weight is updated when adding/removing armor
-- [x] Disable increase/decrease armor buttons when they would not do anything
-- [x] Add max armor, strip equipment, ~~strip armor~~, ~~and strip mech~~ buttons
-- [x] Add tech rating to weapons via db schema (add to weapon form and weapon table)
-- [x] Add weapon type ~~category/subcategory~~ via db schema (add to weapon form and weapon table)
-- [x] Enable weapon table filtering based on WeaponType/TechRating
-- [x] Enable Equipment list loading from the db for weapons
-- [x] Add filters to the equipment list on the mech builder
-- [x] Implement colors for different weapon types in mech builder
-- [x] Mech weapon colors persist when placed in locations
-- [x] Get filters on mech builder working
+- [x] Fix weapon form not submitting due to missing default values
 - [x] Set up pagination for mech builder equipment list
+- [x] Get filters on mech builder working
+- [x] Mech weapon colors persist when placed in locations
+- [x] Implement colors for different weapon types in mech builder
+- [x] Add filters to the equipment list on the mech builder
+- [x] Enable Equipment list loading from the db for weapons
+- [x] Enable weapon table filtering based on WeaponType/TechRating
+- [x] Add weapon type ~~category/subcategory~~ via db schema (add to weapon form and weapon table)
+- [x] Add tech rating to weapons via db schema (add to weapon form and weapon table)
+- [x] Add max armor, strip equipment, ~~strip armor~~, ~~and strip mech~~ buttons
+- [x] Disable increase/decrease armor buttons when they would not do anything
+- [x] Ensure mech weight is updated when adding/removing armor
+- [x] Get add and remove armor buttons working in mech builder on mech locations
+- [x] Add armor to mech locations in mech builder
+- [x] Syle internal structure rendering
+- [x] Add internal structure to mech locations in mech builder
+- [x] Weapons add/remove their weight to currentMechTonnage state variable
+- [x] Implement weight allowance for mech in mech builder
+- [x] Implement edit weapon form (same as create weapon form)
+- [x] Migrate project to use ESLint v9
+- [x] Fix issue with data table row resize due to row actions dropdown
+- [x] Remove caching to fix invalid data type issue
+- [x] Migrate project to use tailwind v4
+- [x] Fix button child of button hydration error on /weapons page
+- [x] Switch to using a dropdown menu for data table row actions
+- [x] Add caching to get all weapons call for weapons page
+- [x] Highlight the mech location that the dragged item would go to if dropped
+- [x] Create a toaster UI element that displays an error to user when equipping item doesn't work
+- [x] Fix incorrect display of mech equipment location name
+- [x] Prevent resizing of mech equipment locations during drop event
+- [x] Implement react app state using `zustand`
+- [x] Add ability to remove equipment item ~~by right clicking when equipped~~ using remove button
+- [x] Get equipped items to display as correct height (take multiple critical slots, no resize of location)
+- [x] Get equipped items to display as correct style (color, fit single slot)
+- [x] Get dropped equipment item to display in the correct equipment location
+- [x] Add basic drag and drop functionality for mech equipment into builder location
+- [x] Add all locations for mech in mech builder component
+- [x] Create component to display mech equipment by location (i.e. right arm, right torso, etc.)
+- [x] Create initial mech equipment inventory list for mech builder page
+- [x] Style alert dialog for deleting weapon
+- [x] Add tooltips to DataTable UI buttons (especially row actions section)
+- [x] Require admin for new weapon form and weapon table new button
+- [x] Get weapon form to actually create a new item in the DB
+- [x] Fix weapon form field validation for number fields
+- [x] Add creation form for new weapon
+- [x] Add delete/copy weapon buttons to weapon list (w/ Server Actions)
+- [x] Only show weapon table row actions for admin
+- [x] Create site header component that will contain TopNav and mobile menu
+- [x] Fix weapon table row height
+- [x] Generate zod schemas for weapons using drizzle-zod
+- [x] Extract out components from the DataTable base component
+- [x] Add column visibility toggling to weapons table
+- [x] Add filtering to weapons table
+- [x] Add sorting buttons to weapons table columns
+- [x] Add pagination to weapons table
+- [x] Use shadui to display list of weapons
+- [x] Add weapon list page
+- [x] Error management (w/ Sentry)
+- [x] Create weapon DTO in NextJS data layer
+- [x] Create auth access in NextJS data layer
+- [x] Add authentication (w/ clerk)
+- [x] Attach database to UI
+- [x] Actually set up a database (vercel postgres)
+- [x] Tidy up build process
+- [x] Scaffold basic ui with mock data
+- [x] Make it deploy (vercel)

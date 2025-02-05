@@ -2,7 +2,6 @@
 
 import { useDroppable } from "@dnd-kit/core";
 import { SquareX } from "lucide-react";
-import { MouseEvent } from "react";
 
 import { cn } from "~/lib/utils";
 import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
@@ -23,9 +22,8 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
     id: equipmentLocation.id,
   });
 
-  function handleRemoveItem(e: MouseEvent) {
-    const idToRemove = (e.target as HTMLElement).id;
-    removeEquipment(equipmentLocation.id, idToRemove);
+  function handleRemoveItemAtIndex(index: number) {
+    removeEquipment(equipmentLocation.id, index);
   }
 
   function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
@@ -41,7 +39,7 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
               variant="ghost"
               size="icon"
               className="h-4 w-4 hover:bg-primary/25 cursor-pointer"
-              onClick={handleRemoveItem}
+              onClick={() => handleRemoveItemAtIndex(index)}
               id={`${item.id}`}
             >
               <SquareX />
