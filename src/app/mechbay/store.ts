@@ -26,7 +26,7 @@ interface EquipmentState {
   maxAllArmor: () => void;
   updateDraggableOver: (location: Location) => void;
   addEquipment: (location: Location, equipment: MechEquipmentType) => void;
-  removeEquipment: (location: Location, equipmentId: string) => void;
+  removeEquipment: (location: Location, index: number) => void;
   removeAllEquipment: () => void;
   enableDraggableOver: (location: Location) => void;
   resetAllDraggableOver: () => void;
@@ -169,23 +169,28 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         return state;
       }
     }),
-  removeEquipment: (location, equipmentId) =>
+  removeEquipment: (location, index) =>
     set((state) => {
       const mechEquipmentLocation = state.equipmentLocations[location];
       if (!mechEquipmentLocation) {
         throw new Error(`Location ${location} does not exist in the store`);
       }
 
-      const equipmentToRemove = mechEquipmentLocation.installedEquipment.find((item) => item.id === equipmentId);
+      console.log(`equipmentId: ${index}`);
+
+      const equipmentToRemove = mechEquipmentLocation.installedEquipment[index];
 
       if (!equipmentToRemove) {
-        throw new Error(`Equipment with id ${equipmentId} not found in location ${location}`);
+        throw new Error(`Equipment with not found at index ${index} in location ${location}`);
       }
+
+      const updatedInstalledEquipment = [...mechEquipmentLocation.installedEquipment];
+      updatedInstalledEquipment.splice(index, 1);
 
       const updatedEquipmentLocation = {
         ...mechEquipmentLocation,
         criticalSlotsUsed: mechEquipmentLocation.criticalSlotsUsed - equipmentToRemove.criticalSlots,
-        installedEquipment: mechEquipmentLocation.installedEquipment.filter((item) => item.id !== equipmentId),
+        installedEquipment: updatedInstalledEquipment,
       };
 
       return {

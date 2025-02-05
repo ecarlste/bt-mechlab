@@ -2,7 +2,6 @@
 
 import { useDraggable } from "@dnd-kit/core";
 import { CSSProperties } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import { cn } from "~/lib/utils";
 import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
@@ -16,7 +15,7 @@ interface MechEquipmentListItemProps {
 export default function MechEquipmentListItem({ item }: MechEquipmentListItemProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: item.name,
-    data: { ...item, id: uuidv4() },
+    data: item,
   });
 
   const style: CSSProperties | undefined = isDragging
