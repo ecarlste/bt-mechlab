@@ -4,9 +4,8 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSSProperties } from "react";
 
 import { cn } from "~/lib/utils";
-import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
-import { MechEquipmentType } from "./mech-equipment-type";
+import { getEquipmentTypeBgColor, MechEquipmentType } from "./mech-equipment-type";
 
 interface MechEquipmentListItemProps {
   item: MechEquipmentType;
@@ -26,9 +25,8 @@ export default function MechEquipmentListItem({ item }: MechEquipmentListItemPro
       }
     : { cursor: "pointer" };
 
-  const bgColor = weaponTypeColors[item.weaponType as WeaponTypeEnum] || "";
+  const bgColor = getEquipmentTypeBgColor(item);
   const draggableWidth = isDragging ? "w-60" : "";
-
   const className = cn(bgColor, "mb-1 h-9 whitespace-nowrap px-4 py-2 text-sm font-medium text-secondary-foreground");
 
   return (

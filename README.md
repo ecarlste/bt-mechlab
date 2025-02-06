@@ -35,7 +35,6 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
-- [ ] Implement location mounted additiona heat sinks in mech builder
 - [ ] Implement weapon ammunition in mech builder
 - [ ] Implement integrated engine heat sinks
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
@@ -49,6 +48,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Implement location mounted additional heat sinks in mech builder
 - [x] Fix weapon form not submitting due to missing default values
 - [x] Set up pagination for mech builder equipment list
 - [x] Get filters on mech builder working

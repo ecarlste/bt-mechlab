@@ -1,3 +1,16 @@
-import { Weapon } from "~/server/db/schema";
+import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
-export type MechEquipmentType = Weapon;
+import { Equipment, Weapon } from "~/server/db/schema";
+
+export type MechEquipmentType = Weapon | Equipment;
+
+export function getEquipmentTypeBgColor(item: MechEquipmentType) {
+  let bgColor = "";
+  if ("weaponType" in item) {
+    bgColor = weaponTypeColors[item.weaponType as WeaponTypeEnum];
+  } else {
+    bgColor = "bg-secondary";
+  }
+
+  return bgColor;
+}

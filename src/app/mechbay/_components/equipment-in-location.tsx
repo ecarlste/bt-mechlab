@@ -4,12 +4,12 @@ import { useDroppable } from "@dnd-kit/core";
 import { SquareX } from "lucide-react";
 
 import { cn } from "~/lib/utils";
-import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
 import { Button } from "~/components/ui/button";
 
 import { MechEquipmentLocation } from "../location";
 import { useEquipmentStore } from "../store";
+import { getEquipmentTypeBgColor } from "./mech-equipment-type";
 
 interface EquipmentInLocationProps {
   equipmentLocation: MechEquipmentLocation;
@@ -29,7 +29,7 @@ export default function EquipmentInLocation({ equipmentLocation }: EquipmentInLo
   function renderEquipmentInLocation(equipmentLocation: MechEquipmentLocation) {
     const equipped = equipmentLocation.installedEquipment.map((item, index) => {
       const height = `${item.criticalSlots * 36}px`;
-      const bgColor = weaponTypeColors[item.weaponType as WeaponTypeEnum] || "";
+      const bgColor = getEquipmentTypeBgColor(item);
 
       return (
         <div className={cn("flex w-full items-center border-b", bgColor)} key={index} style={{ height }}>

@@ -8,6 +8,8 @@ import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 import { Location } from "~/app/mechbay/location";
 import { useEquipmentStore } from "~/app/mechbay/store";
 
+import { Weapon } from "~/server/db/schema";
+
 import { Button } from "~/components/ui/button";
 
 import MechEquipmentListFilterButton from "./mech-equipment-list-filter-button";
@@ -66,11 +68,13 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
     if (filter === WeaponAndEquipmentFilter.All) {
       newFilteredEquipment = equipment;
     } else if (filter === WeaponAndEquipmentFilter.BallisticWeapons) {
-      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Ballistic);
+      newFilteredEquipment = equipment.filter((item) => (item as Weapon).weaponType === WeaponTypeEnum.Ballistic);
     } else if (filter === WeaponAndEquipmentFilter.EnergyWeapons) {
-      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Energy);
+      newFilteredEquipment = equipment.filter((item) => (item as Weapon).weaponType === WeaponTypeEnum.Energy);
     } else if (filter === WeaponAndEquipmentFilter.MissileWeapons) {
-      newFilteredEquipment = equipment.filter((item) => item.weaponType === WeaponTypeEnum.Missile);
+      newFilteredEquipment = equipment.filter((item) => (item as Weapon).weaponType === WeaponTypeEnum.Missile);
+    } else {
+      newFilteredEquipment = equipment.filter((item) => !("weaponType" in item));
     }
 
     setFilteredEquipment(newFilteredEquipment);
@@ -115,11 +119,11 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
           text={WeaponAndEquipmentFilter.MissileWeapons}
           setFilter={() => handleSetFilter(WeaponAndEquipmentFilter.MissileWeapons)}
         />
-        {/* <MechEquipmentListFilterButton
+        <MechEquipmentListFilterButton
           filter={filter}
           text={WeaponAndEquipmentFilter.Equipment}
           setFilter={() => handleSetFilter(WeaponAndEquipmentFilter.Equipment)}
-        /> */}
+        />
       </div>
       <div>
         {equipmentListPageItems.map((item) => (

@@ -19,6 +19,7 @@ import {
 interface EquipmentState {
   maxMechTonnage: MechTonnage;
   currentMechTonnage: number;
+  mechCoolingPerTurn: number;
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
@@ -54,6 +55,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
   maxMechTonnage: 75,
   currentMechTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
+  mechCoolingPerTurn: 0,
   draggableOver: undefined,
   equipmentLocations: {
     [Location.RightArm]: getInitialEquipmentLocation(Location.RightArm, 75),
@@ -157,7 +159,10 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
           installedEquipment: [...mechEquipmentLocation.installedEquipment, equipment],
         };
 
+        const mechCoolingPerTurn = state.mechCoolingPerTurn + (equipment.heat < 0 ? equipment.heat * -1 : 0);
+
         return {
+          mechCoolingPerTurn,
           currentMechTonnage: state.currentMechTonnage + equipment.weight,
           equipmentLocations: {
             ...state.equipmentLocations,
@@ -193,7 +198,11 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         installedEquipment: updatedInstalledEquipment,
       };
 
+      const mechCoolingPerTurn =
+        state.mechCoolingPerTurn - (equipmentToRemove.heat < 0 ? equipmentToRemove.heat * -1 : 0);
+
       return {
+        mechCoolingPerTurn,
         currentMechTonnage: state.currentMechTonnage - equipmentToRemove.weight,
         equipmentLocations: {
           ...state.equipmentLocations,
@@ -212,6 +221,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       const totalArmor = getCurrentTotalMechArmor(Object.values(updatedEquipmentLocations));
 
       return {
+        mechCoolingPerTurn: 0,
         currentMechTonnage: state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor),
         equipmentLocations: updatedEquipmentLocations,
       };

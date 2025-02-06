@@ -67,6 +67,22 @@ export const technologyRatings = createTable("technology_rating", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
 });
 
+export const equipment = createTable(
+  "equipment",
+  {
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    name: varchar("name", { length: 256 }).unique().notNull(),
+    heat: integer("heat").notNull(),
+    weight: real("weight").notNull(),
+    criticalSlots: integer("critical_slots").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (table) => [check("name not empty", sql`${table.name} != ''`)],
+);
+
 export const weaponSelectSchema = createSelectSchema(weapons);
 export const weaponInsertSchema = createInsertSchema(weapons).omit({ id: true, createdAt: true, updatedAt: true });
 export const weaponUpdateSchema = createUpdateSchema(weapons).omit({ id: true, createdAt: true, updatedAt: true });
@@ -80,8 +96,10 @@ export const weaponFormSchema = createSelectSchema(weapons)
       .min(1, { message: "Name cannot be empty" })
       .refine((val) => val.trim().length > 0, { message: "Name cannot contain only spaces" }),
   });
+export const equipmentSelectSchema = createSelectSchema(equipment);
 
 export type Weapon = z.infer<typeof weaponSelectSchema>;
 export type WeaponInsert = z.infer<typeof weaponInsertSchema>;
 export type WeaponUpdate = z.infer<typeof weaponUpdateSchema>;
 export type WeaponFormData = z.infer<typeof weaponFormSchema>;
+export type Equipment = z.infer<typeof equipmentSelectSchema>;
