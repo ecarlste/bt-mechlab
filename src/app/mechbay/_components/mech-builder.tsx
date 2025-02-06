@@ -2,6 +2,8 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
+import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
+
 import { Button } from "~/components/ui/button";
 
 import { Location } from "../location";
@@ -9,7 +11,6 @@ import { useEquipmentStore } from "../store";
 import MechBuildLocation from "./mech-build-location";
 import MechBuildSummary from "./mech-build-summary";
 import { MechEquipmentList } from "./mech-equipment-list";
-import { MechEquipmentType } from "./mech-equipment-type";
 
 type MechBuilderProps = {
   equipment: MechEquipmentType[];

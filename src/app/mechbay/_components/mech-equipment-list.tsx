@@ -3,6 +3,7 @@
 import { useDndMonitor } from "@dnd-kit/core";
 import { useState } from "react";
 
+import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
 import { Location } from "~/app/mechbay/location";
@@ -14,7 +15,6 @@ import { Button } from "~/components/ui/button";
 
 import MechEquipmentListFilterButton from "./mech-equipment-list-filter-button";
 import MechEquipmentListItem from "./mech-equipment-list-item";
-import { MechEquipmentType } from "./mech-equipment-type";
 
 const equipmentListPageSize = 10;
 

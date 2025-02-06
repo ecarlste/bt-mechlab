@@ -1,4 +1,4 @@
-import { MechEquipmentType } from "./_components/mech-equipment-type";
+import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
 export enum Location {
   RightArm = "rightArm",

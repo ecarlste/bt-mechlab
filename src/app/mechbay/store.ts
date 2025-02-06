@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { create } from "zustand";
 
-import { MechEquipmentType } from "./_components/mech-equipment-type";
+import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
 import {
   ArmorSide,

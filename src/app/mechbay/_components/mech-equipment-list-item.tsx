@@ -3,9 +3,8 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSSProperties } from "react";
 
+import { getEquipmentTypeBgColor, MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { cn } from "~/lib/utils";
-
-import { getEquipmentTypeBgColor, MechEquipmentType } from "./mech-equipment-type";
 
 interface MechEquipmentListItemProps {
   item: MechEquipmentType;
