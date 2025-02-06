@@ -48,6 +48,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Implement heating per turn in mech builder summary
 - [x] Implement location mounted additional heat sinks in mech builder
 - [x] Fix weapon form not submitting due to missing default values
 - [x] Set up pagination for mech builder equipment list

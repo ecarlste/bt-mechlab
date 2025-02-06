@@ -12,6 +12,7 @@ type MechBuildSummaryProps = {
 function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
   const mexMechTonnage = useEquipmentStore((state) => state.maxMechTonnage);
   const currentMechTonnage = useEquipmentStore((state) => state.currentMechTonnage);
+  const mechHeatPerTurn = useEquipmentStore((state) => state.mechHeatPerTurn);
   const mechCoolingPerTurn = useEquipmentStore((state) => state.mechCoolingPerTurn);
 
   return (
@@ -25,6 +26,10 @@ function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
         <span>
           {currentMechTonnage}/{mexMechTonnage}
         </span>
+      </div>
+      <div className="flex justify-between pt-1 px-2 text-xs">
+        <span>Heat:</span>
+        <span>{mechHeatPerTurn}/turn</span>
       </div>
       <div className="flex justify-between pt-1 px-2 text-xs">
         <span>Cooling:</span>

@@ -19,6 +19,7 @@ import {
 interface EquipmentState {
   maxMechTonnage: MechTonnage;
   currentMechTonnage: number;
+  mechHeatPerTurn: number;
   mechCoolingPerTurn: number;
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
@@ -55,6 +56,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
   maxMechTonnage: 75,
   currentMechTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
+  mechHeatPerTurn: 0,
   mechCoolingPerTurn: 0,
   draggableOver: undefined,
   equipmentLocations: {
@@ -159,9 +161,11 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
           installedEquipment: [...mechEquipmentLocation.installedEquipment, equipment],
         };
 
+        const mechHeatPerTurn = state.mechHeatPerTurn + (equipment.heat > 0 ? equipment.heat : 0);
         const mechCoolingPerTurn = state.mechCoolingPerTurn + (equipment.heat < 0 ? equipment.heat * -1 : 0);
 
         return {
+          mechHeatPerTurn,
           mechCoolingPerTurn,
           currentMechTonnage: state.currentMechTonnage + equipment.weight,
           equipmentLocations: {
@@ -198,10 +202,12 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         installedEquipment: updatedInstalledEquipment,
       };
 
+      const mechHeatPerTurn = state.mechHeatPerTurn - (equipmentToRemove.heat > 0 ? equipmentToRemove.heat : 0);
       const mechCoolingPerTurn =
         state.mechCoolingPerTurn - (equipmentToRemove.heat < 0 ? equipmentToRemove.heat * -1 : 0);
 
       return {
+        mechHeatPerTurn,
         mechCoolingPerTurn,
         currentMechTonnage: state.currentMechTonnage - equipmentToRemove.weight,
         equipmentLocations: {
@@ -221,6 +227,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       const totalArmor = getCurrentTotalMechArmor(Object.values(updatedEquipmentLocations));
 
       return {
+        mechHeatPerTurn: 0,
         mechCoolingPerTurn: 0,
         currentMechTonnage: state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor),
         equipmentLocations: updatedEquipmentLocations,
