@@ -258,6 +258,8 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         return state;
       }
 
+      const currentIntegralHeatSinks = currentMechEngine.integralHeatSinks;
+
       let newIntegralHeatSinks = currentMechEngine.integralHeatSinks + amount;
       if (amount < 0 && newIntegralHeatSinks < 0) {
         newIntegralHeatSinks = 0;
@@ -265,7 +267,11 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         newIntegralHeatSinks = currentMechEngine.maxIntegralHeatSinks;
       }
 
+      const integralHeatSinkChange = newIntegralHeatSinks - currentIntegralHeatSinks;
+      const newMechCoolingPerTurn = state.mechCoolingPerTurn + integralHeatSinkChange;
+
       return {
+        mechCoolingPerTurn: newMechCoolingPerTurn,
         mechEngine: {
           ...currentMechEngine,
           integralHeatSinks: newIntegralHeatSinks,

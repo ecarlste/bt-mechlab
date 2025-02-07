@@ -29,7 +29,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Correctly calculate tonnage and cooling for engine heat sinks
+- [ ] Correctly calculate tonnage for engine heat sinks
 - [ ] Fix issue with initial actuators not forcing redraw on mech builder
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
@@ -46,6 +46,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Correctly calculate cooling for engine heat sinks
 - [x] Implement integrated engine heat sinks
 - [x] Implement engines in mech builder
 - [x] Implement lower arm actuators in mech builder
