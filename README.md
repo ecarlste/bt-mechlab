@@ -30,6 +30,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## TODO
 
 - [ ] Correctly calculate tonnage and cooling for engine heat sinks
+- [ ] Fix issue with initial actuators not forcing redraw on mech builder
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
