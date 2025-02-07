@@ -32,6 +32,10 @@ export default function MechBuildEngineSelector() {
     changeMechEngineHeatSinksBy(heatSinkChange);
   }
 
+  function preventTextSelection(e: React.MouseEvent<SVGSVGElement>) {
+    e.preventDefault();
+  }
+
   let hasNoHeatSinks = true;
   let hasMaxHeatSinks = false;
   if (mechEngine) {
@@ -66,6 +70,7 @@ export default function MechBuildEngineSelector() {
         <div className="flex space-x-1.5 items-center">
           <SquareMinus
             className={cn(heatSinkAdjustorButtonCn, hasNoHeatSinks ? heatSinkAdjustorButtonDisabledCn : "")}
+            onMouseDown={preventTextSelection}
             onClick={handleRemoveHeatSinks}
           />
           <span className="w-13 text-xs">
@@ -73,6 +78,7 @@ export default function MechBuildEngineSelector() {
           </span>
           <SquarePlus
             className={cn(heatSinkAdjustorButtonCn, hasMaxHeatSinks ? heatSinkAdjustorButtonDisabledCn : "")}
+            onMouseDown={preventTextSelection}
             onClick={handleAddHeatSinks}
           />
         </div>
