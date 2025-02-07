@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { create } from "zustand";
 
+import { MechEngine, mechEnginesByRating } from "~/lib/equipment/mech-engines";
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
 import {
@@ -22,6 +23,7 @@ interface EquipmentState {
   currentMechTonnage: number;
   mechHeatPerTurn: number;
   mechCoolingPerTurn: number;
+  mechEngine: MechEngine | undefined;
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
@@ -30,6 +32,8 @@ interface EquipmentState {
   maxAllArmor: () => void;
   updateDraggableOver: (location: Location) => void;
   addEquipment: (location: Location, equipment: MechEquipmentType) => void;
+  setMechEngineRating: (rating: number) => void;
+  changeMechEngineHeatSinksBy: (amount: number) => void;
   removeEquipment: (location: Location, index: number) => void;
   removeAllEquipment: () => void;
   enableDraggableOver: (location: Location) => void;
@@ -59,6 +63,7 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
   maxMechTonnage: 75,
   currentMechTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
+  mechEngine: undefined,
   mechHeatPerTurn: 0,
   mechCoolingPerTurn: 0,
   draggableOver: undefined,
@@ -224,6 +229,48 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         toast.error(`Not enough free slots to equip ${equipment.name}`, { duration: 10000 });
         return state;
       }
+    }),
+  setMechEngineRating: (rating) =>
+    set((state) => {
+      const currentMechEngine = state.mechEngine;
+      const newMechEngine = mechEnginesByRating[rating];
+
+      if (!newMechEngine) {
+        throw new Error(`Engine with rating ${rating} not found`);
+      }
+
+      let newIntegralHeatSinks = 0;
+      if (currentMechEngine) {
+        newIntegralHeatSinks = Math.min(currentMechEngine.integralHeatSinks, newMechEngine.maxIntegralHeatSinks);
+      }
+
+      return {
+        mechEngine: {
+          ...newMechEngine,
+          integralHeatSinks: newIntegralHeatSinks,
+        },
+      };
+    }),
+  changeMechEngineHeatSinksBy: (amount) =>
+    set((state) => {
+      const currentMechEngine = state.mechEngine;
+      if (!currentMechEngine) {
+        return state;
+      }
+
+      let newIntegralHeatSinks = currentMechEngine.integralHeatSinks + amount;
+      if (amount < 0 && newIntegralHeatSinks < 0) {
+        newIntegralHeatSinks = 0;
+      } else if (amount > 0 && newIntegralHeatSinks > currentMechEngine.maxIntegralHeatSinks) {
+        newIntegralHeatSinks = currentMechEngine.maxIntegralHeatSinks;
+      }
+
+      return {
+        mechEngine: {
+          ...currentMechEngine,
+          integralHeatSinks: newIntegralHeatSinks,
+        },
+      };
     }),
   removeEquipment: (location, index) =>
     set((state) => {

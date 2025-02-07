@@ -29,12 +29,11 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Implement engines in mech builder
+- [ ] Correctly calculate tonnage and cooling for engine heat sinks
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
 - [ ] Implement weapon ammunition in mech builder
-- [ ] Implement integrated engine heat sinks
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
@@ -46,6 +45,8 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Implement integrated engine heat sinks
+- [x] Implement engines in mech builder
 - [x] Implement lower arm actuators in mech builder
 - [x] Implement hand actuators in mech builder
 - [x] Implement heating per turn in mech builder summary

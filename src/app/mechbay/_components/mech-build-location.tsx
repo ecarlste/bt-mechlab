@@ -1,5 +1,6 @@
 import { MechEquipmentLocation, Location, ArmorSide } from "../location";
 import EquipmentInLocation from "./equipment-in-location";
+import MechBuildEngineSelector from "./mech-build-engine-selector";
 import MechBuildLocationArmorAdjuster from "./mech-build-location-armor-adjuster";
 
 interface MechBuildLocationProps {
@@ -42,6 +43,7 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
             <span>Structure</span>
             <span>{equipmentLocation.internalStructure}</span>
           </div>
+          {equipmentLocation.id === Location.CenterTorso && <MechBuildEngineSelector />}
         </div>
       </div>
       <EquipmentInLocation equipmentLocation={equipmentLocation} />
