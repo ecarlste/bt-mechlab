@@ -12,14 +12,14 @@ export enum Location {
 }
 
 export const criticalSlots = {
-  rightArm: 8,
+  rightArm: 10,
   rightTorso: 12,
   rightLeg: 2,
   head: 1,
   centerTorso: 2,
   leftTorso: 12,
   leftLeg: 2,
-  leftArm: 8,
+  leftArm: 10,
 };
 
 export enum ArmorSide {

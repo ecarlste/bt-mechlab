@@ -17,6 +17,7 @@ import {
 } from "./location";
 
 interface EquipmentState {
+  initialized: boolean;
   maxMechTonnage: MechTonnage;
   currentMechTonnage: number;
   mechHeatPerTurn: number;
@@ -24,6 +25,7 @@ interface EquipmentState {
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
+  initialize: (equipment: MechEquipmentType[]) => void;
   changeMechArmorInLocationBy: (location: Location, armorSide: ArmorSide, amount: number) => void;
   maxAllArmor: () => void;
   updateDraggableOver: (location: Location) => void;
@@ -53,6 +55,7 @@ function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): 
 }
 
 export const useEquipmentStore = create<EquipmentState>()((set) => ({
+  initialized: false,
   maxMechTonnage: 75,
   currentMechTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
@@ -68,6 +71,42 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
     [Location.LeftTorso]: getInitialEquipmentLocation(Location.LeftTorso, 75),
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
+  },
+  initialize: (equipment) => {
+    set((state) => {
+      if (state.initialized) return state;
+
+      const lowerArmActuator = equipment.find((item) => item.name === "Lower Arm Actuator");
+      const handActuator = equipment.find((item) => item.name === "Hand Actuator");
+
+      if (!lowerArmActuator || !handActuator) {
+        throw new Error("Lower Arm Actuator or Hand Actuator not found in equipment");
+      }
+
+      const armActuators = [lowerArmActuator, handActuator];
+      const criticalSlotsUsed = armActuators.reduce((total, item) => total + item.criticalSlots, 0);
+      const updatedRightArm = {
+        ...state.equipmentLocations[Location.RightArm],
+        criticalSlotsUsed,
+        installedEquipment: [...armActuators],
+      };
+      const updatedLeftArm = {
+        ...state.equipmentLocations[Location.LeftArm],
+        criticalSlotsUsed,
+        installedEquipment: [...armActuators],
+      };
+
+      const updatedEquipmentLocations = {
+        ...state.equipmentLocations,
+        [Location.RightArm]: updatedRightArm,
+        [Location.LeftArm]: updatedLeftArm,
+      };
+
+      return {
+        initialized: true,
+        equipmentLocations: updatedEquipmentLocations,
+      };
+    });
   },
   maxAllArmor: () =>
     set((state) => {
@@ -153,6 +192,14 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         throw new Error(`Location ${location} does not exist in the store`);
       }
 
+      if (equipment.name.includes("Actuator")) {
+        const { isValid, errorMessage } = isValidActuatorInstall(equipment, mechEquipmentLocation);
+        if (!isValid) {
+          toast.error(errorMessage, { duration: 10000 });
+          return state;
+        }
+      }
+
       const { criticalSlots: slots, criticalSlotsUsed: slotsUsed } = mechEquipmentLocation;
       if (slotsUsed + equipment.criticalSlots <= slots) {
         const updatedEquipmentLocation = {
@@ -185,12 +232,18 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         throw new Error(`Location ${location} does not exist in the store`);
       }
 
-      console.log(`equipmentId: ${index}`);
-
       const equipmentToRemove = mechEquipmentLocation.installedEquipment[index];
 
       if (!equipmentToRemove) {
-        throw new Error(`Equipment with not found at index ${index} in location ${location}`);
+        throw new Error(`Equipment not found at index ${index} in location ${location}`);
+      }
+
+      if (
+        equipmentToRemove.name === "Lower Arm Actuator" &&
+        locationHasActuatorInstalled(mechEquipmentLocation, "Hand Actuator")
+      ) {
+        toast.error("Cannot remove Lower Arm Actuator while Hand Actuator is installed", { duration: 10000 });
+        return state;
       }
 
       const updatedInstalledEquipment = [...mechEquipmentLocation.installedEquipment];
@@ -261,3 +314,32 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       };
     }),
 }));
+
+function isValidActuatorInstall(equipment: MechEquipmentType, equipmentLocation: MechEquipmentLocation) {
+  if (![Location.LeftArm, Location.RightArm].includes(equipmentLocation.id)) {
+    return {
+      isValid: false,
+      errorMessage: `${equipment.name} can only be installed in the Arm location`,
+    };
+  }
+
+  if (locationHasActuatorInstalled(equipmentLocation, equipment.name)) {
+    return {
+      isValid: false,
+      errorMessage: `${equipment.name} already installed in Right Arm`,
+    };
+  }
+
+  if (equipment.name === "Hand Actuator" && !locationHasActuatorInstalled(equipmentLocation, "Lower Arm Actuator")) {
+    return {
+      isValid: false,
+      errorMessage: `Lower Arm Actuator must be installed before installing ${equipment.name}`,
+    };
+  }
+
+  return { isValid: true };
+}
+
+function locationHasActuatorInstalled(equipmentLocation: MechEquipmentLocation, actuatorName: string) {
+  return equipmentLocation.installedEquipment.find((item) => item.name === actuatorName) !== undefined;
+}

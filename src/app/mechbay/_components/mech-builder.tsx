@@ -1,6 +1,7 @@
 "use client";
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { useEffect } from "react";
 
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
@@ -16,10 +17,17 @@ type MechBuilderProps = {
   equipment: MechEquipmentType[];
 };
 
-function MechBuilder({ equipment: weapons }: MechBuilderProps) {
+function MechBuilder({ equipment }: MechBuilderProps) {
+  const { initialize, initialized } = useEquipmentStore();
   const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
   const addEquipment = useEquipmentStore((state) => state.addEquipment);
   const resetAllDraggableOver = useEquipmentStore((state) => state.resetAllDraggableOver);
+
+  useEffect(() => {
+    if (!initialized) {
+      initialize(equipment);
+    }
+  }, [initialized, initialize, equipment]);
 
   function handleDragEnd(event: DragEndEvent) {
     const itemToEquip = event.active.data.current as MechEquipmentType;
@@ -48,7 +56,7 @@ function MechBuilder({ equipment: weapons }: MechBuilderProps) {
             <Button onClick={handleStripEquipment}>Strip Equipment</Button>
             <Button onClick={handleMaxArmor}>Max Armor</Button>
           </div>
-          <MechEquipmentList equipment={weapons} />
+          <MechEquipmentList equipment={equipment} />
         </div>
         <div className="w-full">
           <MechBuildLocation equipmentLocation={mechEquipmentLocations[Location.RightArm]} />
