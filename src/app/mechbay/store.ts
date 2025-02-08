@@ -241,13 +241,18 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
 
       let newIntegralHeatSinks = 0;
       let currentEngineTonnage = 0;
+      let heatSinkTonnageChange = 0;
       if (currentMechEngine) {
         newIntegralHeatSinks = Math.min(currentMechEngine.integralHeatSinks, newMechEngine.maxIntegralHeatSinks);
         currentEngineTonnage = currentMechEngine.tonnage;
+        heatSinkTonnageChange = calculateInternalHeatSinkTonnageChange(
+          currentMechEngine.integralHeatSinks,
+          newIntegralHeatSinks,
+        );
       }
 
       const mechTonnageChange = newMechEngine.tonnage - currentEngineTonnage;
-      const newMechTonnage = state.currentMechTonnage + mechTonnageChange;
+      const newMechTonnage = state.currentMechTonnage + mechTonnageChange + heatSinkTonnageChange;
 
       return {
         currentMechTonnage: newMechTonnage,
@@ -276,7 +281,10 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       const integralHeatSinkChange = newIntegralHeatSinks - currentIntegralHeatSinks;
       const newMechCoolingPerTurn = state.mechCoolingPerTurn + integralHeatSinkChange;
 
+      const mechTonnageChange = calculateInternalHeatSinkTonnageChange(currentIntegralHeatSinks, newIntegralHeatSinks);
+
       return {
+        currentMechTonnage: state.currentMechTonnage + mechTonnageChange,
         mechCoolingPerTurn: newMechCoolingPerTurn,
         mechEngine: {
           ...currentMechEngine,
@@ -401,4 +409,11 @@ function isValidActuatorInstall(equipment: MechEquipmentType, equipmentLocation:
 
 function locationHasActuatorInstalled(equipmentLocation: MechEquipmentLocation, actuatorName: string) {
   return equipmentLocation.installedEquipment.find((item) => item.name === actuatorName) !== undefined;
+}
+
+function calculateInternalHeatSinkTonnageChange(currentInternalHeatSinks: number, newInternalHeatSinks: number) {
+  const currentHeatSinksAboveTen = currentInternalHeatSinks > 10 ? currentInternalHeatSinks - 10 : 0;
+  const newHeatSinksAboveTen = newInternalHeatSinks > 10 ? newInternalHeatSinks - 10 : 0;
+
+  return newHeatSinksAboveTen - currentHeatSinksAboveTen;
 }
