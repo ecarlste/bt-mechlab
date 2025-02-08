@@ -46,6 +46,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Downgrading engine full of heat sinks correctly updates mech cooling
 - [x] Correctly calculate tonnage for engine heat sinks
 - [x] Implement mech engine tonnage in mech builder
 - [x] Correctly calculate cooling for engine heat sinks
