@@ -5,8 +5,10 @@ export type MechEngine = {
   maxIntegralHeatSinks: number;
 };
 
+export const defaultMechEngine = { engineRating: 20, tonnage: 0.5, integralHeatSinks: 0, maxIntegralHeatSinks: 1 };
+
 export const mechEngines: MechEngine[] = [
-  { engineRating: 20, tonnage: 0.5, integralHeatSinks: 0, maxIntegralHeatSinks: 1 },
+  defaultMechEngine,
   { engineRating: 25, tonnage: 0.5, integralHeatSinks: 0, maxIntegralHeatSinks: 1 },
   { engineRating: 30, tonnage: 1, integralHeatSinks: 0, maxIntegralHeatSinks: 1 },
   { engineRating: 35, tonnage: 1, integralHeatSinks: 0, maxIntegralHeatSinks: 1 },
