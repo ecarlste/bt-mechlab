@@ -366,13 +366,17 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
       updatedEquipmentLocations[Location.RightArm].criticalSlotsUsed = newRightArmEquipment.length;
 
       const totalArmor = getCurrentTotalMechArmor(Object.values(updatedEquipmentLocations));
+      const integralHeatSinkTonnage = getInternalHeatSinkTonnage(state.mechEngine);
 
       return {
         mechExternalHeatSinks: 0,
         mechHeatPerTurn: 0,
         mechCoolingPerTurn: state.mechEngine.integralHeatSinks,
         currentMechTonnage:
-          state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor) + state.mechEngine.tonnage,
+          state.mechInternalStructureTonnage +
+          getMechArmorTonnage(totalArmor) +
+          state.mechEngine.tonnage +
+          integralHeatSinkTonnage,
         equipmentLocations: updatedEquipmentLocations,
       };
     }),
@@ -463,6 +467,10 @@ function calculateInternalHeatSinkTonnageChange(currentInternalHeatSinks: number
   const newHeatSinksAboveTen = newInternalHeatSinks > 10 ? newInternalHeatSinks - 10 : 0;
 
   return newHeatSinksAboveTen - currentHeatSinksAboveTen;
+}
+
+function getInternalHeatSinkTonnage(mechEngine: MechEngine) {
+  return mechEngine.integralHeatSinks > 10 ? mechEngine.integralHeatSinks - 10 : 0;
 }
 
 function getExternalHeatSinkCount(mechEquipmentLocations: MechEquipmentLocation[]) {
