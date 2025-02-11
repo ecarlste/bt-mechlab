@@ -8,7 +8,9 @@ import {
   MechActuatorsInstalled,
 } from "~/lib/equipment/mech-actuators";
 import { defaultMechEngine, MechEngine, mechEnginesByRating } from "~/lib/equipment/mech-engines";
-import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
+import { MechEquipmentChange, MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
+import { jumpJetName } from "~/lib/equipment/mech-jump-jets";
+import { initialMechMovement, MechMovement } from "~/lib/movement/mech-movement";
 
 import {
   ArmorSide,
@@ -33,6 +35,7 @@ type MechBuilderState = {
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
   mechActuatorsInstalled: MechActuatorsInstalled;
+  mechMovement: MechMovement;
 };
 
 type MechBuilderActions = {
@@ -96,6 +99,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
+  mechMovement: initialMechMovement,
   maxAllArmor: () =>
     set((state) => {
       const updatedEquipmentLocations = { ...state.equipmentLocations };
@@ -203,6 +207,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
             ...state.equipmentLocations,
             [location]: updatedEquipmentLocation,
           },
+          mechMovement: updateMechMovementIfEquipmentIsJumpJet(state.mechMovement, equipment, MechEquipmentChange.Add),
         };
       } else {
         toast.error(`Not enough free slots to equip ${equipment.name}`, { duration: 10000 });
@@ -236,6 +241,8 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
       const newMechTonnage = state.currentMechTonnage + mechTonnageChange + heatSinkTonnageChange;
       const newMechCoolingPerTurn = state.mechCoolingPerTurn + mechCoolingChange;
 
+      const walkAndRunMp = getWalkingAndRunningMpForEngineRatingAndMechTonnage(rating, state.maxMechTonnage);
+
       return {
         mechCoolingPerTurn: newMechCoolingPerTurn,
         currentMechTonnage: newMechTonnage,
@@ -243,6 +250,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           ...newMechEngine,
           integralHeatSinks: newIntegralHeatSinks,
         },
+        mechMovement: { ...state.mechMovement, ...walkAndRunMp },
       };
     }),
   changeMechEngineHeatSinksBy: (amount) =>
@@ -311,6 +319,11 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           ...state.equipmentLocations,
           [location]: updatedEquipmentLocation,
         },
+        mechMovement: updateMechMovementIfEquipmentIsJumpJet(
+          state.mechMovement,
+          equipmentToRemove,
+          MechEquipmentChange.Remove,
+        ),
       };
     }),
   removeAllEquipment: () =>
@@ -334,6 +347,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           state.mechEngine.tonnage +
           integralHeatSinkTonnage,
         equipmentLocations: updatedEquipmentLocations,
+        mechMovement: { ...state.mechMovement, jumpingMp: 0 },
       };
     }),
   enableDraggableOver: (location) =>
@@ -504,4 +518,27 @@ function isHeatSinkTonnageFree(currentExternalHeatSinkCount: number, mechEngine:
   const noTonnageHeatSinks = mechEngine.maxIntegralHeatSinks < 10 ? 10 - mechEngine.maxIntegralHeatSinks : 0;
 
   return currentExternalHeatSinkCount <= noTonnageHeatSinks;
+}
+
+function getWalkingAndRunningMpForEngineRatingAndMechTonnage(
+  rating: number,
+  maxMechTonnage: MechTonnage,
+): Omit<MechMovement, "jumpingMp"> {
+  const walkingMp = Math.floor(rating / maxMechTonnage);
+  const runningMp = Math.ceil(walkingMp * 1.5);
+
+  return { walkingMp, runningMp };
+}
+
+function updateMechMovementIfEquipmentIsJumpJet(
+  mechMovement: MechMovement,
+  equipment: MechEquipmentType,
+  mechEquipmentChange: MechEquipmentChange,
+) {
+  if (equipment.name !== jumpJetName) return mechMovement;
+
+  return {
+    ...mechMovement,
+    jumpingMp: mechMovement.jumpingMp + mechEquipmentChange,
+  };
 }
