@@ -29,13 +29,15 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Remove all unused logic for equipment slot installed actuators
-- [ ] Fix issue with initial actuators not forcing redraw on mech builder
+- [ ] Show movement speed in mech build summary component
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
 - [ ] Implement weapon ammunition in mech builder
+- [ ] show calculated battle value in mech build summary
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
+- [ ] ensure mech persisted in local storage is per user
+- [ ] Fix issue with mech builder not representing state correctly on no cache refresh
 - [ ] Redesign weapon create/edit form (modal?)
 - [ ] Routing/weapon details page (modal?)
 - [ ] Analytics (posthog)
@@ -46,6 +48,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Remove all unused logic for equipment slot installed actuators
 - [x] arm actuator adjustments using checkbox (not from db)
 - [x] Correctly calculate tonnage on remove all equipment for large engines with >10 heat sinks
 - [x] Correctly calculate tonnage for external heat sinks below 10 total heat sinks
