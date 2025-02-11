@@ -29,7 +29,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Show movement speed in mech build summary component
+- [ ] Max armor button should correctly calculate mech weight including engine, weapons, and equipment
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
@@ -48,6 +48,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Show movement speed in mech build summary component
 - [x] Remove all unused logic for equipment slot installed actuators
 - [x] arm actuator adjustments using checkbox (not from db)
 - [x] Correctly calculate tonnage on remove all equipment for large engines with >10 heat sinks

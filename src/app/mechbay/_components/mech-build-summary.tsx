@@ -10,10 +10,13 @@ type MechBuildSummaryProps = {
 };
 
 function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
-  const mexMechTonnage = useEquipmentStore((state) => state.maxMechTonnage);
-  const currentMechTonnage = useEquipmentStore((state) => state.currentMechTonnage);
-  const mechHeatPerTurn = useEquipmentStore((state) => state.mechHeatPerTurn);
-  const mechCoolingPerTurn = useEquipmentStore((state) => state.mechCoolingPerTurn);
+  const { maxMechTonnage, currentMechTonnage, mechHeatPerTurn, mechCoolingPerTurn, mechEngine } = useEquipmentStore(
+    (state) => state,
+  );
+
+  const walkingMp = Math.floor(mechEngine.engineRating / maxMechTonnage);
+  const runningMp = Math.ceil(walkingMp * 1.5);
+  const jumpingMp = 0;
 
   return (
     <div className="p-2 rounded-md border-2 flex flex-col">
@@ -24,7 +27,7 @@ function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
       <div className="flex justify-between pt-1 px-2 text-xs">
         <span>Weight:</span>
         <span>
-          {currentMechTonnage}/{mexMechTonnage}
+          {currentMechTonnage}/{maxMechTonnage}
         </span>
       </div>
       <div className="flex justify-between pt-1 px-2 text-xs">
@@ -34,6 +37,12 @@ function MechBuildSummary({ name, variant }: MechBuildSummaryProps) {
       <div className="flex justify-between pt-1 px-2 text-xs">
         <span>Cooling:</span>
         <span>{mechCoolingPerTurn}/turn</span>
+      </div>
+      <div className="flex justify-between pt-1 px-2 text-xs">
+        <span>Speed(W/R/J):</span>
+        <span>
+          {walkingMp}/{runningMp}/{jumpingMp}
+        </span>
       </div>
     </div>
   );
