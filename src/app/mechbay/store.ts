@@ -1,6 +1,12 @@
 import { toast } from "sonner";
 import { create } from "zustand";
 
+import {
+  ArmActuatorsInstalled,
+  ArmLocation,
+  defaultMechActuatorsInstalled,
+  MechActuatorsInstalled,
+} from "~/lib/equipment/mech-actuators";
 import { defaultMechEngine, MechEngine, mechEnginesByRating } from "~/lib/equipment/mech-engines";
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
@@ -17,8 +23,7 @@ import {
   MechTonnage,
 } from "./location";
 
-interface EquipmentState {
-  initialized: boolean;
+type EquipmentState = {
   maxMechTonnage: MechTonnage;
   currentMechTonnage: number;
   mechHeatPerTurn: number;
@@ -27,7 +32,10 @@ interface EquipmentState {
   mechInternalStructureTonnage: number;
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
-  initialize: (equipment: MechEquipmentType[]) => void;
+  mechActuatorsInstalled: MechActuatorsInstalled;
+};
+
+type EquipmentActions = {
   changeMechArmorInLocationBy: (location: Location, armorSide: ArmorSide, amount: number) => void;
   maxAllArmor: () => void;
   updateDraggableOver: (location: Location) => void;
@@ -38,11 +46,18 @@ interface EquipmentState {
   removeAllEquipment: () => void;
   enableDraggableOver: (location: Location) => void;
   resetAllDraggableOver: () => void;
-}
+  installLowerArmActuator: (location: ArmLocation) => void;
+  installHandActuator: (location: ArmLocation) => void;
+  removeLowerArmActuator: (location: ArmLocation) => void;
+  removeHandActuator: (location: ArmLocation) => void;
+};
+
+type EquipmentStore = EquipmentState & EquipmentActions;
 
 function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): MechEquipmentLocation {
   const internalStructure = getInternalStructureAmount(tonnage, location);
   const maxArmor = location === Location.Head ? 9 : internalStructure * 2;
+
   return {
     id: location,
     internalStructure: internalStructure,
@@ -61,10 +76,10 @@ function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): 
 const initialMechTonnage =
   getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard) + defaultMechEngine.tonnage;
 
-export const useEquipmentStore = create<EquipmentState>()((set) => ({
-  initialized: false,
+export const useEquipmentStore = create<EquipmentStore>()((set) => ({
   maxMechTonnage: 75,
   currentMechTonnage: initialMechTonnage,
+  mechActuatorsInstalled: defaultMechActuatorsInstalled,
   mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
   mechEngine: defaultMechEngine,
   mechHeatPerTurn: 0,
@@ -80,42 +95,6 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
     [Location.LeftTorso]: getInitialEquipmentLocation(Location.LeftTorso, 75),
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
-  },
-  initialize: (equipment) => {
-    set((state) => {
-      if (state.initialized) return state;
-
-      const lowerArmActuator = equipment.find((item) => item.name === "Lower Arm Actuator");
-      const handActuator = equipment.find((item) => item.name === "Hand Actuator");
-
-      if (!lowerArmActuator || !handActuator) {
-        throw new Error("Lower Arm Actuator or Hand Actuator not found in equipment");
-      }
-
-      const armActuators = [lowerArmActuator, handActuator];
-      const criticalSlotsUsed = armActuators.reduce((total, item) => total + item.criticalSlots, 0);
-      const updatedRightArm = {
-        ...state.equipmentLocations[Location.RightArm],
-        criticalSlotsUsed,
-        installedEquipment: [...armActuators],
-      };
-      const updatedLeftArm = {
-        ...state.equipmentLocations[Location.LeftArm],
-        criticalSlotsUsed,
-        installedEquipment: [...armActuators],
-      };
-
-      const updatedEquipmentLocations = {
-        ...state.equipmentLocations,
-        [Location.RightArm]: updatedRightArm,
-        [Location.LeftArm]: updatedLeftArm,
-      };
-
-      return {
-        initialized: true,
-        equipmentLocations: updatedEquipmentLocations,
-      };
-    });
   },
   maxAllArmor: () =>
     set((state) => {
@@ -407,7 +386,95 @@ export const useEquipmentStore = create<EquipmentState>()((set) => ({
         equipmentLocations: updatedEquipmentLocations,
       };
     }),
+  installLowerArmActuator: (location) =>
+    set((state) => {
+      if (state.mechActuatorsInstalled[location].lowerArm) return state;
+
+      const mechActuatorsInstalled = updateMechActuatorsInstalled(location, state, { lowerArm: true });
+      const updatedArmLocation = updateArmLocationForActuatorChange(location, state, mechActuatorsInstalled);
+
+      return {
+        equipmentLocations: {
+          ...state.equipmentLocations,
+          [location]: updatedArmLocation,
+        },
+        mechActuatorsInstalled,
+      };
+    }),
+  installHandActuator: (location) =>
+    set((state) => {
+      if (state.mechActuatorsInstalled[location].hand) return state;
+
+      const mechActuatorsInstalled = updateMechActuatorsInstalled(location, state, { lowerArm: true, hand: true });
+      const updatedArmLocation = updateArmLocationForActuatorChange(location, state, mechActuatorsInstalled);
+
+      return {
+        equipmentLocations: {
+          ...state.equipmentLocations,
+          [location]: updatedArmLocation,
+        },
+        mechActuatorsInstalled,
+      };
+    }),
+  removeLowerArmActuator: (location) =>
+    set((state) => {
+      if (!state.mechActuatorsInstalled[location].lowerArm) return state;
+
+      const mechActuatorsInstalled = updateMechActuatorsInstalled(location, state, { lowerArm: false, hand: false });
+      const updatedArmLocation = updateArmLocationForActuatorChange(location, state, mechActuatorsInstalled);
+
+      return {
+        equipmentLocations: {
+          ...state.equipmentLocations,
+          [location]: updatedArmLocation,
+        },
+        mechActuatorsInstalled,
+      };
+    }),
+  removeHandActuator: (location) =>
+    set((state) => {
+      if (!state.mechActuatorsInstalled[location].hand) return state;
+
+      const mechActuatorsInstalled = updateMechActuatorsInstalled(location, state, { hand: false });
+      const updatedArmLocation = updateArmLocationForActuatorChange(location, state, mechActuatorsInstalled);
+
+      return {
+        equipmentLocations: {
+          ...state.equipmentLocations,
+          [location]: updatedArmLocation,
+        },
+        mechActuatorsInstalled,
+      };
+    }),
 }));
+
+function updateMechActuatorsInstalled(
+  location: ArmLocation,
+  state: EquipmentStore,
+  changedActuators: Partial<ArmActuatorsInstalled>,
+) {
+  return {
+    ...state.mechActuatorsInstalled,
+    [location]: { ...state.mechActuatorsInstalled[location], ...changedActuators },
+  };
+}
+
+function updateArmLocationForActuatorChange(
+  location: ArmLocation,
+  state: EquipmentStore,
+  mechActuators: MechActuatorsInstalled,
+) {
+  let bonusCriticalSlots = 0;
+  bonusCriticalSlots += mechActuators[location].lowerArm ? 0 : 1;
+  bonusCriticalSlots += mechActuators[location].hand ? 0 : 1;
+
+  const updatedArmLocation = {
+    ...state.equipmentLocations[location],
+    criticalSlots: criticalSlots[location] + bonusCriticalSlots,
+  };
+
+  return updatedArmLocation;
+}
 
 function isInvalidLowerArmActuatorRemoval(
   equipmentToRemove: MechEquipmentType,
@@ -419,14 +486,14 @@ function isInvalidLowerArmActuatorRemoval(
   );
 }
 
-function isHeatSinkAndIsWeightFreeOnAdd(equipment: MechEquipmentType, state: EquipmentState) {
+function isHeatSinkAndIsWeightFreeOnAdd(equipment: MechEquipmentType, state: EquipmentStore) {
   return (
     equipment.name.includes("Heat Sink") &&
     isHeatSinkTonnageFree(getExternalHeatSinkCount(Object.values(state.equipmentLocations)) + 1, state.mechEngine)
   );
 }
 
-function isHeatSinkAndIsWeightFreeOnRemove(equipment: MechEquipmentType, state: EquipmentState) {
+function isHeatSinkAndIsWeightFreeOnRemove(equipment: MechEquipmentType, state: EquipmentStore) {
   return (
     equipment.name.includes("Heat Sink") &&
     isHeatSinkTonnageFree(getExternalHeatSinkCount(Object.values(state.equipmentLocations)), state.mechEngine)

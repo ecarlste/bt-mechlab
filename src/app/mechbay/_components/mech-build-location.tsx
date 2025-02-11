@@ -1,5 +1,8 @@
+import { ArmLocation } from "~/lib/equipment/mech-actuators";
+
 import { MechEquipmentLocation, Location, ArmorSide } from "../location";
 import EquipmentInLocation from "./equipment-in-location";
+import MechBuildArmActuatorSelector from "./mech-build-arm-actuator-selector";
 import MechBuildEngineSelector from "./mech-build-engine-selector";
 import MechBuildLocationArmorAdjuster from "./mech-build-location-armor-adjuster";
 
@@ -8,6 +11,7 @@ interface MechBuildLocationProps {
 }
 
 const locationsWithRearArmor = [Location.CenterTorso, Location.RightTorso, Location.LeftTorso];
+const armLocations = [Location.RightArm, Location.LeftArm];
 
 export default function MechBuildLocation({ equipmentLocation }: MechBuildLocationProps) {
   const locationName = equipmentLocation.id.replace(/([A-Z])/g, " $1").trim();
@@ -44,6 +48,9 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
             <span>{equipmentLocation.internalStructure}</span>
           </div>
           {equipmentLocation.id === Location.CenterTorso && <MechBuildEngineSelector />}
+          {armLocations.includes(equipmentLocation.id as Location) && (
+            <MechBuildArmActuatorSelector location={equipmentLocation.id as ArmLocation} />
+          )}
         </div>
       </div>
       <EquipmentInLocation equipmentLocation={equipmentLocation} />

@@ -1,7 +1,6 @@
 "use client";
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { useEffect } from "react";
 
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 
@@ -18,16 +17,9 @@ type MechBuilderProps = {
 };
 
 function MechBuilder({ equipment }: MechBuilderProps) {
-  const { initialize, initialized } = useEquipmentStore();
   const mechEquipmentLocations = useEquipmentStore((state) => state.equipmentLocations);
   const addEquipment = useEquipmentStore((state) => state.addEquipment);
   const resetAllDraggableOver = useEquipmentStore((state) => state.resetAllDraggableOver);
-
-  useEffect(() => {
-    if (!initialized) {
-      initialize(equipment);
-    }
-  }, [initialized, initialize, equipment]);
 
   function handleDragEnd(event: DragEndEvent) {
     const itemToEquip = event.active.data.current as MechEquipmentType;

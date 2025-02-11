@@ -29,6 +29,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
+- [ ] Remove all unused logic for equipment slot installed actuators
 - [ ] Fix issue with initial actuators not forcing redraw on mech builder
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
@@ -45,6 +46,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] arm actuator adjustments using checkbox (not from db)
 - [x] Correctly calculate tonnage on remove all equipment for large engines with >10 heat sinks
 - [x] Correctly calculate tonnage for external heat sinks below 10 total heat sinks
 - [x] Downgrading engine full of heat sinks correctly updates mech cooling
