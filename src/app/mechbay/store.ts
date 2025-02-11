@@ -99,7 +99,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
   maxAllArmor: () =>
     set((state) => {
       const updatedEquipmentLocations = { ...state.equipmentLocations };
-      let totalArmor = 0;
+
       Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
         if ([Location.LeftTorso, Location.RightTorso].includes(equipmentLocation.id)) {
           const oneFourthMaxArmor = Math.floor(equipmentLocation.armor.maxArmor / 4);
@@ -116,12 +116,14 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
         } else {
           equipmentLocation.armor.frontArmor = equipmentLocation.armor.maxArmor;
         }
-
-        totalArmor += equipmentLocation.armor.frontArmor + equipmentLocation.armor.rearArmor;
       });
 
       return {
-        currentMechTonnage: state.mechInternalStructureTonnage + getMechArmorTonnage(totalArmor),
+        currentMechTonnage: getCurrentMechTonnage(
+          Object.values(updatedEquipmentLocations),
+          state.mechEngine,
+          state.maxMechTonnage,
+        ),
         equipmentLocations: updatedEquipmentLocations,
       };
     }),
@@ -453,8 +455,42 @@ function calculateInternalHeatSinkTonnageChange(currentInternalHeatSinks: number
   return newHeatSinksAboveTen - currentHeatSinksAboveTen;
 }
 
+function getCurrentMechTonnage(
+  mechEquipmentLocations: MechEquipmentLocation[],
+  mechEngine: MechEngine,
+  maxMechTonnage: MechTonnage,
+) {
+  return (
+    getInternalStructureTonnage(maxMechTonnage, InternalStructureTechnologyBase.Standard) +
+    getMechArmorTonnage(getCurrentTotalMechArmor(mechEquipmentLocations)) +
+    getTotalWeaponTonnage(mechEquipmentLocations) +
+    getTotalHeatSinkTonnage(mechEquipmentLocations, mechEngine) +
+    mechEngine.tonnage
+  );
+}
+
+function getTotalWeaponTonnage(mechEquipmentLocations: MechEquipmentLocation[]) {
+  return mechEquipmentLocations.reduce((total, location) => {
+    const weapons = location.installedEquipment.filter((item) => "weaponType" in item);
+    return total + weapons.reduce((weaponTotal, weapon) => weaponTotal + weapon.weight, 0);
+  }, 0);
+}
+
+function getTotalHeatSinkTonnage(mechEquipmentLocations: MechEquipmentLocation[], mechEngine: MechEngine) {
+  return getInternalHeatSinkTonnage(mechEngine) + getExternalHeatSinkTonnage(mechEquipmentLocations, mechEngine);
+}
+
 function getInternalHeatSinkTonnage(mechEngine: MechEngine) {
   return mechEngine.integralHeatSinks > 10 ? mechEngine.integralHeatSinks - 10 : 0;
+}
+
+function getExternalHeatSinkTonnage(mechEquipmentLocations: MechEquipmentLocation[], mechEngine: MechEngine) {
+  const externalHeatSinkCount = getExternalHeatSinkCount(mechEquipmentLocations);
+  const noTonnageHeatSinks = mechEngine.maxIntegralHeatSinks < 10 ? 10 - mechEngine.maxIntegralHeatSinks : 0;
+
+  const eternalHeatSinkTonnage = externalHeatSinkCount - noTonnageHeatSinks;
+
+  return eternalHeatSinkTonnage < 0 ? 0 : eternalHeatSinkTonnage;
 }
 
 function getExternalHeatSinkCount(mechEquipmentLocations: MechEquipmentLocation[]) {

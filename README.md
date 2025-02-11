@@ -29,11 +29,11 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Max armor button should correctly calculate mech weight including engine, weapons, and equipment
 - [ ] Implement jump jets in mech builder
 - [ ] Implement gyroscope in mech builder
 - [ ] Implement basic cockpit in mech builder
 - [ ] Implement weapon ammunition in mech builder
+- [ ] prevent removal of arm actuators if resulting critital slots will be negative
 - [ ] show calculated battle value in mech build summary
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] ensure mech persisted in local storage is per user
@@ -48,6 +48,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Max armor button should correctly calculate mech weight including engine, weapons, and equipment
 - [x] Show movement speed in mech build summary component
 - [x] Remove all unused logic for equipment slot installed actuators
 - [x] arm actuator adjustments using checkbox (not from db)
