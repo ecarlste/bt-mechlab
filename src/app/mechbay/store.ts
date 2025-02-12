@@ -7,6 +7,7 @@ import {
   defaultMechActuatorsInstalled,
   MechActuatorsInstalled,
 } from "~/lib/equipment/mech-actuators";
+import { defaultMechCockpit, MechCockpit } from "~/lib/equipment/mech-cockpits";
 import { defaultMechEngine, MechEngine, mechEnginesByRating } from "~/lib/equipment/mech-engines";
 import { MechEquipmentChange, MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { defaultMechGyro, getGyroTonnageForEngineByRating, MechGyro } from "~/lib/equipment/mech-gyros";
@@ -36,6 +37,7 @@ type MechBuilderState = {
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
   mechActuatorsInstalled: MechActuatorsInstalled;
+  mechCockpit: MechCockpit;
   mechGyro: MechGyro;
   mechMovement: MechMovement;
 };
@@ -81,6 +83,7 @@ function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): 
 const initialMechTonnage =
   getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard) +
   defaultMechEngine.tonnage +
+  defaultMechCockpit.weight +
   getGyroTonnageForEngineByRating(defaultMechGyro, defaultMechEngine.engineRating);
 
 export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
@@ -103,6 +106,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
+  mechCockpit: defaultMechCockpit,
   mechGyro: defaultMechGyro,
   mechMovement: initialMechMovement,
   maxAllArmor: () =>
@@ -132,6 +136,8 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           Object.values(updatedEquipmentLocations),
           state.mechEngine,
           state.maxMechTonnage,
+          state.mechGyro,
+          state.mechCockpit,
         ),
         equipmentLocations: updatedEquipmentLocations,
       };
@@ -243,6 +249,8 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           Object.values(state.equipmentLocations),
           newMechEngine,
           state.maxMechTonnage,
+          state.mechGyro,
+          state.mechCockpit,
         ),
         mechEngine: {
           ...newMechEngine,
@@ -343,6 +351,8 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
           Object.values(updatedEquipmentLocations),
           state.mechEngine,
           state.maxMechTonnage,
+          state.mechGyro,
+          state.mechCockpit,
         ),
         equipmentLocations: updatedEquipmentLocations,
         mechMovement: { ...state.mechMovement, jumpingMp: 0 },
@@ -471,7 +481,8 @@ function getCurrentMechTonnage(
   mechEquipmentLocations: MechEquipmentLocation[],
   mechEngine: MechEngine,
   maxMechTonnage: MechTonnage,
-  gyro: MechGyro = defaultMechGyro,
+  mechGyro: MechGyro = defaultMechGyro,
+  mechCockpit: MechCockpit = defaultMechCockpit,
 ) {
   return (
     getInternalStructureTonnage(maxMechTonnage, InternalStructureTechnologyBase.Standard) +
@@ -479,7 +490,8 @@ function getCurrentMechTonnage(
     getTotalWeaponTonnage(mechEquipmentLocations) +
     getTotalHeatSinkTonnage(mechEquipmentLocations, mechEngine) +
     mechEngine.tonnage +
-    getGyroTonnageForEngineByRating(gyro, mechEngine.engineRating)
+    getGyroTonnageForEngineByRating(mechGyro, mechEngine.engineRating) +
+    mechCockpit.weight
   );
 }
 

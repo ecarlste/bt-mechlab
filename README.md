@@ -29,7 +29,6 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] Implement basic cockpit in mech builder
 - [ ] Implement weapon ammunition in mech builder
 - [ ] prevent installation of arm actuators if resulting critital slots will be negative
 - [ ] show calculated battle value in mech build summary
@@ -46,6 +45,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] Implement basic cockpit in mech builder
 - [x] Implement gyroscope in mech builder
 - [x] Implement jump jets in mech builder
 - [x] Max armor button should correctly calculate mech weight including engine, weapons, and equipment
