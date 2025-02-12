@@ -9,6 +9,7 @@ import {
 } from "~/lib/equipment/mech-actuators";
 import { defaultMechEngine, MechEngine, mechEnginesByRating } from "~/lib/equipment/mech-engines";
 import { MechEquipmentChange, MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
+import { defaultMechGyro, getGyroTonnageForEngineByRating, MechGyro } from "~/lib/equipment/mech-gyros";
 import { jumpJetName } from "~/lib/equipment/mech-jump-jets";
 import { initialMechMovement, MechMovement } from "~/lib/movement/mech-movement";
 
@@ -35,6 +36,7 @@ type MechBuilderState = {
   draggableOver: Location | undefined;
   equipmentLocations: Record<Location, MechEquipmentLocation>;
   mechActuatorsInstalled: MechActuatorsInstalled;
+  mechGyro: MechGyro;
   mechMovement: MechMovement;
 };
 
@@ -77,7 +79,9 @@ function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): 
 }
 
 const initialMechTonnage =
-  getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard) + defaultMechEngine.tonnage;
+  getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard) +
+  defaultMechEngine.tonnage +
+  getGyroTonnageForEngineByRating(defaultMechGyro, defaultMechEngine.engineRating);
 
 export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
   maxMechTonnage: 75,
@@ -99,6 +103,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
     [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
     [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
   },
+  mechGyro: defaultMechGyro,
   mechMovement: initialMechMovement,
   maxAllArmor: () =>
     set((state) => {
@@ -224,33 +229,29 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
       }
 
       let newIntegralHeatSinks = 0;
-      let currentEngineTonnage = 0;
-      let heatSinkTonnageChange = 0;
       let mechCoolingChange = 0;
       if (currentMechEngine) {
         newIntegralHeatSinks = Math.min(currentMechEngine.integralHeatSinks, newMechEngine.maxIntegralHeatSinks);
-        currentEngineTonnage = currentMechEngine.tonnage;
-        heatSinkTonnageChange = calculateInternalHeatSinkTonnageChange(
-          currentMechEngine.integralHeatSinks,
-          newIntegralHeatSinks,
-        );
         mechCoolingChange = newIntegralHeatSinks - currentMechEngine.integralHeatSinks;
       }
 
-      const mechTonnageChange = newMechEngine.tonnage - currentEngineTonnage;
-      const newMechTonnage = state.currentMechTonnage + mechTonnageChange + heatSinkTonnageChange;
       const newMechCoolingPerTurn = state.mechCoolingPerTurn + mechCoolingChange;
-
-      const walkAndRunMp = getWalkingAndRunningMpForEngineRatingAndMechTonnage(rating, state.maxMechTonnage);
 
       return {
         mechCoolingPerTurn: newMechCoolingPerTurn,
-        currentMechTonnage: newMechTonnage,
+        currentMechTonnage: getCurrentMechTonnage(
+          Object.values(state.equipmentLocations),
+          newMechEngine,
+          state.maxMechTonnage,
+        ),
         mechEngine: {
           ...newMechEngine,
           integralHeatSinks: newIntegralHeatSinks,
         },
-        mechMovement: { ...state.mechMovement, ...walkAndRunMp },
+        mechMovement: {
+          ...state.mechMovement,
+          ...getWalkingAndRunningMpForEngineRatingAndMechTonnage(rating, state.maxMechTonnage),
+        },
       };
     }),
   changeMechEngineHeatSinksBy: (amount) =>
@@ -334,18 +335,15 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
         equipmentLocation.criticalSlotsUsed = 0;
       });
 
-      const totalArmor = getCurrentTotalMechArmor(Object.values(updatedEquipmentLocations));
-      const integralHeatSinkTonnage = getInternalHeatSinkTonnage(state.mechEngine);
-
       return {
         mechExternalHeatSinks: 0,
         mechHeatPerTurn: 0,
         mechCoolingPerTurn: state.mechEngine.integralHeatSinks,
-        currentMechTonnage:
-          state.mechInternalStructureTonnage +
-          getMechArmorTonnage(totalArmor) +
-          state.mechEngine.tonnage +
-          integralHeatSinkTonnage,
+        currentMechTonnage: getCurrentMechTonnage(
+          Object.values(updatedEquipmentLocations),
+          state.mechEngine,
+          state.maxMechTonnage,
+        ),
         equipmentLocations: updatedEquipmentLocations,
         mechMovement: { ...state.mechMovement, jumpingMp: 0 },
       };
@@ -473,13 +471,15 @@ function getCurrentMechTonnage(
   mechEquipmentLocations: MechEquipmentLocation[],
   mechEngine: MechEngine,
   maxMechTonnage: MechTonnage,
+  gyro: MechGyro = defaultMechGyro,
 ) {
   return (
     getInternalStructureTonnage(maxMechTonnage, InternalStructureTechnologyBase.Standard) +
     getMechArmorTonnage(getCurrentTotalMechArmor(mechEquipmentLocations)) +
     getTotalWeaponTonnage(mechEquipmentLocations) +
     getTotalHeatSinkTonnage(mechEquipmentLocations, mechEngine) +
-    mechEngine.tonnage
+    mechEngine.tonnage +
+    getGyroTonnageForEngineByRating(gyro, mechEngine.engineRating)
   );
 }
 
