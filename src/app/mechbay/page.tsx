@@ -9,9 +9,7 @@ export default async function MechBayPage() {
   const weapons = await getAllWeapons();
   const equipment = await getAllEquipment();
 
-  const allWeaponsAndEquipment = [...weapons, ...equipment].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  ) as MechEquipmentType[];
+  const allWeaponsAndEquipment = [...weapons, ...equipment] as MechEquipmentType[];
 
   return (
     <div className="container mx-auto flex py-10">

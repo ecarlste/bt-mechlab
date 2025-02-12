@@ -201,23 +201,25 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
       if (slotsUsed + equipment.criticalSlots <= slots) {
         const equipmentWeight = isHeatSinkAndIsWeightFreeOnAdd(equipment, state) ? 0 : equipment.weight;
 
-        const updatedEquipmentLocation = {
-          ...mechEquipmentLocation,
-          criticalSlotsUsed: slotsUsed + equipment.criticalSlots,
-          installedEquipment: [...mechEquipmentLocation.installedEquipment, equipment],
+        const updatedEquipmentLocations = {
+          ...state.equipmentLocations,
+          [location]: {
+            ...mechEquipmentLocation,
+            criticalSlotsUsed: slotsUsed + equipment.criticalSlots,
+            installedEquipment: [...mechEquipmentLocation.installedEquipment, equipment],
+          },
         };
 
-        const mechHeatPerTurn = state.mechHeatPerTurn + (equipment.heat > 0 ? equipment.heat : 0);
-        const mechCoolingPerTurn = state.mechCoolingPerTurn + (equipment.heat < 0 ? equipment.heat * -1 : 0);
+        const { mechHeatPerTurn, mechCoolingPerTurn } = getMechHeatAndCoolingPerTurn(
+          updatedEquipmentLocations,
+          state.mechEngine,
+        );
 
         return {
           mechHeatPerTurn,
           mechCoolingPerTurn,
           currentMechTonnage: state.currentMechTonnage + equipmentWeight,
-          equipmentLocations: {
-            ...state.equipmentLocations,
-            [location]: updatedEquipmentLocation,
-          },
+          equipmentLocations: updatedEquipmentLocations,
           mechMovement: updateMechMovementIfEquipmentIsJumpJet(state.mechMovement, equipment, MechEquipmentChange.Add),
         };
       } else {
@@ -310,24 +312,25 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
       const updatedInstalledEquipment = [...mechEquipmentLocation.installedEquipment];
       updatedInstalledEquipment.splice(index, 1);
 
-      const updatedEquipmentLocation = {
-        ...mechEquipmentLocation,
-        criticalSlotsUsed: mechEquipmentLocation.criticalSlotsUsed - equipmentToRemove.criticalSlots,
-        installedEquipment: updatedInstalledEquipment,
+      const updatedEquipmentLocations = {
+        ...state.equipmentLocations,
+        [location]: {
+          ...mechEquipmentLocation,
+          criticalSlotsUsed: mechEquipmentLocation.criticalSlotsUsed - equipmentToRemove.criticalSlots,
+          installedEquipment: updatedInstalledEquipment,
+        },
       };
 
-      const mechHeatPerTurn = state.mechHeatPerTurn - (equipmentToRemove.heat > 0 ? equipmentToRemove.heat : 0);
-      const mechCoolingPerTurn =
-        state.mechCoolingPerTurn - (equipmentToRemove.heat < 0 ? equipmentToRemove.heat * -1 : 0);
+      const { mechHeatPerTurn, mechCoolingPerTurn } = getMechHeatAndCoolingPerTurn(
+        updatedEquipmentLocations,
+        state.mechEngine,
+      );
 
       return {
         mechHeatPerTurn,
         mechCoolingPerTurn,
         currentMechTonnage: state.currentMechTonnage - removeWeight,
-        equipmentLocations: {
-          ...state.equipmentLocations,
-          [location]: updatedEquipmentLocation,
-        },
+        equipmentLocations: updatedEquipmentLocations,
         mechMovement: updateMechMovementIfEquipmentIsJumpJet(
           state.mechMovement,
           equipmentToRemove,
@@ -553,4 +556,26 @@ function updateMechMovementIfEquipmentIsJumpJet(
     ...mechMovement,
     jumpingMp: mechMovement.jumpingMp + mechEquipmentChange,
   };
+}
+
+function getMechHeatAndCoolingPerTurn(
+  updatedEquipmentLocations: Record<Location, MechEquipmentLocation>,
+  mechEngine: MechEngine,
+): { mechHeatPerTurn: number; mechCoolingPerTurn: number } {
+  let mechHeatPerTurn = 0;
+  let mechCoolingPerTurn = mechEngine.integralHeatSinks;
+
+  Object.values(updatedEquipmentLocations).forEach((location) => {
+    location.installedEquipment
+      .filter((equipment) => "heat" in equipment)
+      .forEach((equipment) => {
+        if (equipment.heat > 0) {
+          mechHeatPerTurn += equipment.heat;
+        } else if (equipment.heat < 0) {
+          mechCoolingPerTurn += Math.abs(equipment.heat);
+        }
+      });
+  });
+
+  return { mechHeatPerTurn, mechCoolingPerTurn };
 }

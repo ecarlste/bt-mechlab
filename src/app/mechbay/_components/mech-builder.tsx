@@ -2,6 +2,7 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
+import { mechAmmoList } from "~/lib/equipment/mech-ammo";
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { createJumpJetForMechTonnage, jumpJetName } from "~/lib/equipment/mech-jump-jets";
 
@@ -41,6 +42,7 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
   }
 
   equipment = addJumpJetForMechTonnageToEquipment(maxMechTonnage, equipment);
+  equipment = addAmmoToEquipment(equipment).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <DndContext onDragEnd={handleDragEnd} id="mech-bay-dnd-context">
@@ -74,6 +76,10 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
       </div>
     </DndContext>
   );
+}
+
+function addAmmoToEquipment(equipment: MechEquipmentType[]) {
+  return [...equipment, ...mechAmmoList];
 }
 
 function addJumpJetForMechTonnageToEquipment(maxMechTonnage: MechTonnage, equipment: MechEquipmentType[]) {

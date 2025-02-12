@@ -2,9 +2,10 @@ import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
 import { Equipment, Weapon } from "~/server/db/schema";
 
+import { MechAmmo } from "./mech-ammo";
 import { JumpJet } from "./mech-jump-jets";
 
-export type MechEquipmentType = Weapon | Equipment | JumpJet;
+export type MechEquipmentType = Weapon | Equipment | JumpJet | MechAmmo;
 
 export enum MechEquipmentChange {
   Add = 1,

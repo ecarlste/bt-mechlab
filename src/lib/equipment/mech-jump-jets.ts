@@ -4,7 +4,6 @@ export const jumpJetName = "Jump Jet";
 
 export type JumpJet = {
   name: string;
-  heat: number;
   weight: number;
   criticalSlots: number;
 };
@@ -12,7 +11,6 @@ export type JumpJet = {
 export function createJumpJetForMechTonnage(mechTonnage: MechTonnage): JumpJet {
   return {
     name: jumpJetName,
-    heat: 0,
     weight: getJumpJetWeightForMechTonnage(mechTonnage),
     criticalSlots: 1,
   };
