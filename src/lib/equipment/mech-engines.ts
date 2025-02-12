@@ -77,6 +77,44 @@ export type MechEngineRating =
   | 395
   | 400;
 
+export enum MechEngineType {
+  Standard = "Standard",
+  Light = "Light",
+  Compact = "Compact",
+  InnerSphereXL = "Inner Sphere XL",
+  ClanXL = "Clan XL",
+}
+
+export const defaultEngineType = MechEngineType.Standard;
+
+export type MechEngineTypeModifierValue = 0.5 | 0.75 | 1;
+
+export type MechEngineTypeModifier = {
+  engineType: MechEngineType;
+  modifier: MechEngineTypeModifierValue;
+};
+
+export const defaultMechEngineTypeModifier: MechEngineTypeModifier = {
+  engineType: defaultEngineType,
+  modifier: 1,
+};
+
+export const mechEngineTypeModifiers: MechEngineTypeModifier[] = [
+  defaultMechEngineTypeModifier,
+  { engineType: MechEngineType.Light, modifier: 0.75 },
+  { engineType: MechEngineType.Compact, modifier: 1 },
+  { engineType: MechEngineType.InnerSphereXL, modifier: 0.5 },
+  { engineType: MechEngineType.ClanXL, modifier: 0.75 },
+];
+
+export const mechEngineTypeModifiersByEngineType = mechEngineTypeModifiers.reduce(
+  (acc, modifier) => {
+    acc[modifier.engineType] = modifier;
+    return acc;
+  },
+  {} as Record<MechEngineType, MechEngineTypeModifier>,
+);
+
 export type MechEngine = {
   engineRating: MechEngineRating;
   tonnage: number;

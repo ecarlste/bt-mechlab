@@ -1,20 +1,20 @@
-import { Location } from "~/app/mechbay/location";
+import { MechLocation } from "../mechs/mech-equipment-location";
 
 export type ArmActuatorsInstalled = {
   lowerArm: boolean;
   hand: boolean;
 };
 
-export type ArmLocation = Location.LeftArm | Location.RightArm;
+export type ArmLocation = MechLocation.LeftArm | MechLocation.RightArm;
 
 export type MechActuatorsInstalled = Record<ArmLocation, ArmActuatorsInstalled>;
 
 export const defaultMechActuatorsInstalled: MechActuatorsInstalled = {
-  [Location.LeftArm]: {
+  [MechLocation.LeftArm]: {
     lowerArm: true,
     hand: true,
   },
-  [Location.RightArm]: {
+  [MechLocation.RightArm]: {
     lowerArm: true,
     hand: true,
   },

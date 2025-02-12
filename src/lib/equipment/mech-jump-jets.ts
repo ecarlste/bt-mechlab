@@ -1,4 +1,4 @@
-import { MechTonnage } from "~/app/mechbay/location";
+import { MechTonnage } from "../mechs/battlemech";
 
 export const jumpJetName = "Jump Jet";
 

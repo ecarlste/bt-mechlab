@@ -1,6 +1,8 @@
 import { ArmLocation } from "~/lib/equipment/mech-actuators";
+import { ArmorSide } from "~/lib/mechs/mech-armor";
+import { MechEquipmentLocation } from "~/lib/mechs/mech-equipment-location";
+import { MechLocation } from "~/lib/mechs/mech-equipment-location";
 
-import { MechEquipmentLocation, Location, ArmorSide } from "../location";
 import EquipmentInLocation from "./equipment-in-location";
 import MechBuildArmActuatorSelector from "./mech-build-arm-actuator-selector";
 import MechBuildCockpitSelector from "./mech-build-cockpit-selector";
@@ -12,12 +14,12 @@ interface MechBuildLocationProps {
   equipmentLocation: MechEquipmentLocation;
 }
 
-const locationsWithRearArmor = [Location.CenterTorso, Location.RightTorso, Location.LeftTorso];
-const armLocations = [Location.RightArm, Location.LeftArm];
+const locationsWithRearArmor = [MechLocation.CenterTorso, MechLocation.RightTorso, MechLocation.LeftTorso];
+const armLocations = [MechLocation.RightArm, MechLocation.LeftArm];
 
 export default function MechBuildLocation({ equipmentLocation }: MechBuildLocationProps) {
   const locationName = equipmentLocation.id.replace(/([A-Z])/g, " $1").trim();
-  const enableRearArmor = locationsWithRearArmor.includes(equipmentLocation.id as Location);
+  const enableRearArmor = locationsWithRearArmor.includes(equipmentLocation.id as MechLocation);
 
   return (
     <div className="w-full rounded-t-md border-2 border-b text-center">
@@ -34,13 +36,13 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
             </div>
             <MechBuildLocationArmorAdjuster
               armor={equipmentLocation.armor}
-              location={equipmentLocation.id as Location}
+              location={equipmentLocation.id as MechLocation}
               armorSide={ArmorSide.FrontArmor}
             />
             {enableRearArmor && (
               <MechBuildLocationArmorAdjuster
                 armor={equipmentLocation.armor}
-                location={equipmentLocation.id as Location}
+                location={equipmentLocation.id as MechLocation}
                 armorSide={ArmorSide.RearArmor}
               />
             )}
@@ -49,14 +51,14 @@ export default function MechBuildLocation({ equipmentLocation }: MechBuildLocati
             <span>Structure</span>
             <span>{equipmentLocation.internalStructure}</span>
           </div>
-          {equipmentLocation.id === Location.Head && <MechBuildCockpitSelector />}
-          {equipmentLocation.id === Location.CenterTorso && (
+          {equipmentLocation.id === MechLocation.Head && <MechBuildCockpitSelector />}
+          {equipmentLocation.id === MechLocation.CenterTorso && (
             <>
               <MechBuildEngineSelector />
               <MechBuildGyroSelector />
             </>
           )}
-          {armLocations.includes(equipmentLocation.id as Location) && (
+          {armLocations.includes(equipmentLocation.id as MechLocation) && (
             <MechBuildArmActuatorSelector location={equipmentLocation.id as ArmLocation} />
           )}
         </div>

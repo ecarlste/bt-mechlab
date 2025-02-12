@@ -2,13 +2,15 @@
 
 import { SquareMinus, SquarePlus } from "lucide-react";
 
+import { ArmorSide } from "~/lib/mechs/mech-armor";
+import { MechEquipmentLocationArmor } from "~/lib/mechs/mech-equipment-location";
+import { MechLocation } from "~/lib/mechs/mech-equipment-location";
 import { cn } from "~/lib/utils";
 
-import { ArmorSide, MechEquipmentLocationArmor, Location } from "../location";
 import { useEquipmentStore } from "../store";
 
 type MechBuildLocationArmorAdjusterProps = {
-  location: Location;
+  location: MechLocation;
   armor: MechEquipmentLocationArmor;
   armorSide: ArmorSide;
 };

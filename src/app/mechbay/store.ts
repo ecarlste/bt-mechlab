@@ -12,20 +12,19 @@ import { defaultMechEngine, MechEngine, mechEnginesByRating } from "~/lib/equipm
 import { MechEquipmentChange, MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { defaultMechGyro, getGyroTonnageForEngineByRating, MechGyro } from "~/lib/equipment/mech-gyros";
 import { jumpJetName } from "~/lib/equipment/mech-jump-jets";
-import { initialMechMovement, MechMovement } from "~/lib/movement/mech-movement";
-
+import { MechTonnage } from "~/lib/mechs/battlemech";
+import { criticalSlots } from "~/lib/mechs/battlemech";
+import { ArmorSide } from "~/lib/mechs/mech-armor";
+import { getMechArmorTonnage } from "~/lib/mechs/mech-armor";
+import { getTotalMechArmor } from "~/lib/mechs/mech-armor";
+import { MechEquipmentLocation } from "~/lib/mechs/mech-equipment-location";
+import { MechLocation } from "~/lib/mechs/mech-equipment-location";
 import {
-  ArmorSide,
-  criticalSlots,
-  getCurrentTotalMechArmor,
   getInternalStructureAmount,
   getInternalStructureTonnage,
-  getMechArmorTonnage,
-  InternalStructureTechnologyBase,
-  Location,
-  MechEquipmentLocation,
-  MechTonnage,
-} from "./location";
+  InternalStructureType,
+} from "~/lib/mechs/mech-internal-structure";
+import { initialMechMovement, MechMovement } from "~/lib/movement/mech-movement";
 
 type MechBuilderState = {
   maxMechTonnage: MechTonnage;
@@ -34,8 +33,8 @@ type MechBuilderState = {
   mechCoolingPerTurn: number;
   mechEngine: MechEngine;
   mechInternalStructureTonnage: number;
-  draggableOver: Location | undefined;
-  equipmentLocations: Record<Location, MechEquipmentLocation>;
+  draggableOver: MechLocation | undefined;
+  equipmentLocations: Record<MechLocation, MechEquipmentLocation>;
   mechActuatorsInstalled: MechActuatorsInstalled;
   mechCockpit: MechCockpit;
   mechGyro: MechGyro;
@@ -43,15 +42,15 @@ type MechBuilderState = {
 };
 
 type MechBuilderActions = {
-  changeMechArmorInLocationBy: (location: Location, armorSide: ArmorSide, amount: number) => void;
+  changeMechArmorInLocationBy: (location: MechLocation, armorSide: ArmorSide, amount: number) => void;
   maxAllArmor: () => void;
-  updateDraggableOver: (location: Location) => void;
-  addEquipment: (location: Location, equipment: MechEquipmentType) => void;
+  updateDraggableOver: (location: MechLocation) => void;
+  addEquipment: (location: MechLocation, equipment: MechEquipmentType) => void;
   setMechEngineRating: (rating: number) => void;
   changeMechEngineHeatSinksBy: (amount: number) => void;
-  removeEquipment: (location: Location, index: number) => void;
+  removeEquipment: (location: MechLocation, index: number) => void;
   removeAllEquipment: () => void;
-  enableDraggableOver: (location: Location) => void;
+  enableDraggableOver: (location: MechLocation) => void;
   resetAllDraggableOver: () => void;
   installLowerArmActuator: (location: ArmLocation) => void;
   installHandActuator: (location: ArmLocation) => void;
@@ -61,9 +60,9 @@ type MechBuilderActions = {
 
 type MechBuilderStore = MechBuilderState & MechBuilderActions;
 
-function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): MechEquipmentLocation {
+function getInitialEquipmentLocation(location: MechLocation, tonnage: MechTonnage): MechEquipmentLocation {
   const internalStructure = getInternalStructureAmount(tonnage, location);
-  const maxArmor = location === Location.Head ? 9 : internalStructure * 2;
+  const maxArmor = location === MechLocation.Head ? 9 : internalStructure * 2;
 
   return {
     id: location,
@@ -81,7 +80,7 @@ function getInitialEquipmentLocation(location: Location, tonnage: MechTonnage): 
 }
 
 const initialMechTonnage =
-  getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard) +
+  getInternalStructureTonnage(75, InternalStructureType.Standard) +
   defaultMechEngine.tonnage +
   defaultMechCockpit.weight +
   getGyroTonnageForEngineByRating(defaultMechGyro, defaultMechEngine.engineRating);
@@ -90,21 +89,21 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
   maxMechTonnage: 75,
   currentMechTonnage: initialMechTonnage,
   mechActuatorsInstalled: defaultMechActuatorsInstalled,
-  mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureTechnologyBase.Standard),
+  mechInternalStructureTonnage: getInternalStructureTonnage(75, InternalStructureType.Standard),
   mechEngine: defaultMechEngine,
   mechHeatPerTurn: 0,
   mechExternalHeatSinks: 0,
   mechCoolingPerTurn: 0,
   draggableOver: undefined,
   equipmentLocations: {
-    [Location.RightArm]: getInitialEquipmentLocation(Location.RightArm, 75),
-    [Location.RightTorso]: getInitialEquipmentLocation(Location.RightTorso, 75),
-    [Location.RightLeg]: getInitialEquipmentLocation(Location.RightLeg, 75),
-    [Location.Head]: getInitialEquipmentLocation(Location.Head, 75),
-    [Location.CenterTorso]: getInitialEquipmentLocation(Location.CenterTorso, 75),
-    [Location.LeftTorso]: getInitialEquipmentLocation(Location.LeftTorso, 75),
-    [Location.LeftLeg]: getInitialEquipmentLocation(Location.LeftLeg, 75),
-    [Location.LeftArm]: getInitialEquipmentLocation(Location.LeftArm, 75),
+    [MechLocation.RightArm]: getInitialEquipmentLocation(MechLocation.RightArm, 75),
+    [MechLocation.RightTorso]: getInitialEquipmentLocation(MechLocation.RightTorso, 75),
+    [MechLocation.RightLeg]: getInitialEquipmentLocation(MechLocation.RightLeg, 75),
+    [MechLocation.Head]: getInitialEquipmentLocation(MechLocation.Head, 75),
+    [MechLocation.CenterTorso]: getInitialEquipmentLocation(MechLocation.CenterTorso, 75),
+    [MechLocation.LeftTorso]: getInitialEquipmentLocation(MechLocation.LeftTorso, 75),
+    [MechLocation.LeftLeg]: getInitialEquipmentLocation(MechLocation.LeftLeg, 75),
+    [MechLocation.LeftArm]: getInitialEquipmentLocation(MechLocation.LeftArm, 75),
   },
   mechCockpit: defaultMechCockpit,
   mechGyro: defaultMechGyro,
@@ -114,13 +113,13 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
       const updatedEquipmentLocations = { ...state.equipmentLocations };
 
       Object.values(updatedEquipmentLocations).forEach((equipmentLocation) => {
-        if ([Location.LeftTorso, Location.RightTorso].includes(equipmentLocation.id)) {
+        if ([MechLocation.LeftTorso, MechLocation.RightTorso].includes(equipmentLocation.id)) {
           const oneFourthMaxArmor = Math.floor(equipmentLocation.armor.maxArmor / 4);
           const remainder = equipmentLocation.armor.maxArmor % 4;
 
           equipmentLocation.armor.frontArmor = oneFourthMaxArmor * 3 + remainder;
           equipmentLocation.armor.rearArmor = oneFourthMaxArmor;
-        } else if (equipmentLocation.id === Location.CenterTorso) {
+        } else if (equipmentLocation.id === MechLocation.CenterTorso) {
           const oneFifthMaxArmor = Math.floor(equipmentLocation.armor.maxArmor / 5);
           const remainder = equipmentLocation.armor.maxArmor % 5;
 
@@ -163,7 +162,7 @@ export const useEquipmentStore = create<MechBuilderStore>()((set) => ({
 
       let currentMechTonnage = state.currentMechTonnage;
       if (newSideArmor !== currentSideArmor) {
-        const currentTotalMechArmor = getCurrentTotalMechArmor(Object.values(state.equipmentLocations));
+        const currentTotalMechArmor = getTotalMechArmor(Object.values(state.equipmentLocations));
         const currentTotalMechAmrmorTonnage = getMechArmorTonnage(currentTotalMechArmor);
 
         const newTotalMechArmor = currentTotalMechArmor - currentSideArmor + newSideArmor;
@@ -493,8 +492,8 @@ function getCurrentMechTonnage(
   mechCockpit: MechCockpit = defaultMechCockpit,
 ) {
   return (
-    getInternalStructureTonnage(maxMechTonnage, InternalStructureTechnologyBase.Standard) +
-    getMechArmorTonnage(getCurrentTotalMechArmor(mechEquipmentLocations)) +
+    getInternalStructureTonnage(maxMechTonnage, InternalStructureType.Standard) +
+    getMechArmorTonnage(getTotalMechArmor(mechEquipmentLocations)) +
     getTotalWeaponTonnage(mechEquipmentLocations) +
     getTotalHeatSinkTonnage(mechEquipmentLocations, mechEngine) +
     mechEngine.tonnage +
@@ -564,7 +563,7 @@ function updateMechMovementIfEquipmentIsJumpJet(
 }
 
 function getMechHeatAndCoolingPerTurn(
-  updatedEquipmentLocations: Record<Location, MechEquipmentLocation>,
+  updatedEquipmentLocations: Record<MechLocation, MechEquipmentLocation>,
   mechEngine: MechEngine,
 ): { mechHeatPerTurn: number; mechCoolingPerTurn: number } {
   let mechHeatPerTurn = 0;

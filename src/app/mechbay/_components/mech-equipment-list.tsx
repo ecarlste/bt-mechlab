@@ -4,9 +4,9 @@ import { useDndMonitor } from "@dnd-kit/core";
 import { useState } from "react";
 
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
+import { MechLocation } from "~/lib/mechs/mech-equipment-location";
 import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
-import { Location } from "~/app/mechbay/location";
 import { useEquipmentStore } from "~/app/mechbay/store";
 
 import { Weapon } from "~/server/db/schema";
@@ -49,7 +49,7 @@ export function MechEquipmentList({ equipment }: MechEquipmentListProps) {
   useDndMonitor({
     onDragMove: (event) => {
       if (draggableOver !== event.over?.id) {
-        const newDraggableOver = event.over?.id as Location;
+        const newDraggableOver = event.over?.id as MechLocation;
         setDraggableOver(newDraggableOver);
 
         if (newDraggableOver) {

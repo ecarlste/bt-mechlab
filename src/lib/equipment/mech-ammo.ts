@@ -1,3 +1,4 @@
+import { MechEquipmentLocation } from "../mechs/mech-equipment-location";
 import { WeaponTypeEnum } from "../weapons/weapon-type";
 
 export enum MechAmmoType {
@@ -20,7 +21,7 @@ export type MechAmmoWeight = 0.5 | 1;
 
 export type MechAmmo = {
   name: string;
-  type: MechAmmoType;
+  ammoType: MechAmmoType;
   weaponType: WeaponTypeEnum;
   ammoCount: number;
   weight: MechAmmoWeight;
@@ -30,7 +31,7 @@ export type MechAmmo = {
 export const mechAmmoList: MechAmmo[] = [
   {
     name: "Autocannon/2 Ammo",
-    type: MechAmmoType.AC2Ammo,
+    ammoType: MechAmmoType.AC2Ammo,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 45,
     weight: 1,
@@ -38,7 +39,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "Autocannon/5 Ammo",
-    type: MechAmmoType.AC5Ammo,
+    ammoType: MechAmmoType.AC5Ammo,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 20,
     weight: 1,
@@ -46,7 +47,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "Autocannon/10 Ammo",
-    type: MechAmmoType.AC10Ammo,
+    ammoType: MechAmmoType.AC10Ammo,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 10,
     weight: 1,
@@ -54,7 +55,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "Autocannon/20 Ammo",
-    type: MechAmmoType.AC20Ammo,
+    ammoType: MechAmmoType.AC20Ammo,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 5,
     weight: 1,
@@ -62,7 +63,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "LRM 5 Ammo",
-    type: MechAmmoType.LRM5Ammo,
+    ammoType: MechAmmoType.LRM5Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 24,
     weight: 1,
@@ -70,7 +71,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "LRM 10 Ammo",
-    type: MechAmmoType.LRM10Ammo,
+    ammoType: MechAmmoType.LRM10Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 12,
     weight: 1,
@@ -78,7 +79,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "LRM 15 Ammo",
-    type: MechAmmoType.LRM15Ammo,
+    ammoType: MechAmmoType.LRM15Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 8,
     weight: 1,
@@ -86,7 +87,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "LRM 20 Ammo",
-    type: MechAmmoType.LRM20Ammo,
+    ammoType: MechAmmoType.LRM20Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 6,
     weight: 1,
@@ -94,7 +95,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "Machine Gun Ammo",
-    type: MechAmmoType.MGAmmo,
+    ammoType: MechAmmoType.MGAmmo,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 200,
     weight: 0.5,
@@ -102,7 +103,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "Machine Gun Ammo (Half)",
-    type: MechAmmoType.MGAmmoHalf,
+    ammoType: MechAmmoType.MGAmmoHalf,
     weaponType: WeaponTypeEnum.Ballistic,
     ammoCount: 100,
     weight: 0.5,
@@ -110,7 +111,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "SRM 2 Ammo",
-    type: MechAmmoType.SRM2Ammo,
+    ammoType: MechAmmoType.SRM2Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 50,
     weight: 1,
@@ -118,7 +119,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "SRM 4 Ammo",
-    type: MechAmmoType.SRM4Ammo,
+    ammoType: MechAmmoType.SRM4Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 25,
     weight: 1,
@@ -126,7 +127,7 @@ export const mechAmmoList: MechAmmo[] = [
   },
   {
     name: "SRM 6 Ammo",
-    type: MechAmmoType.SRM6Ammo,
+    ammoType: MechAmmoType.SRM6Ammo,
     weaponType: WeaponTypeEnum.Missile,
     ammoCount: 15,
     weight: 1,
@@ -135,6 +136,20 @@ export const mechAmmoList: MechAmmo[] = [
 ];
 
 export const mechAmmoByType: Record<MechAmmoType, MechAmmo> = mechAmmoList.reduce(
-  (acc, ammo) => ({ ...acc, [ammo.type]: ammo }),
+  (acc, ammo) => ({ ...acc, [ammo.ammoType]: ammo }),
   {} as Record<MechAmmoType, MechAmmo>,
 );
+
+export function getCriticalSpaceForExplosiveAmmo(equipmentLocations: MechEquipmentLocation[]) {
+  return equipmentLocations.reduce((totalExplosiveSlots, location) => {
+    return totalExplosiveSlots + getCriticalSpaceForExplosiveAmmoInLocation(location);
+  }, 0);
+}
+
+function getCriticalSpaceForExplosiveAmmoInLocation(location: MechEquipmentLocation) {
+  return location.installedEquipment
+    .filter((equipment) => "ammoType" in equipment)
+    .reduce((locationExplosiveSlots, ammo) => {
+      return locationExplosiveSlots + ammo.criticalSlots;
+    }, 0);
+}

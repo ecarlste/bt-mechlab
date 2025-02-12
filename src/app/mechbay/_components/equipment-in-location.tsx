@@ -4,11 +4,11 @@ import { useDroppable } from "@dnd-kit/core";
 import { SquareX } from "lucide-react";
 
 import { getEquipmentTypeBgColor } from "~/lib/equipment/mech-equipment-type";
+import { MechEquipmentLocation } from "~/lib/mechs/mech-equipment-location";
 import { cn } from "~/lib/utils";
 
 import { Button } from "~/components/ui/button";
 
-import { MechEquipmentLocation } from "../location";
 import { useEquipmentStore } from "../store";
 
 interface EquipmentInLocationProps {

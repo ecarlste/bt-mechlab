@@ -5,10 +5,11 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { mechAmmoList } from "~/lib/equipment/mech-ammo";
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { createJumpJetForMechTonnage, jumpJetName } from "~/lib/equipment/mech-jump-jets";
+import { MechTonnage } from "~/lib/mechs/battlemech";
+import { MechLocation } from "~/lib/mechs/mech-equipment-location";
 
 import { Button } from "~/components/ui/button";
 
-import { Location, MechTonnage } from "../location";
 import { useEquipmentStore } from "../store";
 import MechBuildLocation from "./mech-build-location";
 import MechBuildSummary from "./mech-build-summary";
@@ -27,7 +28,7 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
     const itemToEquip = event.active.data.current as MechEquipmentType;
 
     if (event.over) {
-      const location = event.over.id as Location;
+      const location = event.over.id as MechLocation;
       addEquipment(location, itemToEquip);
       resetAllDraggableOver();
     }
@@ -56,22 +57,22 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
           <MechEquipmentList equipment={equipment} />
         </div>
         <div className="w-full">
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.RightArm]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.RightArm]} />
         </div>
         <div className="flex w-full flex-col space-y-4">
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.RightTorso]} />
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.RightLeg]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.RightTorso]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.RightLeg]} />
         </div>
         <div className="flex w-full flex-col space-y-4">
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.Head]} />
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.CenterTorso]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.Head]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.CenterTorso]} />
         </div>
         <div className="flex w-full flex-col space-y-4">
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.LeftTorso]} />
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.LeftLeg]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.LeftTorso]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.LeftLeg]} />
         </div>
         <div className="w-full">
-          <MechBuildLocation equipmentLocation={equipmentLocations[Location.LeftArm]} />
+          <MechBuildLocation equipmentLocation={equipmentLocations[MechLocation.LeftArm]} />
         </div>
       </div>
     </DndContext>
