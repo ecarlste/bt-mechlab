@@ -419,6 +419,11 @@ function updateArmLocationActuators(
   state: MechBuilderStore,
   changedActuators: Partial<ArmActuatorsInstalled>,
 ) {
+  if (!mechHasCriticalSlotsNeededForActuatorChanges(location, state, changedActuators)) {
+    toast.error("Not enough free slots to install actuators", { duration: 10000 });
+    return state;
+  }
+
   const mechActuatorsInstalled = updateMechActuatorsInstalled(location, state, changedActuators);
   const updatedArmLocation = updateArmLocationForActuatorChange(location, state, mechActuatorsInstalled);
 
@@ -578,4 +583,15 @@ function getMechHeatAndCoolingPerTurn(
   });
 
   return { mechHeatPerTurn, mechCoolingPerTurn };
+}
+
+function mechHasCriticalSlotsNeededForActuatorChanges(
+  location: ArmLocation,
+  state: MechBuilderStore,
+  changedActuators: Partial<ArmActuatorsInstalled>,
+) {
+  const { criticalSlots: slots, criticalSlotsUsed: slotsUsed } = state.equipmentLocations[location];
+  const actuatorChanges = Object.values(changedActuators).filter(Boolean).length;
+
+  return slotsUsed + actuatorChanges <= slots;
 }

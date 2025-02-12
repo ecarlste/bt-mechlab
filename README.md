@@ -29,7 +29,6 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## TODO
 
-- [ ] prevent installation of arm actuators if resulting critital slots will be negative
 - [ ] show calculated battle value in mech build summary
 - [ ] Ensure installed equipment persists after refresh for WIP mech in mech builder
 - [ ] ensure mech persisted in local storage is per user
@@ -44,6 +43,7 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 ## DONE
 
+- [x] prevent installation of arm actuators if resulting critital slots will be negative
 - [x] Implement weapon ammunition in mech builder
 - [x] Implement basic cockpit in mech builder
 - [x] Implement gyroscope in mech builder
