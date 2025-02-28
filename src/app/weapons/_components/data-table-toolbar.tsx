@@ -4,10 +4,9 @@ import { Table } from "@tanstack/react-table";
 import { SquarePlus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { TechnologyRatingEnum } from "~/lib/tech-rating";
 import { cn } from "~/lib/utils";
 import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
-
-import { TechnologyRatingEnum } from "~/server/db/schema";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";

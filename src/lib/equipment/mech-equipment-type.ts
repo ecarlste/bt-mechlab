@@ -1,11 +1,12 @@
+import { weapons } from "bt-weapons-client-ts";
+
 import { weaponTypeColors, WeaponTypeEnum } from "~/lib/weapons/weapon-type";
 
-import { Equipment, Weapon } from "~/server/db/schema";
-
 import { MechAmmo } from "./mech-ammo";
+import { Equipment } from "./mech-equipment";
 import { JumpJet } from "./mech-jump-jets";
 
-export type MechEquipmentType = Weapon | Equipment | JumpJet | MechAmmo;
+export type MechEquipmentType = weapons.WeaponDto | Equipment | JumpJet | MechAmmo;
 
 export enum MechEquipmentChange {
   Add = 1,

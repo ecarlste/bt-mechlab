@@ -1,12 +1,11 @@
 "use client";
 
 import { Row } from "@tanstack/react-table";
+import { weapons } from "bt-weapons-client-ts";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { handleDeleteWeapon, handleSaveCopyOfWeapon } from "~/app/weapons/actions";
-
-import { weaponSelectSchema } from "~/server/db/schema";
 
 import {
   AlertDialog,
@@ -35,7 +34,7 @@ interface DataTableRowActionsProps<TData> {
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
   const router = useRouter();
-  const weapon = weaponSelectSchema.parse(row.original);
+  const weapon = row.original as weapons.WeaponDto;
 
   const handleSaveCopyOf = async () => {
     const response = await handleSaveCopyOfWeapon(weapon);

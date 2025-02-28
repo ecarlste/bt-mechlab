@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 
+import { WeaponFormSchema } from "~/lib/schemas/weapon-schemas";
+
 import { WeaponForm } from "~/app/weapons/_components/weapon-form";
 
 import { getWeaponById } from "~/server/dto/weapon-dto";
@@ -10,7 +12,7 @@ interface WeaponsPageProps {
 
 export default async function WeaponsPage({ params }: WeaponsPageProps) {
   const id = (await params).id;
-  const weapon = await getWeaponById(Number(id));
+  const weapon = await getWeaponById(id);
 
   if (!weapon) {
     notFound();
@@ -18,7 +20,7 @@ export default async function WeaponsPage({ params }: WeaponsPageProps) {
 
   return (
     <div className="container mx-auto py-10">
-      <WeaponForm weapon={weapon} />
+      <WeaponForm weapon={WeaponFormSchema.parse(weapon)} />
     </div>
   );
 }
