@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { WeaponFormData } from "~/lib/schemas/weapon-schemas";
+import { WeaponFormSchema } from "~/lib/schemas/weapon-schemas";
 
 import { WeaponForm } from "~/app/weapons/_components/weapon-form";
 
@@ -20,7 +20,7 @@ export default async function WeaponsPage({ params }: WeaponsPageProps) {
 
   return (
     <div className="container mx-auto py-10">
-      <WeaponForm weapon={weapon as WeaponFormData} />
+      <WeaponForm weapon={WeaponFormSchema.parse(weapon)} />
     </div>
   );
 }
