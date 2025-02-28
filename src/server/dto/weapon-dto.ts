@@ -1,30 +1,60 @@
 import "server-only";
 
-import { asc, eq } from "drizzle-orm";
+import { weapons } from "bt-weapons-client-ts";
 
-import { db } from "~/server/db";
-import { WeaponInsert, weapons, WeaponUpdate } from "~/server/db/schema";
+import getRequestClient from "../clients/get-request-client";
 
-export async function createWeapon(weapon: WeaponInsert) {
-  return db.insert(weapons).values(weapon).returning();
+export async function createWeapon(weapon: weapons.CreateWeaponDto) {
+  const client = await getRequestClient();
+  const response = await client.weapons.create({ data: weapon });
+
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return response.result as weapons.WeaponDto;
 }
 
-export async function getWeaponById(id: number) {
-  return db.query.weapons.findFirst({
-    where: eq(weapons.id, id),
-  });
+export async function getWeaponById(id: string) {
+  const client = await getRequestClient();
+  const response = await client.weapons.readOne(id);
+
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return response.result as weapons.WeaponDto;
 }
 
 export async function getAllWeapons() {
-  return db.query.weapons.findMany({
-    orderBy: [asc(weapons.name)],
-  });
+  const client = await getRequestClient();
+  const response = await client.weapons.read();
+
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return response.result as weapons.WeaponDto[];
 }
 
-export async function updateWeaponById(id: number, weapon: WeaponUpdate) {
-  return db.update(weapons).set(weapon).where(eq(weapons.id, id)).returning();
+export async function updateWeaponById(id: string, updatesForWeapon: weapons.UpdateWeaponDto) {
+  const client = await getRequestClient();
+  const response = await client.weapons.update(id, { data: updatesForWeapon });
+
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return response.result as weapons.WeaponDto;
 }
 
-export async function deleteWeaponById(id: number) {
-  return db.delete(weapons).where(eq(weapons.id, id)).returning();
+export async function deleteWeaponById(id: string) {
+  const client = await getRequestClient();
+  const response = await client.weapons.destroy(id);
+
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return response.result as weapons.WeaponDto;
 }

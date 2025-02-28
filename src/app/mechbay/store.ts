@@ -573,15 +573,29 @@ function getMechHeatAndCoolingPerTurn(
     location.installedEquipment
       .filter((equipment) => "heat" in equipment)
       .forEach((equipment) => {
-        if (equipment.heat > 0) {
-          mechHeatPerTurn += equipment.heat;
-        } else if (equipment.heat < 0) {
-          mechCoolingPerTurn += Math.abs(equipment.heat);
+        const heatPerTurn = determineHeatPerTurnFromEquipment(equipment);
+
+        if (heatPerTurn > 0) {
+          mechHeatPerTurn += heatPerTurn;
+        } else if (heatPerTurn < 0) {
+          mechCoolingPerTurn += Math.abs(heatPerTurn);
         }
       });
   });
 
   return { mechHeatPerTurn, mechCoolingPerTurn };
+}
+
+function determineHeatPerTurnFromEquipment(equipment: MechEquipmentType) {
+  if (!("heat" in equipment)) return 0;
+
+  const { heat } = equipment;
+  if (typeof heat === "number") return heat;
+
+  const [baseHeat, perShot] = heat.split("/");
+  const baseHeatValue = baseHeat ? parseInt(baseHeat) : 0;
+
+  return perShot === "Shot" ? baseHeatValue * 6 : baseHeatValue;
 }
 
 function mechHasCriticalSlotsNeededForActuatorChanges(

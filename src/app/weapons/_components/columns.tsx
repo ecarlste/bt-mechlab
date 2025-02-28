@@ -1,10 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { weapons } from "bt-weapons-client-ts";
 
+import { TechnologyRatingEnum } from "~/lib/tech-rating";
 import { WeaponTypeEnum } from "~/lib/weapons/weapon-type";
-
-import { TechnologyRatingEnum, Weapon } from "~/server/db/schema";
 
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
@@ -16,7 +16,7 @@ function getTechnologyRatingKeyByValue(value: string): string | undefined {
   );
 }
 
-export const columns: ColumnDef<Weapon>[] = [
+export const columns: ColumnDef<weapons.WeaponDto>[] = [
   {
     accessorKey: "name",
     enableHiding: false,

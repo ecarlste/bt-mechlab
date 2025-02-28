@@ -1,9 +1,12 @@
 "use server";
 
-import { Weapon, WeaponFormData, weaponInsertSchema, weaponUpdateSchema } from "~/server/db/schema";
+import { weapons } from "bt-weapons-client-ts";
+
+import { WeaponFormData } from "~/lib/schemas/weapon-schemas";
+
 import { createWeapon, deleteWeaponById, updateWeaponById } from "~/server/dto/weapon-dto";
 
-export async function handleDeleteWeapon(id: number) {
+export async function handleDeleteWeapon(id: string) {
   try {
     await deleteWeaponById(id);
     return { success: true };
@@ -13,9 +16,9 @@ export async function handleDeleteWeapon(id: number) {
   }
 }
 
-export async function handleSaveCopyOfWeapon(weapon: Weapon) {
+export async function handleSaveCopyOfWeapon(weapon: weapons.WeaponDto) {
   try {
-    const weaponCopy = weaponInsertSchema.parse(weapon);
+    const weaponCopy = weapon;
     weaponCopy.name = `${weaponCopy.name} Copy`;
 
     await createWeapon(weaponCopy);
@@ -29,10 +32,10 @@ export async function handleSaveCopyOfWeapon(weapon: Weapon) {
 export async function handleWeaponFormSubmit(weapon: WeaponFormData) {
   try {
     if (weapon.id) {
-      const updatedWeapon = weaponUpdateSchema.parse(weapon);
+      const updatedWeapon = weapon as weapons.UpdateWeaponDto;
       await updateWeaponById(weapon.id, updatedWeapon);
     } else {
-      const newWeapon = weaponInsertSchema.parse(weapon);
+      const newWeapon = weapon as weapons.CreateWeaponDto;
       await createWeapon(newWeapon);
     }
     return { success: true };

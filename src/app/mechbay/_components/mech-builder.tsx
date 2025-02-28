@@ -3,6 +3,7 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
 import { mechAmmoList } from "~/lib/equipment/mech-ammo";
+import { getAllEquipment } from "~/lib/equipment/mech-equipment";
 import { MechEquipmentType } from "~/lib/equipment/mech-equipment-type";
 import { createJumpJetForMechTonnage, jumpJetName } from "~/lib/equipment/mech-jump-jets";
 import { MechTonnage } from "~/lib/mechs/battlemech";
@@ -42,6 +43,7 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
     useEquipmentStore.getState().removeAllEquipment();
   }
 
+  equipment = addSpecialEquipmentToEquipment(equipment);
   equipment = addJumpJetForMechTonnageToEquipment(maxMechTonnage, equipment);
   equipment = addAmmoToEquipment(equipment).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -77,6 +79,10 @@ export default function MechBuilder({ equipment }: MechBuilderProps) {
       </div>
     </DndContext>
   );
+}
+
+function addSpecialEquipmentToEquipment(equipment: MechEquipmentType[]) {
+  return [...equipment, ...getAllEquipment()];
 }
 
 function addAmmoToEquipment(equipment: MechEquipmentType[]) {

@@ -8,9 +8,8 @@ export const env = createEnv({
    */
   server: {
     POSTGRES_URL: z.string().url(),
-    NODE_ENV: z
-      .enum(["development", "test", "production"])
-      .default("development"),
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    BT_WEAPONS_CLIENT_API_KEY: z.string(),
   },
 
   /**
@@ -29,6 +28,7 @@ export const env = createEnv({
   runtimeEnv: {
     POSTGRES_URL: process.env.POSTGRES_URL,
     NODE_ENV: process.env.NODE_ENV,
+    BT_WEAPONS_CLIENT_API_KEY: process.env.BT_WEAPONS_CLIENT_API_KEY,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
