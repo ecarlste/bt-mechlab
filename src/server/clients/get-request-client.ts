@@ -8,7 +8,6 @@ const getRequestClient = async () => {
     auth: {
       authorization: `Bearer ${env.BT_WEAPONS_CLIENT_API_KEY}`,
     },
-    // requestInit: { headers: { Authorization: `Bearer ${env.BT_WEAPONS_CLIENT_API_KEY}` } },
   });
 };
 
