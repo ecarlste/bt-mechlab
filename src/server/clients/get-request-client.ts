@@ -1,7 +1,7 @@
 import Client, { Environment, Local } from "bt-weapons-client-ts";
 import { env } from "~/env";
 
-const getRequestClient = async () => {
+const getRequestClient = () => {
   const targetEnv = process.env.NODE_ENV === "development" ? Local : Environment("staging");
 
   return new Client(targetEnv, {
