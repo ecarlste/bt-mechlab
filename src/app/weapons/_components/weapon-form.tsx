@@ -101,7 +101,7 @@ export function WeaponForm({ weapon }: WeaponFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Weapon Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a weapon type" />
@@ -161,7 +161,7 @@ function getDefaultWeaponFormValues() {
     ammoPerTon: null,
     weight: 1,
     criticalSlots: 1,
-    weaponType: WeaponTypeEnum.Energy,
+    weaponType: null,
     techRating: TechnologyRatingEnum.CommonTech,
   } as const satisfies WeaponFormData;
 }
