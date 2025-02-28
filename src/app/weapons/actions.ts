@@ -18,7 +18,7 @@ export async function handleDeleteWeapon(id: string) {
 
 export async function handleSaveCopyOfWeapon(weapon: weapons.WeaponDto) {
   try {
-    const weaponCopy = weapon;
+    const weaponCopy = { ...weapon };
     weaponCopy.name = `${weaponCopy.name} Copy`;
 
     await createWeapon(weaponCopy);
