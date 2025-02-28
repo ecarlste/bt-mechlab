@@ -45,7 +45,7 @@ export const WeaponFormSchema = z.object({
   weight: z.number().min(0, "Weight must be non-negative"),
   criticalSlots: z.number().min(1, "Critical slots must be at least 1"),
   techRating: z.nativeEnum(TechnologyRatingEnum),
-  weaponType: z.nativeEnum(WeaponTypeEnum),
+  weaponType: z.nativeEnum(WeaponTypeEnum).nullable(),
 });
 
 export type WeaponFormData = z.infer<typeof WeaponFormSchema>;
