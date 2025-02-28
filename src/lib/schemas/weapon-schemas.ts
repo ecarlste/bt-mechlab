@@ -5,10 +5,13 @@ import { WeaponTypeEnum } from "../weapons/weapon-type";
 
 const singleNumberRegex = /^\d+$/;
 const perShotRegex = /^\d+\/Shot$/;
+const perMslRegex = /^\d+\/Msl$/;
 const rangeBinRegex = /^\d+\/\d+\/\d+\/\d+$/;
 
 const heatRegex = new RegExp(`^(${singleNumberRegex.source}|${perShotRegex.source})$`);
-const damageRegex = new RegExp(`^(${singleNumberRegex.source}|${perShotRegex.source}|${rangeBinRegex.source})$`);
+const damageRegex = new RegExp(
+  `^(${singleNumberRegex.source}|${perShotRegex.source}|${perMslRegex.source}|${rangeBinRegex.source})$`,
+);
 
 type RangeSplit = [number, number, number, number];
 
